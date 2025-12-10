@@ -1,0 +1,427 @@
+
+body {
+    background-color: var(--azul-claro-fondo, #558bc0);
+    color: var(--texto-principal, #003366);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+/* --- Estilos del Contenido Principal y Header --- */
+.content {
+    flex-grow: 1;
+    padding: 20px;
+    margin-left: 250px; /* Espacio para el sidebar no colapsado */
+    transition: margin-left 0.3s ease;
+}
+
+.sidebar.collapsed + .content {
+    margin-left: 60px; /* Ajuste cuando el sidebar está colapsado */
+}
+
+.page-header {
+    background-color: var(--azul-decorativo, #cfe0ff);
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.page-header h1 {
+    margin: 0;
+    font-size: 1.5em;
+    color: var(--texto-principal, #003366);
+}
+
+.card-panel {
+    background-color: var(--blanco, #ffffff);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Pestañas de Navegación (Subir Documentos, Auditoría Compras/Ventas) --- */
+.tab-navigation {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ccc;
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    color: #666;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.tab-button.active {
+    color: var(--azul-acento, #004a99);
+    border-bottom: 3px solid var(--azul-acento, #004a99);
+}
+
+.tab-content h2 {
+    color: var(--texto-principal, #003366);
+    font-size: 1.3em;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+/* --- Botón de Extraer Datos desde el SIRE (Estilo de la segunda imagen) --- */
+.sire-button {
+    background-color: #dc3545; /* Rojo más fuerte para el acento */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.9em;
+    transition: background-color 0.2s;
+    /* Para que quede en la misma línea del párrafo */
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 5px;
+}
+
+.sire-button:hover {
+    background-color: #c82333;
+}
+
+/* --- Área de Arrastre/Drop Area --- */
+.drop-area {
+    border: 2px dashed #99bfff; /* Azul pálido para elementos secundarios */
+    border-radius: 6px;
+    padding: 50px 20px;
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    background-color: #f7f9fd; /* Un poco más claro que el fondo general */
+}
+
+.drop-area p {
+    margin: 5px 0;
+    color: #6c757d;
+}
+
+/* --- Pie de Archivos (Examinar) --- */
+.file-selection-footer {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.file-path-display {
+    flex-grow: 1;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    color: #666;
+    cursor: default;
+}
+
+.examinar-button {
+    background-color: var(--azul-acento, #004a99);
+    color: var(--blanco, #ffffff);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-weight: bold;
+}
+
+.examinar-button:hover {
+    background-color: var(--azul-medio, #002a73);
+}
+
+
+/* ======================================================= */
+/* --- Estilos del MODAL (Integración SIRE) --- */
+/* ======================================================= */
+
+.modal {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4); /* Fondo oscuro transparente */
+    padding-top: 50px;
+}
+
+.modal-content {
+    background-color: var(--blanco, #ffffff);
+    margin: 5% auto; /* Centrado */
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px; /* Ancho similar a la imagen */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: #000;
+    text-decoration: none;
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    color: var(--texto-principal, #003366);
+    font-size: 1.4em;
+}
+
+.modal-body {
+    padding-top: 10px;
+}
+
+/* --- Configuración de Credenciales --- */
+.config-credentials {
+    margin-bottom: 20px;
+}
+
+.btn-config {
+    background-color: var(--azul-decorativo, #cfe0ff);
+    color: var(--texto-principal, #003366);
+    border: 1px solid var(--azul-acento, #004a99);
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.btn-config:hover {
+    background-color: var(--azul-pálido, #99bfff);
+}
+
+
+/* --- Periodo a Extraer --- */
+.periodo-extraccion label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.input-with-icon {
+    position: relative;
+    width: 50%; /* Opcional, para que no ocupe todo el ancho */
+    margin-bottom: 20px;
+}
+
+.input-with-icon input[type="month"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    /* Ocultar el ícono nativo en algunos navegadores si es necesario */
+    /* -webkit-appearance: none; */
+}
+
+.calendar-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Asegura que el input sea clickeable */
+}
+
+/* --- Opciones de Extracción (Compras/Ventas) --- */
+.extraccion-opciones {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding: 10px 0;
+}
+
+.opcion-item label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+/* --- Switch Toggle (ON/OFF) --- */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--azul-acento, #004a99);
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px var(--azul-acento, #004a99);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* Texto ON/OFF dentro del switch */
+.toggle-text {
+    position: absolute;
+    color: white;
+    font-weight: bold;
+    font-size: 0.8em;
+    line-height: 34px; /* Centrado vertical */
+    padding: 0 8px;
+    transition: 0.4s;
+}
+
+#toggle-compras + .slider + .toggle-text,
+#toggle-ventas + .slider + .toggle-text {
+    right: 6px;
+}
+
+#toggle-compras:checked + .slider + .toggle-text,
+#toggle-ventas:checked + .slider + .toggle-text {
+    left: 6px;
+    right: auto;
+}
+
+/* --- Footer del Modal (Botones) --- */
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    margin-top: 20px;
+}
+
+.btn-cerrar {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-cerrar:hover {
+    background-color: #e0e0e0;
+}
+
+.btn-extraer-datos {
+    background-color: var(--azul-acento, #004a99);
+    color: var(--blanco, #ffffff);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.btn-extraer-datos:hover {
+    background-color: var(--azul-medio, #002a73);
+}
+
+/* --- Estilo de la Sidebar (Adaptado para usar las variables) --- */
+/* Nota: Si tienes un archivo global 'style_contador_slidebar.css',
+   estas reglas deberían estar allí o sobrescribir las necesarias. */
+.sidebar {
+    background-color: var(--azul-principal, #001f4d);
+    /* ... (otras reglas de posición y transición) */
+}
+
+.sidebar a {
+    color: var(--blanco, #ffffff);
+}
+
+.sidebar a:hover, .sidebar li.active > a, .sidebar .submenu a.active {
+    background-color: var(--azul-medio, #002a73);
+}
+
+/* --- Pestañas de Navegación (Subir Documentos, Auditoría Compras/Ventas) --- */
+.tab-navigation {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ccc;
+}
+
+/* Aplicar estilos tanto a <button> como a <a> con la clase tab-button */
+.tab-button, a.tab-button {
+    background: none;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    color: #666;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+    text-decoration: none; /* Importante: Quitar el subrayado del enlace */
+    display: block; /* Importante: Para que el padding funcione bien */
+}
+
+.tab-button:hover, a.tab-button:hover {
+    color: var(--azul-acento, #004a99);
+}
+
+.tab-button.active, a.tab-button.active {
+    color: var(--azul-acento, #004a99);
+    border-bottom: 3px solid var(--azul-acento, #004a99);
+}
+
+/* El resto de tu CSS anterior sigue siendo válido */

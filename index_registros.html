@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>FORMULARIO DE REGISTRO</title>
+        <link rel="stylesheet" href="style1.css">
+        <script src="validar.js"></script>
+    </head>
+    <body>
+        <section class="form-register">
+            <h4>Formulario de Registro</h4>
+            <form action="resultado.php" method="POST" onsubmit="return validar();" >
+            <input class="controls" type="text" name="nombre_contacto" id="nombre_contacto" placeholder="Ingrese su Nombre Completo" required="required">
+            <input class="controls" type="text" name="nombre_negocio" id="nombre_negocio" placeholder="Ingrese su nombre de negocio" required="required">
+            <input class="controls" type="Numero" name="numero_contacto" id="numero_contacto" placeholder="Ingrese su Numero de Contacto" required="required">
+            <select class="controls" name="tipo_usuario" id="tipo_usuario">
+                          <option selected>Tipo de usuaio</option>
+                          <option value="Cliente">Cliente</option>
+                          <option value="Contador">Contador</option>
+            </select>
+            <input class="controls" type="email" name="correo" id="correo" placeholder="Ingrese su Correo" required="required">
+            <input class="controls" type="password" name="clave" id="clave" placeholder="Ingrese su Clave" required="required">   
+            <select class="controls" name="tipo_cliente" id="tipo_cliente">
+                          <option selected>Tipo Cliente</option>
+                          <option value="NATURAL">Natural</option>
+                          <option value="JURIDICO">Juridico</option>
+            </select>
+            <select class="controls" name="Regimen" id="Regimen">
+                          <option selected>Selecciona tu regimen</option>
+                          <option value="NRUS">Nuevo Regimen Unico Simplificado</option>
+                          <option value="RER">Regimen Especial de Impuesto a la Renta</option>
+                          <option value="RMT">Regimen MYPE Tributario</option>
+                          <option value="RG">Regimen General</option>
+            </select>
+            <p>Estoy de acuerdo con<a href="#">Terminos y Condiciones</a></p>
+            <input class="botons" type="submit" value="Registrar">
+            <p><a href="index1.html"> Ya Tengo Cuenta</a></p>
+            </form>           
+        </section>
+    </body>
+</html>

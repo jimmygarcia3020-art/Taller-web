@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir Documentos - Contabilidad</title>
+    <link rel="stylesheet" href="../../../style_contador_slidebar.css" />
+    <link rel="stylesheet" href="style_subir_documentos.css" />
+</head>
+<body>
+    <nav class="sidebar" id="sidebar">
+        <button class="toggle-btn" id="toggle-btn">☰</button>
+        <ul>
+            <li><a href="../../../index_contador.html"><span class="emoji">🏠</span><span class="text">Inicio</span></a></li>
+            <li><a href="../../ingresos_contador/ingresos_contador.html"><span class="emoji">💰</span><span class="text">Ingresos</span></a></li>
+            <li><a href="../../egresos_contador/egresos_contador.html"><span class="emoji">💸</span><span class="text">Egresos</span></a></li>
+
+            <div class="dropdown" id="contabilidadDropdownContainer">
+                <button class="dropdown-btn" onclick="toggleDropdown('contabilidadDropdownContainer')">
+                    <span class="emoji">📊</span><span class="text">Contabilidad</span>
+                </button>
+                <div class="dropdown-content">
+                    <button onclick="window.location.href= '../subir_documentos/subir_documentos.html'">📂 Subir Documentos</button>
+                    <button onclick="window.location.href='../audit_compras/audit_compras.html'">🧾 Audit Compras</button>
+                    <button onclick="window.location.href='../audit_ventas/audit_ventas.html'">💼 Audit Ventas</button>
+                </div>
+            </div>
+            
+            <li><a href="../../impuestos_contador/impuestos_contador.html"><span class="emoji">🧮</span><span class="text">Impuestos</span></a></li>
+            
+            <li><a href="../../reportes_contador/reportes_contador.html"><span class="emoji">📈</span><span class="text">Reportes</span></a></li>
+
+            <li><a href="../../../cerrar_sesion.php"><span class="emoji">🚪</span><span class="text">Cerrar sesión</span></a></li>
+        </ul>
+    </nav>
+  <script>
+          // === FUNCIONES ESENCIALES PARA EL TOGGLE Y DROPDOWN ===
+
+          // 1. Alternar la barra lateral (colapsar/expandir)
+          document.getElementById("toggle-btn").addEventListener("click", function() {
+              document.getElementById("sidebar").classList.toggle("collapsed");
+          });
+
+          // 2. Alternar el Dropdown (Contabilidad/Reportes)
+          function toggleDropdown(dropdownId) {
+              var dropdown = document.getElementById(dropdownId);
+              if (dropdown) {
+                  // Cierra todos los demás dropdowns abiertos
+                  document.querySelectorAll(".dropdown.open").forEach(openDropdown => {
+                      if (openDropdown.id !== dropdownId) {
+                          openDropdown.classList.remove("open");
+                      }
+                  });
+
+                  // Abre o cierra el dropdown actual
+                  dropdown.classList.toggle("open");
+              }
+          }
+      </script>
+      </script>
+    <div class="content">
+        <header class="page-header">
+            <h1>Contabilidad / Subir Documentos</h1>
+        </header>
+
+        <div class="card-panel">
+            <div class="tab-navigation">
+                <button class="tab-button active">Subir Documentos</button>
+<a href="../audit_compras/audit_compras.html" class="tab-button">Auditoría Compras</a>
+            <a href="../audit_ventas/audit_ventas.html" class="tab-button">Auditoría Ventas</a>
+            </div>
+            
+            <div class="tab-content active">
+                <h2>Sube tus documentos</h2>
+                <p>Puedes subir/arrastrar tus archivos **XML** para poder validarlos o puedes 
+                    <button class="sire-button" id="open-sire-modal">Extraer Datos desde el SIRE</button>
+                </p>
+
+                <div class="drop-area">
+                    <p>Arrastre y suelte aquí los archivos...</p>
+                    <p>(o haga clic para seleccionar archivos)</p>
+                    <input type="file" id="file-input" multiple accept=".xml" hidden>
+                </div>
+                
+                <div class="file-selection-footer">
+                    <input type="text" placeholder="Seleccionar archivos..." disabled class="file-path-display">
+                    <button class="examinar-button" id="select-files-btn">Examinar...</button>
+                </div>
+            </div>
+            </div>
+
+        <div id="sire-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h3>Integración con API SUNAT-SIRE</h3>
+                
+                <div class="modal-body">
+                    <div class="config-credentials">
+                        <button class="btn-config">⚙️ Configuración de Credenciales</button>
+                    </div>
+
+                    <div class="periodo-extraccion">
+                        <label for="periodo-select">Periodo a Extraer</label>
+                        <div class="input-with-icon">
+                            <input type="month" id="periodo-select" value="2025-02">
+                            <span class="calendar-icon">📅</span>
+                        </div>
+                    </div>
+                    
+                    <div class="extraccion-opciones">
+                        <div class="opcion-item">
+                            <label>Extraer Compras</label>
+                            <label class="switch">
+                                <input type="checkbox" checked id="toggle-compras">
+                                <span class="slider round"></span>
+                                <span class="toggle-text">ON</span>
+                            </label>
+                        </div>
+                        <div class="opcion-item">
+                            <label>Extraer Ventas</label>
+                            <label class="switch">
+                                <input type="checkbox" checked id="toggle-ventas">
+                                <span class="slider round"></span>
+                                <span class="toggle-text">ON</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn-cerrar" id="close-sire-modal">Cerrar</button>
+                    <button class="btn-extraer-datos">Extraer Datos</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script_subir_documentos.js"></script>
+    <script>
+        // Script simple para el sidebar, si no está en el otro archivo
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleBtn = document.getElementById('toggle-btn');
+            const sidebar = document.getElementById('sidebar');
+
+            if (toggleBtn && sidebar) {
+                toggleBtn.addEventListener('click', function() {
+                    sidebar.classList.toggle('collapsed');
+                });
+            }
+        });
+    </script>
+  <script src="/script.js"></script>
+</body>
+</html>

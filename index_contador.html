@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Panel Contable - Corregido</title>
+
+<link rel="stylesheet" href="style_contador_slidebar.css" />
+<link rel="stylesheet" href="style_menu_principal_contador.css" />
+
+<!-- CSS específico y robusto para el modal (pone esto al head para que cargue antes del render) -->
+<style>
+/* Modal overlay (forzado para que no actúe como sidebar) */
+#modalClientes {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: none !important;
+  justify-content: center !important;
+  align-items: center !important;
+  background: rgba(0,0,0,0.42) !important;
+  z-index: 99999 !important;
+  padding: 18px !important;
+  box-sizing: border-box !important;
+}
+
+/* mostrar */
+#modalClientes.active {
+  display: flex !important;
+}
+
+/* caja modal */
+#modalClientes .modal-clientes {
+  width: 460px !important;
+  max-width: 100% !important;
+  max-height: 86vh !important;
+  overflow-y: auto !important;
+  background: var(--blanco, #fff) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 14px 40px rgba(0,0,0,0.35) !important;
+  padding: 20px !important;
+  transform-origin: center center !important;
+  animation: modalPop 180ms ease-out !important;
+}
+
+/* anim */
+@keyframes modalPop {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* header modal */
+#modalClientes .modal-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 12px !important;
+  gap: 12px !important;
+}
+
+#modalClientes .modal-header .titulo {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: var(--azul-oscuro, #123452) !important;
+}
+
+/* cerrar */
+#cerrarModalClientes {
+  background: transparent !important;
+  border: none !important;
+  font-size: 20px !important;
+  cursor: pointer !important;
+  color: var(--texto, #222) !important;
+}
+
+/* buscador */
+#buscadorClientes {
+  width: 100% !important;
+  padding: 10px 12px !important;
+  border-radius: 8px !important;
+  border: 1px solid #d1d6df !important;
+  margin-bottom: 14px !important;
+  box-sizing: border-box !important;
+  font-size: 14px !important;
+}
+
+/* lista / grupos */
+#listaClientes { display:block !important; width:100% !important; }
+#listaClientes .grupo-clientes { margin-bottom: 12px !important; }
+#listaClientes .titulo-grupo { margin: 6px 0 !important; font-size: 13px !important; color: var(--azul-acento, #0b66d6) !important; font-weight:700 !important; }
+
+/* items */
+#listaClientes .cliente-item {
+  padding: 10px 12px !important;
+  border-radius: 8px !important;
+  background: var(--azul-claro-fondo, #f5f8fb) !important;
+  margin-bottom: 8px !important;
+  cursor: pointer !important;
+  transition: background 140ms ease, transform 80ms ease !important;
+  color: var(--azul-oscuro, #0b2b4a) !important;
+  font-weight: 600 !important;
+}
+#listaClientes .cliente-item:hover {
+  background: var(--azul-claro-decorativo, #e6f0ff) !important;
+  transform: translateX(4px) !important;
+}
+
+/* asegurar que el sidebar no esté por encima */
+#sidebar, .sidebar { z-index: 10 !important; position: relative !important; }
+
+/* responsive */
+@media (max-width: 520px) {
+  #modalClientes .modal-clientes { width: 96% !important; padding: 14px !important; }
+}
+</style>
+
+</head>
+<body>
+
+<nav class="sidebar" id="sidebar">
+    <button class="toggle-btn" id="toggle-btn">☰</button>
+    <ul>
+        <li><a href="index_contador.html"><span class="emoji">🏠</span><span class="text">Inicio</span></a></li>
+        <li><a href="acciones_contador/ingresos_contador/ingresos_contador.html"><span class="emoji">💰</span><span class="text">Ingresos</span></a></li>
+        <li><a href="acciones_contador/egresos_contador/egresos_contador.html"><span class="emoji">💸</span><span class="text">Egresos</span></a></li>
+
+        <div class="dropdown" id="contabilidadDropdownContainer">
+            <button class="dropdown-btn" onclick="toggleDropdown('contabilidadDropdownContainer')">
+                <span class="emoji">📊</span><span class="text">Contabilidad</span>
+            </button>
+            <div class="dropdown-content">
+                <button onclick="window.location.href= 'acciones_contador/contabilidad_contador/subir_documentos/subir_documentos.html'">📂 Subir Documentos</button>
+                <button onclick="window.location.href='acciones_contador/contabilidad_contador/audit_compras/audit_compras.html'">🧾 Audit Compras</button>
+                <button onclick="window.location.href='acciones_contador/contabilidad_contador/audit_ventas/audit_ventas.html'">💼 Audit Ventas</button>
+            </div>
+        </div>
+
+        <li><a href="acciones_contador/impuestos_contador/impuestos_contador.html"><span class="emoji">🧮</span><span class="text">Impuestos</span></a></li>
+        <li><a href="acciones_contador/reportes_contador/reportes_contador.html"><span class="emoji">📈</span><span class="text">Reportes</span></a></li>
+        <li><a href="cerrar_sesion.php"><span class="emoji">🚪</span><span class="text">Cerrar sesión</span></a></li>
+    </ul>
+</nav>
+
+<main class="main-content">
+    <header class="top-bar">
+        <div class="user-profile">
+            <div class="user-heading">
+                <div class="mi-cuenta" id="bienvenida-usuario">Bienvenido, Contador</div>
+                <p class="greeting-text">Panel de control y acceso rápido.</p>
+            </div>
+
+            <div class="contador-info-card">
+                <p class="info-label">Contador(a) a Cargo:</p>
+                <p class="info-data" id="contador-nombre">--</p>
+            </div>
+        </div>
+
+    </header>
+
+    <section class="quick-stats-container">
+        <div class="stat-card stat-ingresos">
+            <span class="stat-emoji">💰</span>
+            <p class="stat-title">Ingresos Pendientes</p>
+            <p class="stat-value">S/ 12,500.00</p>
+        </div>
+
+        <div class="stat-card stat-egresos">
+            <span class="stat-emoji">💸</span>
+            <p class="stat-title">Egresos por Conciliar</p>
+            <p class="stat-value">S/ 4,200.00</p>
+        </div>
+
+        <div class="menu-card">
+            <span class="stat-emoji">👤</span>
+            <p class="stat-title">SELECCIONAR CLIENTE</p>
+            <button id="btnAgregarCliente">Agregar clientes</button>
+            <button id="btnSeleccionarCliente">Abrir lista de clientes</button>
+        </div>
+    </section>
+
+</main>
+    <!-- ============================
+      MODAL PARA AGREGAR CLIENTE
+<div id="modal-agregar-cliente" class="modal">
+    <div class="modal-content">
+        <span class="close-agregar-cliente">&times;</span>
+        <h2>Añadir Nuevo Cliente</h2>
+
+        <form id="form-nuevo-cliente">
+
+            <label>Nombre del cliente:</label>
+            <input type="text" id="cliente-nombre" required>
+
+            <label>RUC / DNI:</label>
+            <input type="text" id="cliente-ruc" required>
+
+            <label>Teléfono:</label>
+            <input type="text" id="cliente-telefono" required>
+
+            <label>Correo:</label>
+            <input type="email" id="cliente-email" required>
+
+            <label>Tipo de Cliente:</label>
+            <select id="cliente-tipo">
+                <option value="NATURAL">NATURAL</option>
+                <option value="JURIDICO">JURÍDICO</option>
+            </select>
+
+            <button type="submit" id="guardar-cliente">Guardar Cliente</button>
+        </form>
+    </div>
+</div>
+=============================== -->
+
+
+<!-- MODAL CLIENTES -->
+<div id="modalClientes" role="dialog" aria-hidden="true">
+  <div class="modal-clientes" role="document" aria-modal="true">
+    <div class="modal-header">
+      <div class="titulo">Seleccionar Cliente</div>
+      <button id="cerrarModalClientes" aria-label="Cerrar">✖</button>
+    </div>
+
+    <input id="buscadorClientes" type="text" placeholder="Buscar cliente..." autocomplete="off" />
+
+    <div id="listaClientes" class="lista-clientes">
+      
+    </div>
+  </div>
+</div>
+<!-- ===============================
+
+<script>
+const modalAgregarCliente = document.getElementById("modal-agregar-cliente");
+const btnAgregarCliente = document.getElementById("btnAgregarCliente");
+const closeAgregarCliente = document.querySelector(".close-agregar-cliente");
+
+// Abrir modal
+btnAgregarCliente.addEventListener("click", () => {
+    modalAgregarCliente.style.display = "block";
+});
+
+// Cerrar modal con la ❌
+closeAgregarCliente.addEventListener("click", () => {
+    modalAgregarCliente.style.display = "none";
+});
+
+// Cerrar clickeando fuera del contenido
+window.addEventListener("click", (e) => {
+    if (e.target === modalAgregarCliente) {
+        modalAgregarCliente.style.display = "none";
+    }
+});
+</script>
+=============================== -->
+
+<!-- JS: usa exactamente los mismos IDs del HTML -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // --- elementos ya existentes en tu página ---
+  const btnAbrir = document.getElementById("btnSeleccionarCliente");
+  const modal = document.getElementById("modalClientes");
+  const btnCerrar = document.getElementById("cerrarModalClientes");
+  const lista = document.getElementById("listaClientes");
+  const buscador = document.getElementById("buscadorClientes");
+  const nombreHeader = document.getElementById("contador-nombre");
+  const bienvenida = document.getElementById("bienvenida-usuario");
+
+  // --- helpers ---
+  function escapeHtml(txt = "") {
+    return String(txt)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  function openModal() {
+    if (!modal) return;
+    modal.classList.add("active");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    if (buscador) {
+      buscador.value = "";
+      setTimeout(() => buscador.focus(), 50);
+    }
+    cargarClientes(); // carga inicial
+    trapFocus(modal);
+  }
+
+  function closeModal() {
+    if (!modal) return;
+    modal.classList.remove("active");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    releaseFocus();
+  }
+
+  // focus trap simple
+  let lastFocused = null;
+  function trapFocus(container) {
+    lastFocused = document.activeElement;
+    const focusables = 'a[href], area[href], input:not([disabled]), button:not([disabled]), [tabindex="0"]';
+    const nodes = Array.from(container.querySelectorAll(focusables));
+    if (nodes.length) nodes[0].focus();
+
+    function keyHandler(e) {
+      if (e.key === "Tab") {
+        const first = nodes[0];
+        const last = nodes[nodes.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      } else if (e.key === "Escape") {
+        closeModal();
+      }
+    }
+    container._keyHandler = keyHandler;
+    document.addEventListener("keydown", keyHandler);
+  }
+  function releaseFocus() {
+    if (modal && modal._keyHandler) {
+      document.removeEventListener("keydown", modal._keyHandler);
+      delete modal._keyHandler;
+    }
+    if (lastFocused) lastFocused.focus();
+    lastFocused = null;
+  }
+
+  // --- eventos abrir/cerrar ---
+  if (btnAbrir) btnAbrir.addEventListener("click", (e) => { e.preventDefault(); openModal(); });
+  if (btnCerrar) btnCerrar.addEventListener("click", closeModal);
+  if (modal) {
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal();
+    });
+  }
+
+  // --- cargar clientes desde servidor (endpoint clientes_json.php) ---
+  // El endpoint debe devolver JSON: [{id:..., nombre_negocio:...}, ...]
+  async function cargarClientes(q = "") {
+    if (!lista) return;
+    lista.innerHTML = '<div class="loading">Cargando clientes...</div>';
+    try {
+      const url = 'clientes_json.php' + (q ? '?q=' + encodeURIComponent(q) : '');
+      const resp = await fetch(url, { cache: 'no-store' });
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      const data = await resp.json();
+      renderClientes(data || []);
+    } catch (err) {
+      console.error('Error cargando clientes:', err);
+      lista.innerHTML = '<div class="error">Error al cargar clientes.</div>';
+    }
+  }
+
+  function renderClientes(items) {
+    if (!lista) return;
+    lista.innerHTML = '';
+    if (!Array.isArray(items) || items.length === 0) {
+      lista.innerHTML = '<div class="no-results">No se encontraron clientes.</div>';
+      return;
+    }
+    // render por defecto: cada item es foco-able y con role=button
+    items.forEach(it => {
+      const grupo = document.createElement('div');
+      grupo.className = 'grupo-clientes';
+
+      const h = document.createElement('h4');
+      h.className = 'titulo-grupo';
+      h.textContent = 'ID ' + String(it.id);
+      grupo.appendChild(h);
+
+      const cliente = document.createElement('div');
+      cliente.className = 'cliente-item';
+      cliente.setAttribute('role', 'button');
+      cliente.setAttribute('tabindex', '0');
+      cliente.dataset.id = String(it.id);
+      cliente.dataset.nombre = String(it.nombre || '');
+      cliente.innerHTML = escapeHtml(String(it.nombre || 'Sin nombre'));
+      // seleccionar al hacer click o Enter
+      cliente.addEventListener('click', () => seleccionarCliente(cliente));
+      cliente.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          seleccionarCliente(cliente);
+        }
+      });
+
+      grupo.appendChild(cliente);
+      lista.appendChild(grupo);
+    });
+  }
+
+  function seleccionarCliente(itemEl) {
+    const nombre = itemEl.dataset.nombre || itemEl.textContent.trim();
+    const id = itemEl.dataset.id || '';
+    if (nombreHeader) nombreHeader.innerText = nombre;
+    if (bienvenida) bienvenida.innerText = `Cliente: ${nombre} ${id ? '('+id+')' : ''}`;
+    // Aquí podrías rellenar inputs ocultos, p.ej:
+    // document.getElementById('cliente_id').value = id;
+    closeModal();
+  }
+
+  // --- búsqueda: debounce, consulta al servidor (recomendado si hay muchos clientes) ---
+  let debounceTimer = null;
+  if (buscador) {
+    buscador.addEventListener('input', () => {
+      const q = buscador.value.trim();
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        // Si prefieres filtrar en cliente (dom) usa la lógica antigua,
+        // pero si la lista es grande, pregunta al servidor:
+        if (q.length === 0) cargarClientes();
+        else cargarClientes(q);
+      }, 250);
+    });
+  }
+
+  // --- si quieres filtrar cliente-side (cuando ya cargaste todos) ---
+  // puedes mantener tu código original que oculta elementos, pero al usar
+  // consultas en servidor la versión anterior no es necesaria.
+
+});
+</script>
+
+
+</body>
+</html>

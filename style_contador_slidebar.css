@@ -1,0 +1,211 @@
+/* ================================================= */
+/* ---------- PALETA DE COLORES Y VARIABLES ---------- */
+/* ================================================= */
+:root {
+    /* Variables de Color Corporativas existentes */
+    --azul-oscuro: #001f4d; 
+    --azul-medio: #002a73; 
+    --azul-acento: #004a99; 
+    --azul-claro-fondo: #eaf1fb; 
+    --azul-claro-decorativo: #cfe0ff; 
+    --azul-palido: #a9c4f1; 
+    --verde-claro: #d1ffd6;
+    --amarillo-claro: #fff2cc;
+    --blanco: #ffffff;
+    --texto: #003366; 
+    
+    /* Variable de Fondo ACTUALIZADA: Gris muy claro, neutro y profesional */
+    --fondo-dashboard: #558bc0; /* Nuevo color de fondo general */
+
+    /* Variables de Estética Adicionales */
+    --sombra-ligera: rgba(0, 0, 0, 0.08); 
+    --transicion-rapida: 0.3s ease-in-out;
+}
+
+/* ================================================= */
+/* ---------- ESTILOS GENERALES Y LAYOUT ---------- */
+/* ================================================= */
+body {
+    margin: 0;
+    font-family: "Segoe UI", 'Roboto', 'Inter', sans-serif; 
+    /* AHORA USAMOS LA NUEVA VARIABLE DE FONDO */
+    background-color: var(--fondo-dashboard); 
+    color: var(--texto);
+    display: flex;
+}
+
+/* ---------- SIDEBAR PRINCIPAL ---------- */
+.sidebar {
+    background-color: var(--azul-oscuro);
+    width: 240px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: width var(--transicion-rapida);
+    overflow-y: auto; /* Permite scroll si el menú es muy largo */
+    overflow-x: hidden; /* Oculta la barra de scroll horizontal */
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Estado Colapsado del Sidebar */
+.sidebar.collapsed {
+    width: 70px; /* Ancho reducido, solo para íconos */
+}
+
+/* ---------- BOTÓN DE TOGGLE ---------- */
+.toggle-btn {
+    background-color: var(--azul-acento);
+    border: none;
+    color: var(--blanco);
+    padding: 15px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    box-sizing: border-box;
+    transition: background-color var(--transicion-rapida);
+}
+
+.toggle-btn:hover {
+    background-color: var(--azul-medio);
+}
+
+/* ---------- LISTA DE ENLACES ---------- */
+.sidebar ul {
+    list-style: none;
+    padding: 10px 0; /* Espaciado interno */
+    margin: 0;
+    flex: 1;
+}
+
+/* Estilo Base de los Enlaces (li y a) */
+.sidebar a {
+    text-decoration: none;
+    color: var(--blanco);
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    transition: background-color var(--transicion-rapida);
+    width: 100%; 
+    box-sizing: border-box;
+    font-size: 15px; /* Tamaño de fuente ligeramente ajustado */
+}
+
+.sidebar a:hover {
+    background-color: var(--azul-medio);
+    border-left: 3px solid var(--azul-palido); /* Indicador visual de hover */
+}
+
+/* ---------- ICONOS Y TEXTO ---------- */
+.emoji {
+    font-size: 20px;
+    margin-right: 15px;
+    min-width: 25px;
+    text-align: center;
+    transition: margin var(--transicion-rapida);
+}
+
+/* Estado Colapsado: Ocultar Texto y Centrar Ícono */
+.sidebar.collapsed .text {
+    opacity: 0; /* Usamos opacidad para una transición suave si es posible */
+    width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.sidebar.collapsed .emoji {
+    margin: 0; /* Elimina el margen derecho */
+    transform: scale(1.1);
+}
+.sidebar.collapsed a {
+    justify-content: center; /* Centra el ícono en el modo colapsado */
+}
+
+/* ---------- CONTENIDO PRINCIPAL ---------- */
+.main-content {
+    flex: 1;
+    padding: 20px;
+}
+
+/* ================================================= */
+/* ---------- ESTILOS DE DROPDOWN (SUBMENÚ) ---------- */
+/* ================================================= */
+
+.dropdown {
+    width: 100%;
+}
+
+/* 1. Botón del Dropdown (Aspecto de Enlace) */
+.dropdown-btn {
+    text-decoration: none;
+    color: var(--blanco) !important;
+    padding: 15px 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    transition: background-color var(--transicion-rapida);
+    background: none !important;
+    border: none !important;
+    width: 100%; 
+    box-sizing: border-box; 
+    text-align: left;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.dropdown-btn:hover {
+    background-color: var(--azul-medio) !important;
+    border-left: 3px solid var(--azul-palido);
+}
+
+/* 2. Contenido del Dropdown (Animación Slide-Down) */
+.dropdown-content {
+    max-height: 0; 
+    overflow: hidden;
+    transition: max-height 0.4s ease-in-out; 
+    display: block; 
+    background-color: var(--azul-medio); /* Fondo ligeramente más claro para el submenú */
+}
+
+/* 3. Estado Abierto (Ajusta el max-height para el slide) */
+.dropdown.open .dropdown-content {
+    max-height: 200px; /* Suficiente altura para mostrar los sub-botones */
+}
+
+/* 4. Estilo de los Botones Internos del Submenú */
+.dropdown-content button {
+    font-size: 14px;
+    text-align: left;
+    background: none;
+    border: none;
+    color: var(--blanco);
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+    /* 55px = 20px padding izquierdo del link + 15px margin-right del emoji + 20px extra para indentación visual */
+    padding: 10px 20px 10px 55px !important; 
+    transition: background-color 0.2s;
+}
+
+.dropdown-content button:hover {
+    background-color: var(--azul-acento) !important;
+}
+
+/* Ocultar texto en modo colapsado para el botón del dropdown */
+.sidebar.collapsed .dropdown-btn .text {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* Centrar icono en modo colapsado para el botón del dropdown */
+.sidebar.collapsed .dropdown-btn {
+    justify-content: center;
+    padding: 15px !important; /* Ajusta el padding para centrar */
+}
+
+/* Asegurar que el contenido del dropdown se oculta completamente en modo colapsado */
+.sidebar.collapsed .dropdown-content {
+    max-height: 0 !important;
+    /* El dropdown solo puede abrirse cuando el sidebar está expandido */
+}

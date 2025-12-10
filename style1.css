@@ -1,0 +1,98 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url("img/fondo4.jpg");
+    background-size: cover;
+    background-position: center;
+    font-family: Calibri, sans-serif;
+}
+
+.form-register {
+    width: 90%;
+    max-width: 750px;
+    background: #4188d4;
+    padding: 30px 40px;
+    margin: 100px auto;
+    border-radius: 10px;
+    color: white;
+    box-shadow: 7px 13px 37px #000;
+}
+
+.form-register h4 {
+    font-size: 26px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 25px;
+    color: #ffffff;
+}
+
+form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 15px 20px;
+}
+
+.controls {
+    flex: 0 0 48%; 
+    background: #eaf1fb;
+    border: 1px solid #000;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 14px;
+    color: black;
+    transition: all 0.3s ease;
+}
+
+.controls:focus {
+    background: #eaf1fb;
+    border-color: #000;
+    outline: none;
+}
+
+.form-register .botons {
+    width: 100%;
+    max-width: 340px;
+    background: #1f53c5;
+    border: none;
+    padding: 12px;
+    color: white;
+    margin: 20px auto;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    transition: background 0.3s ease;
+}
+
+.form-register .botons:hover {
+    background: #163d8a;
+}
+
+.form-register p {
+    text-align: center;
+    font-size: 16px;
+    line-height: 40px;
+    width: 100%;
+}
+
+.form-register a {
+    color: #1f53c5;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.form-register a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .controls {
+        flex: 0 0 100%; 
+    }
+}

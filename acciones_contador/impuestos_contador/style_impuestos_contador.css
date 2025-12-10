@@ -1,0 +1,368 @@
+body {
+    font-family: "Segoe UI", sans-serif;
+    background-color: #558bc0;
+    margin: 0;
+    padding: 0;
+}
+
+/* --- MAIN CONTENT (Ajuste de Sidebar) --- */
+.main-content {
+    margin-left: 240px; 
+    padding: 20px;
+    transition: margin-left 0.3s;
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+/* --- SECCIÓN PRINCIPAL DE IMPUESTOS --- */
+.impuestos-container {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    width: 85%;
+    margin-bottom: 30px;
+}
+
+.header-impuestos {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+#nuevo-registro {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#nuevo-registro:hover {
+    background-color: #219150;
+}
+
+/* --- TABLA IMPUESTOS --- */
+.tabla-impuestos {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; 
+}
+
+.tabla-impuestos th, .tabla-impuestos td {
+    border-bottom: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tabla-impuestos th {
+    background: #3498db;
+    color: white;
+}
+
+/* Definición de anchos de columnas para 5 columnas */
+.tabla-impuestos th:nth-child(1), .tabla-impuestos td:nth-child(1) { width: 20%; } /* Periodo */
+.tabla-impuestos th:nth-child(2), .tabla-impuestos td:nth-child(2) { width: 15%; } /* Tipo */
+.tabla-impuestos th:nth-child(3), .tabla-impuestos td:nth-child(3) { width: 15%; } /* Monto */
+.tabla-impuestos th:nth-child(4), .tabla-impuestos td:nth-child(4) { width: 20%; } /* Estado */
+.tabla-impuestos th:nth-child(5), .tabla-impuestos td:nth-child(5) { width: 30%; } /* Acción */
+
+
+/* Estilos de Estado */
+.estado.pagado {
+    color: green;
+    font-weight: bold;
+}
+
+.estado.no-pagado {
+    color: red;
+    font-weight: bold;
+}
+
+/* Botones de Acción */
+.btn-pago {
+    background-color: #3498db;
+    border: none;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-pago:hover {
+    background-color: #2980b9;
+}
+
+.btn-eliminar {
+    background-color: #e74c3c;
+    border: none;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 5px;
+    transition: 0.3s;
+}
+
+.btn-eliminar:hover {
+    background-color: #c0392b;
+}
+
+/* --- SIMULADOR IGV --- */
+.simulador-igv {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    width: 60%;
+    max-width: 500px; 
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.titulo-igv {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#info-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#info-btn:hover {
+    background-color: #2980b9;
+}
+
+.formulario-igv {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+input[type="number"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 60%;
+    max-width: 200px;
+}
+
+#calcular-btn {
+    background-color: #27ae60;
+    border: none;
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 150px;
+}
+
+#calcular-btn:hover {
+    background-color: #219150;
+}
+
+#resultado-igv {
+    margin-top: 15px;
+    font-size: 1.1em;
+}
+
+/* --- INFO BOX (Modal de Información) --- */
+#info-box {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.info-content {
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    width: 450px;
+    text-align: left;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.info-content h2 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.info-content p {
+    margin-bottom: 10px;
+    line-height: 1.5;
+    color: #444;
+}
+
+#close-info {
+    display: block;
+    margin-top: 10px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#close-info:hover {
+    background-color: #c0392b;
+}
+
+/* ==================================== */
+/* 🔥 ESTILOS PARA EL NUEVO MODAL DE REGISTRO 🔥 */
+/* ==================================== */
+
+.modal {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4); 
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto; /* Centrado vertical */
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+}
+
+/* Animación de entrada */
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+
+.close-modal-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-modal-btn:hover,
+.close-modal-btn:focus {
+    color: #333;
+    text-decoration: none;
+}
+
+#form-nuevo-impuesto {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#form-nuevo-impuesto label {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+#form-nuevo-impuesto input[type="text"],
+#form-nuevo-impuesto input[type="number"],
+#form-nuevo-impuesto select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#guardar-registro {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 1em;
+}
+
+#guardar-registro:hover {
+    background-color: #2980b9;
+}
+
+#modal-eliminar .modal-content {
+    max-width: 350px;
+    text-align: center;
+}
+
+#modal-eliminar h2 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+#modal-eliminar p {
+    margin-bottom: 20px;
+    color: #444;
+}
+
+#modal-eliminar .modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+#confirmar-eliminar {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+#confirmar-eliminar:hover {
+    background-color: #c0392b;
+}
+
+#cancelar-eliminar {
+    background-color: #7f8c8d;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+#cancelar-eliminar:hover {
+    background-color: #707b7c;
+}

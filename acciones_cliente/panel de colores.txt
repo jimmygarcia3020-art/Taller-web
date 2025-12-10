@@ -1,0 +1,33 @@
+usando este patron de colores | Nombre / Uso | Color | Código HEX | Descripción | 
+Azul oscuro principal (fondo del sidebar y encabezado)* | 🟦 | #001f4d | 
+
+Azul marino profundo, transmite formalidad y profesionalismo. | | 
+Azul medio (hover, detalles)* | 🔷 | #002a73 | 
+
+Azul intermedio, usado para resaltar al pasar el mouse. | | 
+Azul acento (bordes, botones)* | 🔹 | #004a99 | 
+
+Azul fuerte y corporativo, usado en botones e íconos. | | 
+Azul claro de fondo general* | 🔵 | #eaf1fb | 
+
+Fondo del cuerpo, muy suave y limpio. | | 
+Azul claro decorativo (fondos de cajas, header)* | 🔵 | #cfe0ff | 
+
+Azul pastel, usado para paneles o encabezados. | | 
+Azul pálido para elementos secundarios* | 🔵 | #99bfff 
+
+Azul celeste usado en algunos cuadros o fotos. | | *Verde claro (mensajes del estudio/contador)* | 🟩 | #d1ffd6 | Verde muy claro, usado para mensajes de respuesta profesional. | | *Amarillo claro (mensajes del contador en libros)
+* | 🟨 | #fff2cc | Amarillo pálido, cálido y amigable para mensajes de contadores. | | *Blanco* | ⚪ | #ffffff | Fondo de tarjetas, cuadros de chat y paneles. | | *Texto principal* | ⚫ | #003366 | Azul oscuro usado como color base para el texto. |
+
+
+
+
+
+fondo del formulario de registro (.form-register)
+#4188d4
+contorno de apartado de texto(controls, back)
+#eaf1fb
+#000(negro)
+
+
+740-493

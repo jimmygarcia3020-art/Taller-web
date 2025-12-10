@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ingresos - Sistema Contable</title>
+  <!-- Estilo general de la barra lateral -->
+  <link rel="stylesheet" href="../../style_contador_slidebar.css" />
+
+  <!-- Estilo propio de la página de ingresos -->
+  <link rel="stylesheet" href="style_ingresos_contador.css" />
+</head>
+<body>
+  <!-- SIDEBAR -->
+    <nav class="sidebar" id="sidebar">
+        <button class="toggle-btn" id="toggle-btn">☰</button>
+        <ul>
+            <li><a href="../../index_contador.html"><span class="emoji">🏠</span><span class="text">Inicio</span></a></li>
+            <li><a href="../ingresos_contador/ingresos_contador.html"><span class="emoji">💰</span><span class="text">Ingresos</span></a></li>
+            <li><a href="../egresos_contador/egresos_contador.html"><span class="emoji">💸</span><span class="text">Egresos</span></a></li>
+
+            <div class="dropdown" id="contabilidadDropdownContainer">
+                <button class="dropdown-btn" onclick="toggleDropdown('contabilidadDropdownContainer')">
+                    <span class="emoji">📊</span><span class="text">Contabilidad</span>
+                </button>
+                <div class="dropdown-content">
+                    <button onclick="window.location.href= '../contabilidad_contador/subir_documentos/subir_documentos.html'">📂 Subir Documentos</button>
+                    <button onclick="window.location.href='../contabilidad_contador/audit_compras/audit_compras.html'">🧾 Audit Compras</button>
+                    <button onclick="window.location.href='../contabilidad_contador/audit_ventas/audit_ventas.html'">💼 Audit Ventas</button>
+                </div>
+            </div>
+            
+            <li><a href="../impuestos_contador/impuestos_contador.html"><span class="emoji">🧮</span><span class="text">Impuestos</span></a></li>
+            
+            <li><a href="../reportes_contador/reportes_contador.html"><span class="emoji">📈</span><span class="text">Reportes</span></a></li>
+
+            <li><a href="../../cerrar_sesion.php"><span class="emoji">🚪</span><span class="text">Cerrar sesión</span></a></li>
+        </ul>
+    </nav>
+  <script>
+          // === FUNCIONES ESENCIALES PARA EL TOGGLE Y DROPDOWN ===
+
+          // 1. Alternar la barra lateral (colapsar/expandir)
+          document.getElementById("toggle-btn").addEventListener("click", function() {
+              document.getElementById("sidebar").classList.toggle("collapsed");
+          });
+
+          // 2. Alternar el Dropdown (Contabilidad/Reportes)
+          function toggleDropdown(dropdownId) {
+              var dropdown = document.getElementById(dropdownId);
+              if (dropdown) {
+                  // Cierra todos los demás dropdowns abiertos
+                  document.querySelectorAll(".dropdown.open").forEach(openDropdown => {
+                      if (openDropdown.id !== dropdownId) {
+                          openDropdown.classList.remove("open");
+                      }
+                  });
+
+                  // Abre o cierra el dropdown actual
+                  dropdown.classList.toggle("open");
+              }
+          }
+      </script>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="main-content">
+    <h1>Registro de Ingresos</h1>
+    <p>Registra los comprobantes de venta emitidos (facturas, boletas, notas de crédito o débito) según los lineamientos de SUNAT.</p>
+
+    <!-- FORMULARIO DE REGISTRO -->
+    <section class="form-section">
+      <h2>Agregar Comprobante</h2>
+      <form id="form-ingreso">
+        <div class="form-group">
+          <label for="tipo">Tipo de Comprobante:</label>
+          <select id="tipo" required>
+            <option value="">Seleccione...</option>
+            <option value="factura">Factura</option>
+            <option value="boleta">Boleta</option>
+            <option value="nota_credito">Nota de crédito</option>
+            <option value="nota_debito">Nota de débito</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="serie">Serie:</label>
+          <input type="text" id="serie" placeholder="F001" required />
+        </div>
+
+        <div class="form-group">
+          <label for="numero">Número:</label>
+          <input type="number" id="numero" placeholder="00012345" required />
+        </div>
+
+        <div class="form-group">
+          <label for="fecha">Fecha de Emisión:</label>
+          <input type="date" id="fecha" required />
+        </div>
+
+        <div class="form-group">
+          <label for="cliente">Cliente:</label>
+          <input type="text" id="cliente" placeholder="Nombre o razón social" required />
+        </div>
+
+        <div class="form-group">
+          <label for="ruc">RUC / DNI:</label>
+          <input type="text" id="ruc" placeholder="20123456789" required />
+        </div>
+
+        <div class="form-group">
+          <label for="monto">Monto Total (S/):</label>
+          <input type="number" id="monto" step="0.01" placeholder="0.00" required />
+        </div>
+
+        <div class="form-group">
+          <label for="igv">IGV (18%):</label>
+          <input type="number" id="igv" step="0.01" placeholder="0.00" readonly />
+        </div>
+
+        <button type="submit">Registrar</button>
+      </form>
+    </section>
+
+    <!-- TABLA DE REGISTROS -->
+    <section class="tabla-section">
+      <h2>Comprobantes Registrados</h2>
+      <table id="tabla-ingresos">
+        <thead>
+          <tr>
+            <th>Tipo</th>
+            <th>Serie</th>
+            <th>Número</th>
+            <th>Fecha</th>
+            <th>Cliente</th>
+            <th>RUC/DNI</th>
+            <th>Monto Total</th>
+            <th>IGV</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Los registros se insertan aquí dinámicamente -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="/script.js"></script>
+  <script src="script_contador_ingresos.js"></script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+/* Utilizando las variables definidas en style_subir_documentos.css */
+/* --azul-acento: #004a99; */
+/* --azul-decorativo: #cfe0ff; */
+/* --texto-principal: #003366; */
+/* --blanco: #ffffff; */
+
+/* --- Contenedor de Filtros (Header de Auditoría) --- */
+.audit-header-row {
+    display: flex;
+    align-items: flex-end; /* Alinea los elementos por la base, dando espacio a los labels */
+    gap: 15px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+}
+
+.filter-group, .search-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-group label, .search-group label {
+    font-weight: bold;
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+/* Estilos de Selects y Inputs */
+.custom-select, 
+.search-input-group input[type="text"] {
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: var(--blanco);
+    color: var(--texto-principal);
+    font-size: 1em;
+    height: 38px; /* Para alinearlo con el botón Ejecutar */
+}
+
+.custom-select {
+    min-width: 150px;
+}
+
+/* Buscador */
+.search-input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-icon {
+    position: absolute;
+    left: 10px;
+    color: #999;
+}
+
+.search-input-group input[type="text"] {
+    padding-left: 30px; /* Espacio para el icono */
+    min-width: 250px;
+}
+
+/* Botón Ejecutar */
+.btn-ejecutar {
+    background-color: #dc3545; /* Rojo fuerte como acento de acción principal */
+    color: var(--blanco);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    height: 38px;
+}
+
+.btn-ejecutar:hover {
+    background-color: #c82333;
+}
+
+/* Toggle Seleccionar Todos */
+.select-all-toggle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    margin-left: 20px;
+}
+
+.select-all-toggle label:first-child {
+    font-size: 0.9em;
+    color: #666;
+}
+
+/* Estilo del Switch (pequeño y personalizado) */
+.small-switch {
+    width: 45px; /* Más pequeño */
+    height: 25px;
+    margin-top: 4px;
+}
+
+.small-switch .slider {
+    border-radius: 25px;
+}
+
+.small-switch .slider:before {
+    height: 17px;
+    width: 17px;
+    left: 4px;
+    bottom: 4px;
+}
+
+.small-switch input:checked + .slider:before {
+    transform: translateX(17px);
+}
+
+.toggle-text-small {
+    position: absolute;
+    color: white;
+    font-weight: bold;
+    font-size: 0.7em;
+    line-height: 25px; 
+    padding: 0 5px;
+}
+.small-switch input + .slider + .toggle-text-small { right: 5px; }
+.small-switch input:checked + .slider + .toggle-text-small { left: 5px; right: auto; }
+
+
+/* --- Tabla de Auditoría --- */
+.table-container {
+    overflow-x: auto;
+}
+
+.audit-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+}
+
+.audit-table thead th {
+    background-color: var(--azul-decorativo, #cfe0ff);
+    color: var(--texto-principal, #003366);
+    padding: 10px 5px;
+    text-align: left;
+    border-bottom: 2px solid #ddd;
+}
+
+.audit-table tbody td {
+    padding: 10px 5px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+/* Columna de Validado */
+.status-cell {
+    text-align: center;
+    min-width: 80px;
+}
+
+.validation-icon {
+    font-size: 1.2em;
+    display: block;
+    margin-bottom: 3px;
+}
+
+.validation-text {
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #4CAF50; /* Verde para ACEPTADO */
+}
+
+.rejected-text {
+    color: #F44336; /* Rojo para RECHAZADO */
+}
+
+/* Estilos de campos dentro de la tabla */
+.audit-table select {
+    width: 100%;
+    padding: 5px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.audit-table input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+/* Columna de Opciones (Botones) */
+.btn-option {
+    border: none;
+    color: var(--blanco);
+    padding: 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 2px;
+    font-size: 0.8em;
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-option.blue {
+    background-color: var(--azul-acento, #004a99);
+}
+
+.btn-option.blue:hover {
+    background-color: var(--azul-medio, #002a73);
+}
+
+.btn-option.red {
+    background-color: #F44336; /* Rojo para eliminar */
+}
+
+.btn-option.red:hover {
+    background-color: #D32F2F;
+}

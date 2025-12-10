@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>FORMULARIO DE REGISTRO</title>
+        <link rel="stylesheet" href="style2.css">
+        <script src="validar1.js"></script>
+    </head>
+    <body>
+        <section class="form-register">
+            <h4>Inicio de Sesion</h4>
+            <form action="if1.php" method="POST" onsubmit="return validar1();" >
+            <input class="controls" type="email" name="correo" id="correo" placeholder="Ingrese su Correo" required="required">
+            <input class="controls" type="password" name="clave" id="clave" placeholder="Ingrese su Clave" required="required">   
+            <input class="botons" type="submit" value="Iniciar Sesion">
+            <p><a href="Index_registros.html">No tengo cuenta</a></p>
+            </form>           
+        </section>
+    </body>
+</html>

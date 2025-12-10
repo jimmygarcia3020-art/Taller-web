@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ContaPlus - Estudio Contable Profesional</title>
+    <meta name="description" content="Estudio contable con más de 15 años de experiencia en servicios contables, tributarios y financieros">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav__container">
+            <div class="nav__wrapper">
+                <div class="nav__brand">
+                    <h1 class="brand">ContaPlus</h1>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="nav__menu">
+                    <div class="nav__links">
+                        <a href="#inicio" class="link">Inicio</a>
+                        <a href="#servicios" class="link">Servicios</a>
+                        <a href="#contacto" class="link">Contacto</a>
+                        <button class="btn btn--primary" onclick="location.href='../index1.html'">
+                            Software
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Mobile Toggle -->
+                <div class="nav__toggle">
+                    <button onclick="toggleMenu()" class="toggle__btn" aria-label="Abrir menú">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="nav__mobile hidden">
+            <div class="mobile__content">
+                <a href="#inicio" class="mobile__link" onclick="toggleMenu()">Inicio</a>
+                <a href="#servicios" class="mobile__link" onclick="toggleMenu()">Servicios</a>
+                <a href="#contacto" class="mobile__link" onclick="toggleMenu()">Contacto</a>
+                <button class="btn btn--primary btn--full" onclick="location.href='software.html'">
+                    Software
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="hero__container">
+            <div class="hero__content">
+                <h1 class="hero__title">Estudio Contable Profesional</h1>
+                <p class="hero__text">
+                    Más de 15 años brindando servicios contables, tributarios y de asesoría 
+                    financiera con excelencia y confianza.
+                </p>
+                <div class="hero__actions">
+                    <a href="#servicios" class="btn btn--secondary">Nuestros Servicios</a>
+                    <a href="#contacto" class="btn btn--outline">Contactar</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about">
+        <div class="section__container">
+            <div class="section__header">
+                <h2 class="section__title">Acerca de Nosotros</h2>
+                <p class="section__subtitle">
+                    Somos un estudio contable comprometido con la excelencia y el crecimiento de nuestros clientes.
+                </p>
+            </div>
+            
+            <!-- Values Grid -->
+            <div class="values">
+                <div class="value__card">
+                    <div class="value__icon">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="value__title">Misión</h3>
+                    <p class="value__text">
+                        Brindar servicios contables y tributarios de alta calidad, ayudando a nuestros 
+                        clientes a tomar decisiones financieras informadas.
+                    </p>
+                </div>
+                
+                <div class="value__card">
+                    <div class="value__icon">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="value__title">Visión</h3>
+                    <p class="value__text">
+                        Ser el estudio contable de referencia, reconocido por nuestra innovación, 
+                        integridad y compromiso con el éxito de nuestros clientes.
+                    </p>
+                </div>
+                
+                <div class="value__card">
+                    <div class="value__icon">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="value__title">Valores</h3>
+                    <p class="value__text">
+                        Integridad, transparencia, excelencia profesional y compromiso con el 
+                        crecimiento sostenible de nuestros clientes.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Team Section -->
+            <div class="team">
+                <h3 class="team__title">Nuestro Equipo</h3>
+                <div class="team__grid">
+                    <div class="team__member">
+                        <div class="member__avatar">
+                            <span class="avatar__text">MC</span>
+                        </div>
+                        <h4 class="member__name">María Contreras</h4>
+                        <p class="member__role">Contadora Pública - Socia Fundadora</p>
+                        <p class="member__bio">15 años de experiencia en contabilidad empresarial y tributación.</p>
+                    </div>
+                    
+                    <div class="team__member">
+                        <div class="member__avatar">
+                            <span class="avatar__text">JR</span>
+                        </div>
+                        <h4 class="member__name">Juan Rodríguez</h4>
+                        <p class="member__role">Especialista en Auditoría</p>
+                        <p class="member__bio">Certificado en auditoría financiera con experiencia en empresas medianas.</p>
+                    </div>
+                    
+                    <div class="team__member">
+                        <div class="member__avatar">
+                            <span class="avatar__text">AL</span>
+                        </div>
+                        <h4 class="member__name">Ana López</h4>
+                        <p class="member__role">Asesora Tributaria</p>
+                        <p class="member__bio">Especialista en planificación tributaria y cumplimiento normativo.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Terms -->
+            <div class="terms">
+                <h3 class="terms__title">Términos y Condiciones</h3>
+                <div class="terms__content">
+                    <p class="terms__item">
+                        <strong>Confidencialidad:</strong> Toda la información proporcionada por nuestros 
+                        clientes es tratada con absoluta confidencialidad y bajo estrictos protocolos de seguridad.
+                    </p>
+                    <p class="terms__item">
+                        <strong>Responsabilidad Profesional:</strong> Nuestros servicios se rigen por las 
+                        normas profesionales contables y estamos respaldados por seguros de responsabilidad profesional.
+                    </p>
+                    <p class="terms__item">
+                        <strong>Plazos de Entrega:</strong> Nos comprometemos a cumplir con los plazos acordados. 
+                        Los retrasos por causas ajenas a nuestro control serán comunicados oportunamente.
+                    </p>
+                    <p class="terms__item">
+                        <strong>Facturación:</strong> Los honorarios se facturan según lo acordado en el 
+                        contrato de servicios. Los pagos vencidos generarán intereses según la tasa legal vigente.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="servicios" class="services">
+        <div class="section__container">
+            <div class="section__header">
+                <h2 class="section__title">Nuestros Servicios</h2>
+                <p class="section__subtitle">
+                    Ofrecemos una gama completa de servicios contables y financieros para empresas de todos los tamaños.
+                </p>
+            </div>
+            
+            <div class="services__grid" id="servicesGrid">
+                <!-- Services will be loaded by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contacto" class="contact">
+        <div class="section__container">
+            <div class="section__header">
+                <h2 class="section__title">Contacto</h2>
+                <p class="section__subtitle">
+                    Estamos aquí para ayudarte. Contáctanos y te responderemos a la brevedad.
+                </p>
+            </div>
+            
+            <div class="contact__wrapper">
+                <!-- Contact Form -->
+                <div class="contact__form">
+                    <h3 class="form__title">Envíanos un mensaje</h3>
+                    <form id="contactForm" class="form">
+                        <div class="form__row">
+                            <div class="form__group">
+                                <label class="form__label">Nombre</label>
+                                <input type="text" name="nombre" required class="form__input">
+                            </div>
+                            <div class="form__group">
+                                <label class="form__label">Apellido</label>
+                                <input type="text" name="apellido" required class="form__input">
+                            </div>
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Correo electrónico</label>
+                            <input type="email" name="email" required class="form__input">
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Mensaje</label>
+                            <textarea name="mensaje" required rows="5" class="form__input"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn--primary btn--full">Enviar Mensaje</button>
+                    </form>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="contact__info">
+                    <div class="info__block">
+                        <h3 class="info__title">Información de Contacto</h3>
+                        <p class="info__item">📍 Av. Principal 123, Lima, Perú</p>
+                        <p class="info__item">📞 (01) 456-7890</p>
+                        <p class="info__item">📧 contacto@contaplus.com</p>
+                    </div>
+                    <div class="info__schedule">
+                        <h4 class="schedule__title">Horario de Atención</h4>
+                        <p class="schedule__text">
+                            Lunes a Viernes: 9:00 a.m. - 6:00 p.m.<br>
+                            Sábados: 9:00 a.m. - 1:00 p.m.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__container">
+            <p class="footer__text">&copy; 2025 ContaPlus. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/services.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

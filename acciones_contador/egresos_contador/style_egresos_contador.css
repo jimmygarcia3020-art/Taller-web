@@ -1,0 +1,81 @@
+.main-content {
+  flex: 1;
+  padding: 20px;
+  background-color: #558bc0;
+  color: #003366;
+}
+
+.top-bar h1 {
+  margin-bottom: 5px;
+}
+
+.form-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input, .form-group select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+button {
+  background-color: #004a99;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #003366;
+}
+
+.tabla-egresos table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-egresos th, .tabla-egresos td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+.tabla-egresos th {
+  background-color: #004a99;
+  color: white;
+}
+
+h1 {
+  color: #ffffff;
+}
+
+h2 {
+  color: #004a99;
+}
+
+h3 {
+  color: #fff;
+}
+
+p {
+  color: #ffffff;
+}
