@@ -153,6 +153,8 @@
             <div class="contador-info-card">
                 <p class="info-label">Contador(a) a Cargo:</p>
                 <p class="info-data" id="contador-nombre">--</p>
+                <p class="info-label">Cliente:</p>
+                <p class="info-data" id="cliente-nombre">--</p>
             </div>
         </div>
 
@@ -197,6 +199,46 @@
   </div>
 </div>
 
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+    async function cargarUsuario() {
+        try {
+            const res = await fetch('listar_usuario.php', { method: 'GET', headers: { 'Accept': 'application/json' } });
+            if (!res.ok) {
+                console.error('HTTP error', res.status);
+                return;
+            }
+            const data = await res.json();
+            console.log('listar_usuario ->', data);
+
+            if (!data || !data.ok) {
+                console.error('API error', data && data.error ? data.error : 'respuesta inválida');
+                return;
+            }
+
+            const usuario = data.data;
+            const bienvenidaEl = document.getElementById('bienvenida-usuario');
+            const nombreEl = document.getElementById('contador-nombre');
+            // no hay elemento contador-registro en tu HTML, así que lo omito
+
+            if (!usuario) {
+                if (bienvenidaEl) bienvenidaEl.innerText = 'Bienvenido';
+                if (nombreEl) nombreEl.innerText = 'Sin registro';
+                return;
+            }
+
+            const nombreMostrar = usuario.nombre_contacto || usuario.nombre_negocio || 'Usuario';
+            if (bienvenidaEl) bienvenidaEl.innerText = `Bienvenido, ${nombreMostrar}`;
+            if (nombreEl) nombreEl.innerText = nombreMostrar;
+
+        } catch (err) {
+            console.error('Error al cargar usuario:', err);
+        }
+    }
+
+    await cargarUsuario();
+});
+</script>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -205,8 +247,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnCerrar = document.getElementById("cerrarModalClientes");
   const lista = document.getElementById("listaClientes");
   const buscador = document.getElementById("buscadorClientes");
-  const nombreHeader = document.getElementById("contador-nombre");
-  const bienvenida = document.getElementById("bienvenida-usuario");
+  const nombreHeader = document.getElementById("cliente-nombre");
+  const bienvenida = document.getElementById("---");
+
 
   // --- helpers ---
   function escapeHtml(txt = "") {
@@ -283,8 +326,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- cargar clientes desde servidor (endpoint clientes_json.php) ---
-  // El endpoint debe devolver JSON: [{id:..., nombre_negocio:...}, ...]
   async function cargarClientes(q = "") {
     if (!lista) return;
     lista.innerHTML = '<div class="loading">Cargando clientes...</div>';
@@ -307,7 +348,6 @@ document.addEventListener("DOMContentLoaded", () => {
       lista.innerHTML = '<div class="no-results">No se encontraron clientes.</div>';
       return;
     }
-    // render por defecto: cada item es foco-able y con role=button
     items.forEach(it => {
       const grupo = document.createElement('div');
       grupo.className = 'grupo-clientes';
@@ -324,7 +364,6 @@ document.addEventListener("DOMContentLoaded", () => {
       cliente.dataset.id = String(it.id);
       cliente.dataset.nombre = String(it.nombre || '');
       cliente.innerHTML = escapeHtml(String(it.nombre || 'Sin nombre'));
-      // seleccionar al hacer click o Enter
       cliente.addEventListener('click', () => seleccionarCliente(cliente));
       cliente.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -343,29 +382,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const id = itemEl.dataset.id || '';
     if (nombreHeader) nombreHeader.innerText = nombre;
     if (bienvenida) bienvenida.innerText = `Cliente: ${nombre} ${id ? '('+id+')' : ''}`;
-    // Aquí podrías rellenar inputs ocultos, p.ej:
-    // document.getElementById('cliente_id').value = id;
+
     closeModal();
   }
 
-  // --- búsqueda: debounce, consulta al servidor (recomendado si hay muchos clientes) ---
   let debounceTimer = null;
   if (buscador) {
     buscador.addEventListener('input', () => {
       const q = buscador.value.trim();
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(() => {
-        // Si prefieres filtrar en cliente (dom) usa la lógica antigua,
-        // pero si la lista es grande, pregunta al servidor:
         if (q.length === 0) cargarClientes();
         else cargarClientes(q);
       }, 250);
     });
   }
 
-  // --- si quieres filtrar cliente-side (cuando ya cargaste todos) ---
-  // puedes mantener tu código original que oculta elementos, pero al usar
-  // consultas en servidor la versión anterior no es necesaria.
 
 });
 </script>
