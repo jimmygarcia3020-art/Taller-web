@@ -174,154 +174,11 @@
         <div class="menu-card">
             <span class="stat-emoji">👤</span>
             <p class="stat-title">SELECCIONAR CLIENTE</p>
-            <button id="btnAgregarCliente">Agregar clientes</button>
             <button id="btnSeleccionarCliente">Abrir lista de clientes</button>
         </div>
     </section>
 
 </main>
-<div id="modal-agregar-cliente" class="modal-agregar">
-  <div class="modal-agregar-content">
-    <span class="close-agregar-cliente">✖</span>
-    <h2>Añadir Nuevo Cliente</h2>
-
-    <form id="form-nuevo-cliente" class="form-grid">
-
-      <div class="form-group">
-        <label>Nombre del cliente:</label>
-        <input type="text" id="cliente-nombre" required>
-      </div>
-
-      <div class="form-group">
-        <label>RUC / DNI:</label>
-        <input type="text" id="cliente-ruc" required>
-      </div>
-
-      <div class="form-group">
-        <label>Teléfono:</label>
-        <input type="text" id="cliente-telefono" required>
-      </div>
-
-      <div class="form-group">
-        <label>Correo:</label>
-        <input type="email" id="cliente-email" required>
-      </div>
-
-      <div class="form-group">
-        <label>Tipo de Cliente:</label>
-        <select id="cliente-tipo">
-          <option value="NATURAL">NATURAL</option>
-          <option value="JURIDICO">JURÍDICO</option>
-        </select>
-      </div>
-
-      <button type="submit" id="guardar-cliente" class="btn-guardar">
-        Guardar Cliente
-      </button>
-    </form>
-  </div>
-</div>
-
-<style>
-/* MODAL GENERAL */
-.modal-agregar {
-  position: fixed;
-  inset: 0;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0,0,0,0.45);
-  z-index: 99998;
-}
-
-/* VENTANA */
-.modal-agregar-content {
-  width: 550px;                 /* MÁS ANCHO */
-  max-width: 95%;
-  background: #fff;
-  padding: 30px;                /* MÁS ESPACIO */
-  border-radius: 12px;
-  box-shadow: 0 10px 35px rgba(0,0,0,0.30);
-  animation: popIn 160ms ease-out;
-}
-
-.close-agregar-cliente {
-  float: right;
-  cursor: pointer;
-  font-size: 22px;
-}
-
-/* FORMATO DE FORMULARIO */
-.form-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;                    /* ESPACIO ENTRE CAMPOS */
-  margin-top: 20px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 600;
-  font-size: 15px;
-}
-
-.form-group input,
-.form-group select {
-  width: 100%;
-  padding: 10px 12px;           /* CAMPOS MÁS GRANDES */
-  font-size: 15px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-}
-
-/* BOTÓN */
-.btn-guardar {
-  margin-top: 10px;
-  padding: 12px;
-  width: 100%;
-  background: #2563eb;
-  border: none;
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.btn-guardar:hover {
-  background: #1e4fc9;
-}
-
-/* ANIMACIÓN */
-@keyframes popIn {
-  from { opacity: 0; transform: translateY(8px) scale(0.97); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-</style>
-
-<script>
-const modalAgregarCliente = document.getElementById("modal-agregar-cliente");
-const btnAgregarCliente = document.getElementById("btnAgregarCliente");
-const closeAgregarCliente = document.querySelector(".close-agregar-cliente");
-
-btnAgregarCliente.addEventListener("click", () => {
-  modalAgregarCliente.style.display = "flex";
-  document.body.style.overflow = "hidden";
-});
-
-closeAgregarCliente.addEventListener("click", () => {
-  modalAgregarCliente.style.display = "none";
-  document.body.style.overflow = "";
-});
-
-window.addEventListener("click", (e) => {
-  if (e.target === modalAgregarCliente) {
-    modalAgregarCliente.style.display = "none";
-    document.body.style.overflow = "";
-  }
-});
-</script>
 
 
 <!-- MODAL CLIENTES -->
@@ -340,9 +197,9 @@ window.addEventListener("click", (e) => {
   </div>
 </div>
 
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  // --- elementos ya existentes en tu página ---
   const btnAbrir = document.getElementById("btnSeleccionarCliente");
   const modal = document.getElementById("modalClientes");
   const btnCerrar = document.getElementById("cerrarModalClientes");
