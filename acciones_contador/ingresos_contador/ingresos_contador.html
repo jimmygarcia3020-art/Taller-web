@@ -55,6 +55,118 @@
     <h1>Registro de Ingresos</h1>
     <p>Registra los comprobantes de venta emitidos (facturas, boletas, notas de crédito o débito) según los lineamientos de SUNAT.</p>
 
+<!-- BOTÓN DE SELECCIÓN DE CLIENTE EN EL HEADER -->
+<div class="header-cliente" style="display: flex; align-items: center; gap: 15px;">
+
+    <button type="button" id="btn-header-seleccionar-cliente">
+        Seleccionar Cliente
+    </button>
+
+    <!-- CLIENTE SELECCIONADO -->
+    <div id="cliente-seleccionado" style="font-weight: 600;">
+        Ningún cliente seleccionado
+    </div>
+
+</div>
+
+
+<!-- VENTANA FLOTANTE PARA SELECCIONAR CLIENTE -->
+<div id="modal-clientes" class="modal-clientes" style="
+    display:none;
+    position: fixed;
+    z-index: 2000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.45);
+    padding: 20px;
+">
+    <div class="modal-clientes-content" style="
+        background: #fff;
+        width: 90%;
+        max-width: 700px;
+        margin: 60px auto;
+        padding: 20px;
+        border-radius: 10px;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    ">
+        <span class="cerrar-modal-clientes" id="cerrar-modal-clientes" style="
+            float: right;
+            cursor: pointer;
+            font-size: 22px;
+        ">✖</span>
+
+        <h2 style="margin-top: 0;">Seleccionar Cliente</h2>
+
+        <table class="tabla-clientes" style="width:100%; border-collapse: collapse; margin-top:15px;">
+            <thead>
+                <tr>
+                    <th style="border:1px solid #ccc; padding:8px;">Nombre / Razón Social</th>
+                    <th style="border:1px solid #ccc; padding:8px;">RUC / DNI</th>
+                    <th style="border:1px solid #ccc; padding:8px;">Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="border:1px solid #ccc; padding:8px;">Empresa ABC SAC</td>
+                    <td style="border:1px solid #ccc; padding:8px;">20123456789</td>
+                    <td style="border:1px solid #ccc; padding:8px;">
+                        <button class="seleccionar-cliente"
+                            data-nombre="Empresa ABC SAC"
+                            data-ruc="20123456789">
+                            Elegir
+                        </button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="border:1px solid #ccc; padding:8px;">Juan Pérez</td>
+                    <td style="border:1px solid #ccc; padding:8px;">12345678</td>
+                    <td style="border:1px solid #ccc; padding:8px;">
+                        <button class="seleccionar-cliente"
+                            data-nombre="Juan Pérez"
+                            data-ruc="12345678">
+                            Elegir
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<script>
+    const btnSeleccionar = document.getElementById("btn-header-seleccionar-cliente");
+    const modal = document.getElementById("modal-clientes");
+    const cerrarModal = document.getElementById("cerrar-modal-clientes");
+    const clienteSeleccionado = document.getElementById("cliente-seleccionado");
+
+    btnSeleccionar.onclick = () => modal.style.display = "block";
+    cerrarModal.onclick = () => modal.style.display = "none";
+
+    document.querySelectorAll(".seleccionar-cliente").forEach(btn => {
+        btn.addEventListener("click", () => {
+
+            // Mostrar el nombre del cliente en el header
+            clienteSeleccionado.textContent =
+                btn.dataset.nombre + " (" + btn.dataset.ruc + ")";
+
+            modal.style.display = "none";
+        });
+    });
+
+    window.onclick = (e) => {
+        if (e.target === modal) modal.style.display = "none";
+    };
+</script>
+
+
+
+
     <!-- FORMULARIO DE REGISTRO -->
     <section class="form-section">
       <h2>Agregar Comprobante</h2>
