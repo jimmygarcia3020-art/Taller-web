@@ -51,12 +51,12 @@ try {
     // SOLO SI ES CLIENTE → INSERTAR EN TABLA clientes
     if (strcasecmp($tipo_usuario, "Cliente") === 0) { // ← más seguro
         $sql3 = $conexion->prepare("
-            INSERT INTO clientes (nombre, tipo_cliente, telefono, email)
-            VALUES (?, ?, ?, ?)
+            INSERT INTO clientes (nombre, nombre_negocio, tipo_cliente, telefono, email)
+            VALUES (?, ?, ?, ?, ?)
         ");
         if (!$sql3) throw new Exception("Error SQL3: " . $conexion->error);
 
-        $sql3->bind_param("ssss", $nombre_contacto, $tipo_cliente, $numero_contacto, $correo);
+        $sql3->bind_param("sssss", $nombre_contacto, $nombre_negocio, $tipo_cliente, $numero_contacto, $correo);
         if (!$sql3->execute()) throw new Exception("Error SQL3 execute: " . $sql3->error);
     }
 
