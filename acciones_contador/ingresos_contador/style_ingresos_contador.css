@@ -1,7 +1,13 @@
 /* ---------- ESTILOS DEL MÓDULO DE INGRESOS ---------- */
 .main-content {
-  margin-left: 240px;
-  padding: 25px;
+  flex: 1;
+  padding: 20px;
+  background-color: #558bc0;
+  color: #003366;
+}
+
+.top-bar h1 {
+  margin-bottom: 5px;
 }
 
 h1 {
