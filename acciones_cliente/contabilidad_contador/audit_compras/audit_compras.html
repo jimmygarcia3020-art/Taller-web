@@ -8,31 +8,36 @@
     <link rel="stylesheet" href="../subir_documentos/style_subir_documentos.css" /> 
     <link rel="stylesheet" href="style_audit_compras.css" /> </head>
 <body>
-    <nav class="sidebar" id="sidebar">
-        <button class="toggle-btn" id="toggle-btn">☰</button>
-        <ul>
-            <li><a href="../../../index_contador.html"><span class="emoji">🏠</span><span class="text">Inicio</span></a></li>
-            <li><a href="../../ingresos_contador/ingresos_contador.html"><span class="emoji">💰</span><span class="text">Ingresos</span></a></li>
-            <li><a href="../../egresos_contador/egresos_contador.html"><span class="emoji">💸</span><span class="text">Egresos</span></a></li>
-
-            <div class="dropdown" id="contabilidadDropdownContainer">
-                <button class="dropdown-btn" onclick="toggleDropdown('contabilidadDropdownContainer')">
-                    <span class="emoji">📊</span><span class="text">Contabilidad</span>
-                </button>
-                <div class="dropdown-content">
-                    <button onclick="window.location.href= '../subir_documentos/subir_documentos.html'">📂 Subir Documentos</button>
-                    <button onclick="window.location.href='../audit_compras/audit_compras.html'">🧾 Audit Compras</button>
-                    <button onclick="window.location.href='../audit_ventas/audit_ventas.html'">💼 Audit Ventas</button>
-                </div>
+    <div class="sidebar" id="sidebar">
+  <button onclick="toggleSidebar()">☰</button>
+  <button onclick="window.location.href='#'">🏠<span>Inicio</span></button>
+  <button onclick="window.location.href='acciones_cliente/chats/chats.html'">💬<span>Chat</span></button>
+        <div class="dropdown" id="contabilidadDropdownContainer">
+            <button class="dropdown-btn" onclick="toggleDropdown('contabilidadDropdownContainer')">
+                <span class="emoji">📊</span><span class="text">Contabilidad</span>
+            </button>
+            <div class="dropdown-content">
+                <button onclick="window.location.href= '../contabilidad_contador/subir_documentos/subir_documentos.html'">📂 Subir Documentos</button>
+                <button onclick="window.location.href='../contabilidad_contador/audit_compras/audit_compras.html'">🧾 Audit Compras</button>
+                <button onclick="window.location.href='../contabilidad_contador/audit_ventas/audit_ventas.html'">💼 Audit Ventas</button>
             </div>
-            
-            <li><a href="../../impuestos_contador/impuestos_contador.html"><span class="emoji">🧮</span><span class="text">Impuestos</span></a></li>
-            
-            <li><a href="../../reportes_contador/reportes_contador.html"><span class="emoji">📈</span><span class="text">Reportes</span></a></li>
+        </div>
+  <!-- Submenú de reportes -->
+  <div class="dropdown">
+    <button class="dropdown-btn" onclick="toggleDropdown()">📁<span>Reportes</span></button>
+    <div class="dropdown-content" id="reportesDropdown">
+      <button onclick="window.location.href='acciones_cliente/reportes/reportes/reportes.html'">📊 Reportes Contables</button>
+      <button onclick="window.location.href='acciones_cliente/reportes/resultados/resultados.html'">📈 Estado de Resultado</button>
+    </div>
+  </div>
 
-            <li><a href="../../../cerrar_sesion.php"><span class="emoji">🚪</span><span class="text">Cerrar sesión</span></a></li>
-        </ul>
-    </nav>
+
+
+
+  <form action="cerrar_sesion.php" method="post" style="margin:0; padding:0;">
+    <button type="submit">📤<span>Cerrar Sesión</span></button>
+  </form>
+</div>
   <script>
           // === FUNCIONES ESENCIALES PARA EL TOGGLE Y DROPDOWN ===
 

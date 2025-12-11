@@ -198,8 +198,17 @@
   <div class="sidebar" id="sidebar">
     <button onclick="toggleSidebar()">☰</button>
     <button onclick="window.location.href='../../index_cliente.html'">🏠<span>Inicio</span></button>
-    <button onclick="window.location.href='acciones_cliente/chats/chats.html'">💬<span>Chat</span></button>
-
+    <button onclick="window.location.href='#'">💬<span>Chat</span></button>
+          <div class="dropdown" id="contabilidadDropdownContainer">
+            <button class="dropdown-btn" onclick="toggleDropdown('contabilidadDropdownContainer')">
+                <span class="emoji">📊</span><span class="text">Contabilidad</span>
+            </button>
+            <div class="dropdown-content">
+                <button onclick="window.location.href= '../contabilidad_contador/subir_documentos/subir_documentos.html'">📂 Subir Documentos</button>
+                <button onclick="window.location.href='../contabilidad_contador/audit_compras/audit_compras.html'">🧾 Audit Compras</button>
+                <button onclick="window.location.href='../contabilidad_contador/audit_ventas/audit_ventas.html'">💼 Audit Ventas</button>
+            </div>
+          </div>
     <div class="dropdown">
       <button class="dropdown-btn" onclick="toggleDropdown()">📁<span>Reportes</span></button>
       <div class="dropdown-content" id="reportesDropdown">
