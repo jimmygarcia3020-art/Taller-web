@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const tbody = document.querySelector("#tablaReportes tbody");
     const totalSpan = document.getElementById("total");
     const btnFiltrar = document.getElementById("filtrar");
-    const btnActualizar = document.getElementById("btnActualizar");
 
     // sanity checks
     console.log("DEBUG: DOM cargado. elementos:", {
@@ -15,7 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
       tbody: !!tbody,
       total: !!totalSpan,
       filtrar: !!btnFiltrar,
-      actualizar: !!btnActualizar
     });
 
     // si faltan elementos críticos, mostrar error y salir
