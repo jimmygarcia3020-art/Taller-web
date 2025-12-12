@@ -4,207 +4,271 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Subir Documentos - Contabilidad</title>
-    <link rel="stylesheet" href="/style_contador_slidebar.css" />
-    <link rel="stylesheet" href="/acciones_cliente/contabilidad_contador/subir_documentos/style_subir_documentos.css" />
+    <link rel="stylesheet" href="./style_subir_documentos.css" />
 </head>
 <style>
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-  }
+/* ======= TU CSS AJUSTADO ======= */
 
-  .sidebar {
-    width: 240px;
-    height: 100vh;
-    background: #1e3a5f;
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    color: white;
-    gap: 10px;
-  }
+.sidebar button.menu-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  .sidebar button {
-    background: #29486b;
-    border: none;
-    padding: 12px;
-    color: white;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+.submenu {
+  display: none;
+  flex-direction: column;
+  padding-left: 20px;
+}
 
-  .sidebar button:hover {
-    background: #345b87;
-  }
+.submenu.show {
+  display: flex;
+}
 
-  .menu-toggle {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+.sidebar .arrow {
+  margin-left: auto;
+  transition: transform 0.3s;
+}
 
-  .arrow {
-    margin-left: auto;
-    transition: transform 0.3s;
-  }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #eaf1fb;
+  color: #003366;
+  display: flex;
+}
 
-  .submenu {
-    display: none;
-    flex-direction: column;
-    padding-left: 20px;
-    gap: 8px;
-  }
+/* BARRA LATERAL */
+.sidebar {
+  background-color: #001f4d;
+  width: 120px;
+  height: 100vh;
+  color: white;
+  transition: width 0.3s;
+  overflow: hidden;
+  flex-shrink: 0;
+}
 
-  .submenu.show {
-    display: flex;
-  }
+.sidebar.expanded {
+  width: 230px;
+}
+
+.sidebar button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: none;
+  border: none;
+  color: white;
+  padding: 22px 0;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.sidebar button:hover {
+  background-color: #002a73;
+}
+
+/* SUBMENÚ */
+.dropdown {
+  width: 100%;
+}
+
+.dropdown-content {
+  display: none;
+  flex-direction: column;
+  background-color: #003366;
+}
+
+.dropdown-content button {
+  font-size: 14px;
+  text-align: left;
+  padding: 12px 25px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.dropdown-content button:hover {
+  background-color: #004a99;
+}
+
+.dropdown.open .dropdown-content {
+  display: flex;
+}
+
+/* CONTENIDO PRINCIPAL */
+.main-content {
+  flex: 1;
+  padding: 20px;
+  position: relative;
+}
+
+/* ===== ENCABEZADO ===== */
+.header {
+  background-color: #cfe0ff;
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.profile-photo {
+  width: 90px;
+  height: 90px;
+  background-image: url("img/user.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 5px solid #004a99;
+  margin-right: 25px;
+  margin-left: 20px;
+  border-radius: 10px;
+}
+
+.user-info {
+  font-size: 18px;
+}
+
+.notification-bell {
+  font-size: 30px;
+  cursor: pointer;
+  margin-right: 25px;
+}
+
+/* NOTIFICACIONES */
+.notification-panel {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  width: 300px;
+  height: 100%;
+  background-color: white;
+  border-left: 2px solid #004a99;
+  padding: 10px;
+  transition: right 0.3s ease;
+  z-index: 10;
+}
+
+.notification-panel.active {
+  right: 0;
+}
+
+.close-notification {
+  float: right;
+  cursor: pointer;
+  font-weight: bold;
+  color: #004a99;
+  margin-top: 20px;
+  margin-right: 10px;
+}
 </style>
 
 </head>
+
 <body>
+
+<!-- ======================================================== -->
+<!-- ======================= SIDEBAR ========================= -->
+<!-- ======================================================== -->
 
 <div class="sidebar" id="sidebar">
   
   <button onclick="toggleSidebar()">☰</button>
 
   <button onclick="window.location.href='#'">🏠<span>Inicio</span></button>
-
-  <button onclick="window.location.href='acciones_cliente/chats/chats.html'">💬<span>Chat</span></button>
-
+  <button onclick="window.location.href='.../chats/chats.html'">💬<span>Chat</span></button>
   <button onclick="window.location.href='acciones_cliente/contabilidad_contador/subir_documentos/subir_documentos.html'">⏫<span>Subir Documentos</span></button>
 
+  <!-- BOTÓN REPORTES -->
   <button class="menu-toggle" onclick="toggleSubmenu()">
     📁
     <span>Reportes</span>
     <span class="arrow" id="arrow">▼</span>
   </button>
 
+  <!-- SUBMENÚ -->
   <div class="submenu" id="submenu">
     <button onclick="window.location.href='../reportes/reportes/reportes/reportes.html'">📊 Reportes contables</button>
     <button onclick="window.location.href='../reportes/resultados/resultados/resultados.html'">📈 Estado de resultado</button>
   </div>
 
-  <form action="cerrar_sesion.php" method="post" style="margin:0; padding:0;">
+  <form action="cerrar_sesion.php" method="post" style="margin:0;">
     <button type="submit">📤<span>Cerrar Sesión</span></button>
   </form>
 
 </div>
 
-<script>
-  function toggleSidebar() {
-    var sidebar = document.getElementById("sidebar");
-    sidebar.classList.toggle("expanded");
-  }
+<!-- ======================================================== -->
+<!-- ============== CONTENIDO PRINCIPAL ===================== -->
+<!-- ======================================================== -->
 
-  function toggleSubmenu() {
-    var submenu = document.getElementById("submenu");
-    var arrow = document.getElementById("arrow");
+<div class="main-content">
+
+    <header class="page-header">
+        <h1>Contabilidad / Subir Documentos</h1>
+    </header>
+
+    <div class="card-panel">
+        <div class="tab-navigation">
+            <button class="tab-button active">Subir Documentos</button>
+            <a href="../audit_compras/audit_compras.html" class="tab-button">Auditoría Compras</a>
+            <a href="../audit_ventas/audit_ventas.html" class="tab-button">Auditoría Ventas</a>
+        </div>
+
+        <div class="tab-content active">
+            <h2>Sube tus documentos</h2>
+            <p>
+                Puedes subir/arrastrar tus archivos XML para validarlos o puedes 
+                <button class="sire-button" id="open-sire-modal">Extraer Datos desde el SIRE</button>
+            </p>
+
+            <div class="drop-area" id="drop-area">
+                <p>Arrastre y suelte aquí los archivos...</p>
+                <p>(o haga clic para seleccionar archivos)</p>
+                <input type="file" id="file-input" multiple accept=".xml" hidden>
+            </div>
+
+            <div class="file-selection-footer">
+                <input type="text" placeholder="Seleccionar archivos..." disabled class="file-path-display">
+                <button class="examinar-button" id="select-files-btn">Examinar...</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ======================================================== -->
+<!-- ======================== JS ============================ -->
+<!-- ======================================================== -->
+
+<script>
+function toggleSidebar() {
+    document.getElementById("sidebar").classList.toggle("expanded");
+}
+
+function toggleSubmenu() {
+    const submenu = document.getElementById("submenu");
+    const arrow = document.getElementById("arrow");
 
     submenu.classList.toggle("show");
 
     if (submenu.classList.contains("show")) {
-      arrow.style.transform = "rotate(180deg)";
+        arrow.style.transform = "rotate(180deg)";
     } else {
-      arrow.style.transform = "rotate(0deg)";
+        arrow.style.transform = "rotate(0deg)";
     }
-  }
+}
 </script>
-</body>
-    <div class="content">
-        <header class="page-header">
-            <h1>Contabilidad / Subir Documentos</h1>
-        </header>
 
-        <div class="card-panel">
-            <div class="tab-navigation">
-                <button class="tab-button active">Subir Documentos</button>
-<a href="../audit_compras/audit_compras.html" class="tab-button">Auditoría Compras</a>
-            <a href="../audit_ventas/audit_ventas.html" class="tab-button">Auditoría Ventas</a>
-            </div>
-            
-            <div class="tab-content active">
-                <h2>Sube tus documentos</h2>
-                <p>Puedes subir/arrastrar tus archivos **XML** para poder validarlos o puedes 
-                    <button class="sire-button" id="open-sire-modal">Extraer Datos desde el SIRE</button>
-                </p>
-
-                <div class="drop-area">
-                    <p>Arrastre y suelte aquí los archivos...</p>
-                    <p>(o haga clic para seleccionar archivos)</p>
-                    <input type="file" id="file-input" multiple accept=".xml" hidden>
-                </div>
-                
-                <div class="file-selection-footer">
-                    <input type="text" placeholder="Seleccionar archivos..." disabled class="file-path-display">
-                    <button class="examinar-button" id="select-files-btn">Examinar...</button>
-                </div>
-            </div>
-            </div>
-
-        <div id="sire-modal" class="modal">
-            <div class="modal-content">
-                <span class="close-btn">&times;</span>
-                <h3>Integración con API SUNAT-SIRE</h3>
-                
-                <div class="modal-body">
-                    <div class="config-credentials">
-                        <button class="btn-config">⚙️ Configuración de Credenciales</button>
-                    </div>
-
-                    <div class="periodo-extraccion">
-                        <label for="periodo-select">Periodo a Extraer</label>
-                        <div class="input-with-icon">
-                            <input type="month" id="periodo-select" value="2025-02">
-                            <span class="calendar-icon">📅</span>
-                        </div>
-                    </div>
-                    
-                    <div class="extraccion-opciones">
-                        <div class="opcion-item">
-                            <label>Extraer Compras</label>
-                            <label class="switch">
-                                <input type="checkbox" checked id="toggle-compras">
-                                <span class="slider round"></span>
-                                <span class="toggle-text">ON</span>
-                            </label>
-                        </div>
-                        <div class="opcion-item">
-                            <label>Extraer Ventas</label>
-                            <label class="switch">
-                                <input type="checkbox" checked id="toggle-ventas">
-                                <span class="slider round"></span>
-                                <span class="toggle-text">ON</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <button class="btn-cerrar" id="close-sire-modal">Cerrar</button>
-                    <button class="btn-extraer-datos">Extraer Datos</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <script src="script_subir_documentos.js"></script>
-    <script>
-        // Script simple para el sidebar, si no está en el otro archivo
-        document.addEventListener('DOMContentLoaded', function() {
-            const toggleBtn = document.getElementById('toggle-btn');
-            const sidebar = document.getElementById('sidebar');
-
-            if (toggleBtn && sidebar) {
-                toggleBtn.addEventListener('click', function() {
-                    sidebar.classList.toggle('collapsed');
-                });
-            }
-        });
-    </script>
-  <script src="/script.js"></script>
 </body>
 </html>
