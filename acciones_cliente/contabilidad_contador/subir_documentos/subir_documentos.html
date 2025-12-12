@@ -185,28 +185,38 @@ body {
   
   <button onclick="toggleSidebar()">☰</button>
 
-  <button onclick="window.location.href='#'">🏠<span>Inicio</span></button>
-  <button onclick="window.location.href='.../chats/chats.html'">💬<span>Chat</span></button>
-  <button onclick="window.location.href='acciones_cliente/contabilidad_contador/subir_documentos/subir_documentos.html'">⏫<span>Subir Documentos</span></button>
+  <button onclick="window.location.href='/Taller-web-1/index_cliente.html'">🏠<span>Inicio</span></button>
 
-  <!-- BOTÓN REPORTES -->
+  <button onclick="window.location.href='/Taller-web-1/acciones_cliente/chats/chats.html'">💬<span>Chat</span></button>
+
+  <button onclick="window.location.href='/Taller-web-1/acciones_cliente/contabilidad_contador/subir_documentos/subir_documentos.html'">
+    ⏫<span>Subir Documentos</span>
+  </button>
+
   <button class="menu-toggle" onclick="toggleSubmenu()">
     📁
     <span>Reportes</span>
     <span class="arrow" id="arrow">▼</span>
   </button>
 
-  <!-- SUBMENÚ -->
   <div class="submenu" id="submenu">
-    <button onclick="window.location.href='../reportes/reportes/reportes/reportes.html'">📊 Reportes contables</button>
-    <button onclick="window.location.href='../reportes/resultados/resultados/resultados.html'">📈 Estado de resultado</button>
+    <button onclick="window.location.href='/Taller-web-1/acciones_cliente/reportes/reportes/reportes.html'">
+      📊 Reportes contables
+    </button>
+
+    <button onclick="window.location.href='/Taller-web-1/acciones_cliente/reportes/resultados/resultados.html'">
+      📈 Estado de resultados
+    </button>
   </div>
 
-  <form action="cerrar_sesion.php" method="post" style="margin:0;">
+  <form action="/Taller-web-1/cerrar_sesion.php" method="post" style="margin:0;">
     <button type="submit">📤<span>Cerrar Sesión</span></button>
   </form>
 
 </div>
+
+
+
 
 <!-- ======================================================== -->
 <!-- ============== CONTENIDO PRINCIPAL ===================== -->
@@ -221,8 +231,6 @@ body {
     <div class="card-panel">
         <div class="tab-navigation">
             <button class="tab-button active">Subir Documentos</button>
-            <a href="../audit_compras/audit_compras.html" class="tab-button">Auditoría Compras</a>
-            <a href="../audit_ventas/audit_ventas.html" class="tab-button">Auditoría Ventas</a>
         </div>
 
         <div class="tab-content active">
@@ -269,6 +277,8 @@ function toggleSubmenu() {
     }
 }
 </script>
+
+<script src="../subir_documentos/script_subir_documentos.js"></script>
 
 </body>
 </html>

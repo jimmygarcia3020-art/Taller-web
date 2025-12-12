@@ -142,21 +142,46 @@
 </head>
 <body>
   <!-- ===== BARRA LATERAL ===== -->
-  <div class="sidebar" id="sidebar">
+<div class="sidebar" id="sidebar">
     <button onclick="toggleSidebar()">☰</button>
-    <button onclick="window.location.href='../../index_cliente.html'">🏠<span>Inicio</span></button>
-    <button onclick="window.location.href='../chats/chats.html'">💬<span>Chat</span></button>
 
-    <!-- Botón con submenú -->
-    <button onclick="toggleSubmenu()">📁<span>Reportes</span></button>
-    <div class="submenu" id="submenu">
-      <button onclick="window.location.href='../reportes/reportes/reportes/reportes.html'">📊 Reportes contables</button>
-      <button onclick="window.location.href='../reportes/resultados/resultados/resultados.html'">📈 Estado de resultado</button>
+    <!-- Inicio -->
+    <button onclick="window.location.href='/Taller-web-1/index_cliente.html'">
+        🏠<span>Inicio</span>
+    </button>
+
+    <!-- Chat (estás aquí) -->
+    <button onclick="window.location.href='/Taller-web-1/acciones_cliente/chats/chats.html'">
+        💬<span>Chat</span>
+    </button>
+
+    <!-- Subir documentos -->
+    <button onclick="window.location.href='/Taller-web-1/acciones_cliente/contabilidad_contador/subir_documentos/subir_documentos.html'">
+        ⏫<span>Subir Documentos</span>
+    </button>
+
+    <!-- Reportes -->
+    <div class="dropdown">
+        <button class="dropdown-btn" onclick="toggleDropdown()">
+            📁<span>Reportes</span>
+        </button>
+
+        <div class="dropdown-content" id="reportesDropdown">
+            <button onclick="window.location.href='/Taller-web-1/acciones_cliente/reportes/reportes/reportes.html'">
+                📊 Reportes Contables
+            </button>
+
+            <button onclick="window.location.href='/Taller-web-1/acciones_cliente/reportes/resultados/resultados.html'">
+                📈 Estado de Resultado
+            </button>
+        </div>
     </div>
-    <form action="../../cerrar_sesion.php" method="post" style="margin:0; padding:0;">
-    <button type="submit">📤<span>Cerrar Sesión</span></button>
-  </form>
-  </div>
+
+    <form action="/Taller-web-1/cerrar_sesion.php" method="post" style="margin:0; padding:0;">
+        <button type="submit">📤<span>Cerrar Sesión</span></button>
+    </form>
+</div>
+
 
   <!-- ===== CONTENIDO PRINCIPAL ===== -->
   <div class="main-content">
@@ -185,13 +210,11 @@
 
   <script>
     function toggleSidebar() {
-      var sidebar = document.getElementById("sidebar");
-      sidebar.classList.toggle("expanded");
+      document.getElementById("sidebar").classList.toggle("expanded");
     }
 
-    function toggleSubmenu() {
-      var submenu = document.getElementById("submenu");
-      submenu.classList.toggle("show");
+    function toggleDropdown() {
+      document.querySelector(".dropdown").classList.toggle("open");
     }
   </script>
 </body>
