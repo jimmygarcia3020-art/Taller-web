@@ -1,4 +1,18 @@
-<!DOCTYPE html>
+
+<?php
+session_start();
+
+// Si no hay sesión iniciada, redirige al login
+if (!isset($_SESSION['correo'])) {
+    header("Location: index1.html");
+    exit;
+}
+
+// Evita que el navegador guarde la página (bloquea el botón “Atrás” después del logout)
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+?> <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8" />
@@ -137,7 +151,7 @@
     <header class="top-bar">
         <div class="user-profile">
             <div class="user-heading">
-                <div class="mi-cuenta" id="bienvenida-usuario">Bienvenido, Contador</div>
+                <div>Bienvenido,<div class="mi-cuenta" id="bienvenida-usuario">Contador</div></div>
                 <p class="greeting-text">Panel de control y acceso rápido.</p>
             </div>
 
@@ -152,24 +166,25 @@
     </header>
 
     <section class="quick-stats-container">
-        <div class="stat-card stat-ingresos">
-            <span class="stat-emoji">💰</span>
-            <p class="stat-title">Ingresos Pendientes</p>
-            <p class="stat-value">S/ 12,500.00</p>
-        </div>
+    <div class="stat-card stat-ingresos">
+        <span class="stat-emoji">💰</span>
+        <p class="stat-title">Ingresos Pendientes</p>
+        <p id="stat-ingresos-value" class="stat-value">S/ 0.00</p>
+    </div>
 
-        <div class="stat-card stat-egresos">
-            <span class="stat-emoji">💸</span>
-            <p class="stat-title">Egresos por Conciliar</p>
-            <p class="stat-value">S/ 4,200.00</p>
-        </div>
+    <div class="stat-card stat-egresos">
+        <span class="stat-emoji">💸</span>
+        <p class="stat-title">Egresos por Conciliar</p>
+        <p id="stat-egresos-value" class="stat-value">S/ 0.00</p>
+    </div>
 
-        <div class="menu-card">
-            <span class="stat-emoji">👤</span>
-            <p class="stat-title">SELECCIONAR CLIENTE</p>
-            <button id="btnSeleccionarCliente">Abrir lista de clientes</button>
-        </div>
-    </section>
+    <div class="menu-card">
+        <span class="stat-emoji">👤</span>
+        <p class="stat-title">SELECCIONAR CLIENTE</p>
+        <button id="btnSeleccionarCliente">Abrir lista de clientes</button>
+    </div>
+</section>
+
 
 </main>
 
@@ -198,8 +213,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const lista = document.getElementById("listaClientes");
   const buscador = document.getElementById("buscadorClientes");
   const nombreHeader = document.getElementById("cliente-nombre");
+  // <-- usa el id real del elemento que muestra la bienvenida (ajusta si es otro)
   const bienvenida = document.getElementById("---");
-
 
   // --- helpers ---
   function escapeHtml(txt = "") {
@@ -287,7 +302,7 @@ document.addEventListener("DOMContentLoaded", () => {
       renderClientes(data || []);
     } catch (err) {
       console.error('Error cargando clientes:', err);
-      lista.innerHTML = '<div class="error">Error al cargar clientes.</div>';
+      if (lista) lista.innerHTML = '<div class="error">Error al cargar clientes.</div>';
     }
   }
 
@@ -327,11 +342,46 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // formateador de moneda (S/ 1,234.56)
+  function formatSoles(value) {
+    return 'S/ ' + Number(value || 0).toLocaleString('es-PE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  // llamada al servidor para obtener sumas por cliente
+  async function fetchResumenCliente(clienteId) {
+    const ingEl = document.getElementById('stat-ingresos-value');
+    const egEl = document.getElementById('stat-egresos-value');
+
+    try {
+      if (!clienteId) {
+        if (ingEl) ingEl.innerText = formatSoles(0);
+        if (egEl) egEl.innerText = formatSoles(0);
+        return;
+      }
+      const resp = await fetch('resumen_cliente.php?cliente_id=' + encodeURIComponent(clienteId), { cache: 'no-store' });
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      const data = await resp.json();
+      const ing = Number(data.ingresos_total || 0);
+      const eg = Number(data.egresos_total || 0);
+      if (ingEl) ingEl.innerText = formatSoles(ing);
+      if (egEl) egEl.innerText = formatSoles(eg);
+    } catch (err) {
+      console.error('Error cargando resumen cliente:', err);
+      if (ingEl) ingEl.innerText = formatSoles(0);
+      if (egEl) egEl.innerText = formatSoles(0);
+    }
+  }
+
+  // seleccionar cliente (actualizado: actualiza montos)
   function seleccionarCliente(itemEl) {
     const nombre = itemEl.dataset.nombre || itemEl.textContent.trim();
     const id = itemEl.dataset.id || '';
+
     if (nombreHeader) nombreHeader.innerText = nombre;
     if (bienvenida) bienvenida.innerText = `Cliente: ${nombre} ${id ? '('+id+')' : ''}`;
+
+    // obtener y mostrar totales
+    fetchResumenCliente(id);
 
     closeModal();
   }
@@ -348,8 +398,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-
-});
+}); // DOMContentLoaded
 </script>
 
 
@@ -393,7 +442,27 @@ document.addEventListener("DOMContentLoaded", async () => {
     await cargarUsuario();
 });
 </script>
+<script>
+// Cargar datos desde la base
+document.addEventListener("DOMContentLoaded", async () => {
+    try {
+        const res = await fetch("obtener_usuario.php");
+        const data = await res.json();
 
+        console.log("Datos usuario:", data);
+
+        if (!data.ok) return;
+
+        const u = data.data;
+
+        document.getElementById("contador-nombre").innerText = u.nombre_contacto;
+        document.getElementById("bienvenida-usuario").innerText = u.nombre_contacto;
+
+    } catch (e) {
+        console.log("Error cargando usuario:", e);
+    }
+});
+</script>
 
 </body>
 </html>
