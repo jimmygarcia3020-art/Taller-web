@@ -19,6 +19,31 @@ header("Pragma: no-cache");
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Panel Contable</title>
 <style>
+.sidebar button.menu-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.submenu {
+  display: none;
+  flex-direction: column;
+  padding-left: 20px;
+}
+
+.submenu.show {
+  display: flex;
+}
+
+.sidebar .arrow {
+  margin-left: auto;
+  transition: transform 0.3s;
+}
+
+.submenu.show ~ .arrow {
+  transform: rotate(180deg);
+}
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -214,32 +239,38 @@ body {
   <button onclick="toggleSidebar()">☰</button>
   <button onclick="window.location.href='#'">🏠<span>Inicio</span></button>
   <button onclick="window.location.href='acciones_cliente/chats/chats.html'">💬<span>Chat</span></button>
-        <div class="dropdown" id="contabilidadDropdownContainer">
-            <button class="dropdown-btn" onclick="toggleDropdown('contabilidadDropdownContainer')">
-                <span class="emoji">📊</span><span class="text">Contabilidad</span>
-            </button>
-            <div class="dropdown-content">
-                <button onclick="window.location.href= 'acciones_cliente/contabilidad_contador/subir_documentos/subir_documentos.html'">📂 Subir Documentos</button>
-                <button onclick="window.location.href='acciones_cliente/contabilidad_contador/audit_compras/audit_compras.html'">🧾 Audit Compras</button>
-                <button onclick="window.location.href='acciones_cliente/contabilidad_contador/audit_ventas/audit_ventas.html'">💼 Audit Ventas</button>
-            </div>
-        </div>
-  <!-- Submenú de reportes -->
-  <div class="dropdown">
-    <button class="dropdown-btn" onclick="toggleDropdown()">📁<span>Reportes</span></button>
-    <div class="dropdown-content" id="reportesDropdown">
-      <button onclick="window.location.href='acciones_cliente/reportes/reportes/reportes.html'">📊 Reportes Contables</button>
-      <button onclick="window.location.href='acciones_cliente/reportes/resultados/resultados.html'">📈 Estado de Resultado</button>
-    </div>
+  <button onclick="window.location.href='acciones_cliente/contabilidad_contador/subir_documentos/subir_documentos.html'">⏫<span>Subir Documentos</span></button>
+
+  <!-- MENÚ HAMBURGUESA REPORTES -->
+  <button class="menu-toggle" onclick="toggleSubmenu()">
+    📁
+    <span>Reportes</span>
+    <span class="arrow">▼</span>
+  </button>
+
+  <div class="submenu" id="submenu">
+    <button onclick="window.location.href='acciones_cliente/reportes/reportes/reportes.html'">📊 Reportes contables</button>
+    <button onclick="window.location.href='acciones_cliente/reportes/resultados/resultados.html'">📈 Estado de resultado</button>
   </div>
 
-
-
-
+  <!-- CERRAR SESIÓN DENTRO DEL SIDEBAR -->
   <form action="cerrar_sesion.php" method="post" style="margin:0; padding:0;">
     <button type="submit">📤<span>Cerrar Sesión</span></button>
   </form>
 </div>
+
+<script>
+  function toggleSidebar() {
+    var sidebar = document.getElementById("sidebar");
+    sidebar.classList.toggle("expanded");
+  }
+
+  function toggleSubmenu() {
+    var submenu = document.getElementById("submenu");
+    submenu.classList.toggle("show");
+  }
+</script>
+
 
 <!-- ===== CONTENIDO PRINCIPAL ===== -->
 <div class="main-content">

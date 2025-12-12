@@ -4,57 +4,116 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Subir Documentos - Contabilidad</title>
-    <link rel="stylesheet" href="../../../style_contador_slidebar.css" />
-    <link rel="stylesheet" href="style_subir_documentos.css" />
+    <link rel="stylesheet" href="/style_contador_slidebar.css" />
+    <link rel="stylesheet" href="/acciones_cliente/contabilidad_contador/subir_documentos/style_subir_documentos.css" />
+</head>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+
+  .sidebar {
+    width: 240px;
+    height: 100vh;
+    background: #1e3a5f;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    color: white;
+    gap: 10px;
+  }
+
+  .sidebar button {
+    background: #29486b;
+    border: none;
+    padding: 12px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .sidebar button:hover {
+    background: #345b87;
+  }
+
+  .menu-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .arrow {
+    margin-left: auto;
+    transition: transform 0.3s;
+  }
+
+  .submenu {
+    display: none;
+    flex-direction: column;
+    padding-left: 20px;
+    gap: 8px;
+  }
+
+  .submenu.show {
+    display: flex;
+  }
+</style>
+
 </head>
 <body>
-    <div class="sidebar" id="sidebar">
+
+<div class="sidebar" id="sidebar">
+  
   <button onclick="toggleSidebar()">☰</button>
+
   <button onclick="window.location.href='#'">🏠<span>Inicio</span></button>
+
   <button onclick="window.location.href='acciones_cliente/chats/chats.html'">💬<span>Chat</span></button>
-        <div class="dropdown" id="contabilidadDropdownContainer">
-            <button class="dropdown-btn" onclick="toggleDropdown('contabilidadDropdownContainer')">
-                <span class="emoji">📊</span><span class="text">Contabilidad</span>
-            </button>
-            <div class="dropdown-content">
-                <button onclick="window.location.href= '../contabilidad_contador/subir_documentos/subir_documentos.html'">📂 Subir Documentos</button>
-                <button onclick="window.location.href='../contabilidad_contador/audit_compras/audit_compras.html'">🧾 Audit Compras</button>
-                <button onclick="window.location.href='../contabilidad_contador/audit_ventas/audit_ventas.html'">💼 Audit Ventas</button>
-            </div>
-        </div>
-  <!-- Submenú de reportes -->
-  <div class="dropdown">
-    <button class="dropdown-btn" onclick="toggleDropdown()">📁<span>Reportes</span></button>
-    <div class="dropdown-content" id="reportesDropdown">
-      <button onclick="window.location.href='acciones_cliente/reportes/reportes/reportes.html'">📊 Reportes Contables</button>
-      <button onclick="window.location.href='acciones_cliente/reportes/resultados/resultados.html'">📈 Estado de Resultado</button>
-    </div>
+
+  <button onclick="window.location.href='acciones_cliente/contabilidad_contador/subir_documentos/subir_documentos.html'">⏫<span>Subir Documentos</span></button>
+
+  <button class="menu-toggle" onclick="toggleSubmenu()">
+    📁
+    <span>Reportes</span>
+    <span class="arrow" id="arrow">▼</span>
+  </button>
+
+  <div class="submenu" id="submenu">
+    <button onclick="window.location.href='../reportes/reportes/reportes/reportes.html'">📊 Reportes contables</button>
+    <button onclick="window.location.href='../reportes/resultados/resultados/resultados.html'">📈 Estado de resultado</button>
   </div>
-  <script>
-          // === FUNCIONES ESENCIALES PARA EL TOGGLE Y DROPDOWN ===
 
-          // 1. Alternar la barra lateral (colapsar/expandir)
-          document.getElementById("toggle-btn").addEventListener("click", function() {
-              document.getElementById("sidebar").classList.toggle("collapsed");
-          });
+  <form action="cerrar_sesion.php" method="post" style="margin:0; padding:0;">
+    <button type="submit">📤<span>Cerrar Sesión</span></button>
+  </form>
 
-          // 2. Alternar el Dropdown (Contabilidad/Reportes)
-          function toggleDropdown(dropdownId) {
-              var dropdown = document.getElementById(dropdownId);
-              if (dropdown) {
-                  // Cierra todos los demás dropdowns abiertos
-                  document.querySelectorAll(".dropdown.open").forEach(openDropdown => {
-                      if (openDropdown.id !== dropdownId) {
-                          openDropdown.classList.remove("open");
-                      }
-                  });
+</div>
 
-                  // Abre o cierra el dropdown actual
-                  dropdown.classList.toggle("open");
-              }
-          }
-      </script>
-      </script>
+<script>
+  function toggleSidebar() {
+    var sidebar = document.getElementById("sidebar");
+    sidebar.classList.toggle("expanded");
+  }
+
+  function toggleSubmenu() {
+    var submenu = document.getElementById("submenu");
+    var arrow = document.getElementById("arrow");
+
+    submenu.classList.toggle("show");
+
+    if (submenu.classList.contains("show")) {
+      arrow.style.transform = "rotate(180deg)";
+    } else {
+      arrow.style.transform = "rotate(0deg)";
+    }
+  }
+</script>
+</body>
     <div class="content">
         <header class="page-header">
             <h1>Contabilidad / Subir Documentos</h1>
