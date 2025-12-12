@@ -26,25 +26,20 @@
         </ul>
     </nav>
   <script>
-          // === FUNCIONES ESENCIALES PARA EL TOGGLE Y DROPDOWN ===
 
-          // 1. Alternar la barra lateral (colapsar/expandir)
           document.getElementById("toggle-btn").addEventListener("click", function() {
               document.getElementById("sidebar").classList.toggle("collapsed");
           });
 
-          // 2. Alternar el Dropdown (Contabilidad/Reportes)
           function toggleDropdown(dropdownId) {
               var dropdown = document.getElementById(dropdownId);
               if (dropdown) {
-                  // Cierra todos los demás dropdowns abiertos
                   document.querySelectorAll(".dropdown.open").forEach(openDropdown => {
                       if (openDropdown.id !== dropdownId) {
                           openDropdown.classList.remove("open");
                       }
                   });
 
-                  // Abre o cierra el dropdown actual
                   dropdown.classList.toggle("open");
               }
           }
@@ -56,114 +51,261 @@
     <p>Registra los comprobantes de venta emitidos (facturas, boletas, notas de crédito o débito) según los lineamientos de SUNAT.</p>
 
 <!-- BOTÓN DE SELECCIÓN DE CLIENTE EN EL HEADER -->
+<!-- BOTÓN DE SELECCIÓN DE CLIENTE EN EL HEADER -->
 <div class="header-cliente" style="display: flex; align-items: center; gap: 15px;">
+  <button type="button" id="btn-header-seleccionar-cliente">
+    Seleccionar Cliente
+  </button>
 
-    <button type="button" id="btn-header-seleccionar-cliente">
-        Seleccionar Cliente
-    </button>
-
-    <!-- CLIENTE SELECCIONADO -->
-    <div id="cliente-seleccionado" style="font-weight: 600;">
-        Ningún cliente seleccionado
-    </div>
-
+  <!-- CLIENTE SELECCIONADO -->
+  <div id="cliente-seleccionado" style="font-weight: 600;">
+    Ningún cliente seleccionado
+  </div>
 </div>
 
-
 <!-- VENTANA FLOTANTE PARA SELECCIONAR CLIENTE -->
-<div id="modal-clientes" class="modal-clientes" style="
-    display:none;
-    position: fixed;
-    z-index: 2000;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.45);
-    padding: 20px;
-">
-    <div class="modal-clientes-content" style="
-        background: #fff;
-        width: 90%;
-        max-width: 700px;
-        margin: 60px auto;
-        padding: 20px;
-        border-radius: 10px;
-        max-height: 80vh;
-        overflow-y: auto;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-    ">
-        <span class="cerrar-modal-clientes" id="cerrar-modal-clientes" style="
-            float: right;
-            cursor: pointer;
-            font-size: 22px;
-        ">✖</span>
+<div id="modal-clientes" class="modal-clientes" style="display:none; position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.45); padding: 20px;">
+  <div class="modal-clientes-content" role="dialog" aria-modal="true" aria-labelledby="modal-clientes-titulo" style="background: #fff; width: 90%; max-width: 700px; margin: 60px auto; padding: 20px; border-radius: 10px; max-height: 80vh; overflow-y: auto; box-shadow: 0 8px 20px rgba(0,0,0,0.25);">
+    <button id="cerrar-modal-clientes" aria-label="Cerrar" style="float:right; cursor:pointer; font-size:22px;">✖</button>
 
-        <h2 style="margin-top: 0;">Seleccionar Cliente</h2>
+    <h2 id="modal-clientes-titulo" style="margin-top:0;">Seleccionar Cliente</h2>
 
-        <table class="tabla-clientes" style="width:100%; border-collapse: collapse; margin-top:15px;">
-            <thead>
-                <tr>
-                    <th style="border:1px solid #ccc; padding:8px;">Nombre / Razón Social</th>
-                    <th style="border:1px solid #ccc; padding:8px;">RUC / DNI</th>
-                    <th style="border:1px solid #ccc; padding:8px;">Acción</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td style="border:1px solid #ccc; padding:8px;">Empresa ABC SAC</td>
-                    <td style="border:1px solid #ccc; padding:8px;">20123456789</td>
-                    <td style="border:1px solid #ccc; padding:8px;">
-                        <button class="seleccionar-cliente"
-                            data-nombre="Empresa ABC SAC"
-                            data-ruc="20123456789">
-                            Elegir
-                        </button>
-                    </td>
-                </tr>
+    <!-- buscador -->
+    <input id="buscadorClientes" type="text" placeholder="Buscar cliente por nombre..." autocomplete="off" style="width:100%; padding:8px; margin:8px 0 12px; box-sizing:border-box;" />
 
-                <tr>
-                    <td style="border:1px solid #ccc; padding:8px;">Juan Pérez</td>
-                    <td style="border:1px solid #ccc; padding:8px;">12345678</td>
-                    <td style="border:1px solid #ccc; padding:8px;">
-                        <button class="seleccionar-cliente"
-                            data-nombre="Juan Pérez"
-                            data-ruc="12345678">
-                            Elegir
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-    </div>
+    <table class="tabla-clientes" style="width:100%; border-collapse: collapse; margin-top:5px;">
+      <thead>
+        <tr>
+          <th style="border:1px solid #ccc; padding:8px; text-align:left;">Nombre / Razón Social</th>
+          <th style="border:1px solid #ccc; padding:8px; text-align:left;">Nombre del Negocio</th>
+          <th style="border:1px solid #ccc; padding:8px; text-align:center;">Acción</th>
+        </tr>
+      </thead>
+      <tbody id="listaClientes">
+        <!-- filas estáticas por defecto (se reemplazan si fetch devuelve datos) -->
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <script>
-    const btnSeleccionar = document.getElementById("btn-header-seleccionar-cliente");
-    const modal = document.getElementById("modal-clientes");
-    const cerrarModal = document.getElementById("cerrar-modal-clientes");
-    const clienteSeleccionado = document.getElementById("cliente-seleccionado");
+document.addEventListener("DOMContentLoaded", () => {
+  // elementos (IDs usados en tu HTML)
+  const btnAbrir = document.getElementById("btn-header-seleccionar-cliente");
+  const modal = document.getElementById("modal-clientes");
+  const btnCerrar = document.getElementById("cerrar-modal-clientes");
+  const lista = document.getElementById("listaClientes"); // tbody
+  const buscador = document.getElementById("buscadorClientes");
+  const nombreHeader = document.getElementById("cliente-seleccionado");
 
-    btnSeleccionar.onclick = () => modal.style.display = "block";
-    cerrarModal.onclick = () => modal.style.display = "none";
+  // --- helpers ---
+  function escapeHtml(txt = "") {
+    return String(txt)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
 
-    document.querySelectorAll(".seleccionar-cliente").forEach(btn => {
-        btn.addEventListener("click", () => {
+  function openModal() {
+    if (!modal) return;
+    modal.style.display = "block";
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    if (buscador) {
+      buscador.value = "";
+      setTimeout(() => buscador.focus(), 50);
+    }
+    cargarClientes(); // carga inicial (sin query)
+    trapFocus(modal);
+  }
 
-            // Mostrar el nombre del cliente en el header
-            clienteSeleccionado.textContent =
-                btn.dataset.nombre + " (" + btn.dataset.ruc + ")";
+  function closeModal() {
+    if (!modal) return;
+    modal.style.display = "none";
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    releaseFocus();
+  }
 
-            modal.style.display = "none";
-        });
+  // focus trap simple
+  let lastFocused = null;
+  function trapFocus(container) {
+    lastFocused = document.activeElement;
+    const focusables = 'a[href], area[href], input:not([disabled]), button:not([disabled]), [tabindex="0"]';
+    const nodes = Array.from(container.querySelectorAll(focusables));
+    if (nodes.length) nodes[0].focus();
+
+    function keyHandler(e) {
+      if (e.key === "Tab") {
+        const first = nodes[0];
+        const last = nodes[nodes.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      } else if (e.key === "Escape") {
+        closeModal();
+      }
+    }
+    container._keyHandler = keyHandler;
+    document.addEventListener("keydown", keyHandler);
+  }
+  function releaseFocus() {
+    if (modal && modal._keyHandler) {
+      document.removeEventListener("keydown", modal._keyHandler);
+      delete modal._keyHandler;
+    }
+    if (lastFocused) lastFocused.focus();
+    lastFocused = null;
+  }
+
+  // --- eventos abrir/cerrar ---
+  if (btnAbrir) btnAbrir.addEventListener("click", (e) => { e.preventDefault(); openModal(); });
+  if (btnCerrar) btnCerrar.addEventListener("click", closeModal);
+  if (modal) {
+    modal.addEventListener("click", (e) => {
+      // clic en backdrop (fuera del contenido)
+      if (e.target === modal) closeModal();
     });
+  }
 
-    window.onclick = (e) => {
-        if (e.target === modal) modal.style.display = "none";
+  // --- carga de clientes (intenta fetch a clientes_json.php?q=...) ---
+  async function cargarClientes(q = "") {
+    if (!lista) return;
+    // estado loading en la tabla
+    lista.innerHTML = '<tr><td colspan="3" style="padding:12px; text-align:center;">Cargando clientes...</td></tr>';
+    try {
+      const url = '../../clientes_json.php' + (q ? '?q=' + encodeURIComponent(q) : '');
+      const resp = await fetch(url, { cache: 'no-store' });
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      const data = await resp.json();
+      renderClientes(data || []);
+    } catch (err) {
+      // Si falla fetch, dejamos las filas estáticas (o mostramos error)
+      console.warn('No se pudo obtener clientes desde clientes_json.php, usando filas estáticas si existen. Error:', err);
+      if (!lista.querySelector('tr')) {
+        lista.innerHTML = '<tr><td colspan="3" style="padding:12px; text-align:center;">Error al cargar clientes.</td></tr>';
+      }
+    }
+  }
+
+  // renderiza lista desde arreglo [{id, nombre, nombre_negocio, ...},...]
+  // En renderClientes, asegurarnos de que cada botón transporte el id real
+function renderClientes(items) {
+  if (!lista) return;
+  lista.innerHTML = '';
+  if (!Array.isArray(items) || items.length === 0) {
+    lista.innerHTML = '<tr><td colspan="3" style="padding:12px; text-align:center;">No se encontraron clientes.</td></tr>';
+    return;
+  }
+  items.forEach(it => {
+    const tr = document.createElement('tr');
+
+    const tdNombre = document.createElement('td');
+    tdNombre.style.padding = '8px';
+    tdNombre.style.border = '1px solid #ccc';
+    tdNombre.textContent = it.nombre || 'Sin nombre';
+
+    const tdNegocio = document.createElement('td');
+    tdNegocio.style.padding = '8px';
+    tdNegocio.style.border = '1px solid #ccc';
+    tdNegocio.textContent = it.nombre_negocio || '';
+
+    const tdAcc = document.createElement('td');
+    tdAcc.style.padding = '8px';
+    tdAcc.style.border = '1px solid #ccc';
+    tdAcc.style.textAlign = 'center';
+
+    const btn = document.createElement('button');
+    btn.className = 'seleccionar-cliente';
+    btn.type = 'button';
+    // IMPORTANT: agregamos data-id (id real del registro clientes)
+    btn.dataset.id = it.id !== undefined ? String(it.id) : '';
+    btn.dataset.nombre = it.nombre || '';
+    btn.dataset.nombre_negocio = it.nombre_negocio || '';
+    btn.textContent = 'Elegir';
+    btn.addEventListener('click', () => seleccionarClienteDesdeBoton(btn));
+
+    tdAcc.appendChild(btn);
+
+    tr.appendChild(tdNombre);
+    tr.appendChild(tdNegocio);
+    tr.appendChild(tdAcc);
+
+    lista.appendChild(tr);
+  });
+}
+
+// Al seleccionar: rellenar el input visible y el input oculto id_cliente
+function seleccionarClienteDesdeBoton(btn) {
+  const nombre = btn.dataset.nombre || btn.textContent.trim();
+  const id = btn.dataset.id || '';
+
+  // Mostrar solo el nombre en el header
+  if (nombreHeader) nombreHeader.innerText = nombre;
+
+  // Rellenar el input del formulario (id="cliente")
+  const inputid_Cliente = document.getElementById("id_cliente");
+  if (inputid_Cliente) inputid_Cliente.value = nombre;
+
+
+  closeModal();
+}
+
+// Envío del formulario: mandamos id_cliente si existe
+const form = document.getElementById("form-ingreso");
+if (form) {
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const fecha = document.getElementById("fecha").value;
+    const tipo = document.getElementById("tipo").value;
+    const serie = document.getElementById("serie").value;
+    const numero = document.getElementById("numero").value;
+    const cliente = document.getElementById("cliente").value;
+    const id_cliente = document.getElementById("id_cliente").value;
+    const ruc = document.getElementById("ruc").value;
+    const monto = document.getElementById("monto").value;
+
+
+    if (!fecha || !tipo || !serie || !numero || !cliente || monto === "") {
+      alert("Faltan campos obligatorios");
+      return;
+    }
+
+    const payload = {
+      fecha,
+      tipo,
+      serie,
+      numero,
+      cliente,
+      id_cliente,
+      ruc,
+      monto
     };
-</script>
 
+    try {
+      const resp = await fetch("ingresos_contador.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      const data = await resp.json();
+      
+    } catch (err) {
+      console.error(err);
+      alert("Error en la comunicación con el servidor.");
+    }
+  });
+}
+
+});
+</script>
 
 
 
@@ -200,6 +342,11 @@
         <div class="form-group">
           <label for="cliente">Cliente:</label>
           <input type="text" id="cliente" placeholder="Nombre o razón social" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="id_cliente">Encargado:</label>
+          <input type="text" id="id_cliente" placeholder="Nombre del cliente" required />
         </div>
 
         <div class="form-group">

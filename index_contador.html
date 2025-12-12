@@ -191,47 +191,6 @@
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", async () => {
-    async function cargarUsuario() {
-        try {
-            const res = await fetch('listar_usuario.php', { method: 'GET', headers: { 'Accept': 'application/json' } });
-            if (!res.ok) {
-                console.error('HTTP error', res.status);
-                return;
-            }
-            const data = await res.json();
-            console.log('listar_usuario ->', data);
-
-            if (!data || !data.ok) {
-                console.error('API error', data && data.error ? data.error : 'respuesta inválida');
-                return;
-            }
-
-            const usuario = data.data;
-            const bienvenidaEl = document.getElementById('bienvenida-usuario');
-            const nombreEl = document.getElementById('contador-nombre');
-            // no hay elemento contador-registro en tu HTML, así que lo omito
-
-            if (!usuario) {
-                if (bienvenidaEl) bienvenidaEl.innerText = 'Bienvenido';
-                if (nombreEl) nombreEl.innerText = 'Sin registro';
-                return;
-            }
-
-            const nombreMostrar = usuario.nombre_contacto || usuario.nombre_negocio || 'Usuario';
-            if (bienvenidaEl) bienvenidaEl.innerText = `Bienvenido, ${nombreMostrar}`;
-            if (nombreEl) nombreEl.innerText = nombreMostrar;
-
-        } catch (err) {
-            console.error('Error al cargar usuario:', err);
-        }
-    }
-
-    await cargarUsuario();
-});
-</script>
-
-<script>
 document.addEventListener("DOMContentLoaded", () => {
   const btnAbrir = document.getElementById("btnSeleccionarCliente");
   const modal = document.getElementById("modalClientes");
@@ -390,6 +349,48 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
+});
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+    async function cargarUsuario() {
+        try {
+            const res = await fetch('listar_usuario.php', { method: 'GET', headers: { 'Accept': 'application/json' } });
+            if (!res.ok) {
+                console.error('HTTP error', res.status);
+                return;
+            }
+            const data = await res.json();
+            console.log('listar_usuario ->', data);
+
+            if (!data || !data.ok) {
+                console.error('API error', data && data.error ? data.error : 'respuesta inválida');
+                return;
+            }
+
+            const usuario = data.data;
+            const bienvenidaEl = document.getElementById('bienvenida-usuario');
+            const nombreEl = document.getElementById('contador-nombre');
+            // no hay elemento contador-registro en tu HTML, así que lo omito
+
+            if (!usuario) {
+                if (bienvenidaEl) bienvenidaEl.innerText = 'Bienvenido';
+                if (nombreEl) nombreEl.innerText = 'Sin registro';
+                return;
+            }
+
+            const nombreMostrar = usuario.nombre_contacto || usuario.nombre_negocio || 'Usuario';
+            if (bienvenidaEl) bienvenidaEl.innerText = `Bienvenido, ${nombreMostrar}`;
+            if (nombreEl) nombreEl.innerText = nombreMostrar;
+
+        } catch (err) {
+            console.error('Error al cargar usuario:', err);
+        }
+    }
+
+    await cargarUsuario();
 });
 </script>
 
