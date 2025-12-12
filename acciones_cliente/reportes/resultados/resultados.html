@@ -162,6 +162,67 @@
     .btn-exportar:hover {
       background-color: #002a73;
     }
+/* SIDEBAR GENERAL */
+.sidebar {
+  width: 220px;
+  transition: width 0.3s;
+  overflow: hidden;
+}
+
+.sidebar.expanded {
+  width: 220px; /* ancho normal */
+}
+
+.sidebar:not(.expanded) {
+  width: 70px; /* ANCHO REDUCIDO */
+}
+
+/* Texto de los botones */
+.sidebar button span {
+  opacity: 1;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+
+/* OCULTAR TEXTO CUANDO ESTÁ CONTRAÍDO */
+.sidebar:not(.expanded) button span {
+  opacity: 0;
+  display: none;
+}
+
+/* ÍCONOS grandes cuando el menú está contraído */
+.sidebar:not(.expanded) button {
+  font-size: 26px;
+  justify-content: center;
+}
+
+/* ÍCONOS tamaño normal cuando está expandido */
+.sidebar.expanded button {
+  font-size: 18px;
+  justify-content: flex-start;
+}
+
+/* Flecha de reportes oculta cuando está contraído */
+.sidebar:not(.expanded) .arrow {
+  display: none;
+}
+
+/* Evitar que el menú de reportes se despliegue cuando está contraído */
+.sidebar:not(.expanded) .dropdown-btn {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* Submenú oculto cuando está contraído */
+.sidebar:not(.expanded) .dropdown-content {
+  display: none !important;
+}
+
+/* Submenú visible al abrir */
+.dropdown.open .dropdown-content {
+  display: flex;
+  flex-direction: column;
+}
   </style>
 </head>
 <body>
@@ -247,9 +308,15 @@
       document.getElementById("sidebar").classList.toggle("expanded");
     }
 
-    function toggleDropdown() {
-      document.querySelector(".dropdown").classList.toggle("open");
-    }
+function toggleDropdown() {
+  const sidebar = document.getElementById("sidebar");
+  const dropdown = document.querySelector(".dropdown");
+
+  // Evitar abrir si el sidebar está contraído
+  if (!sidebar.classList.contains("expanded")) return;
+
+  dropdown.classList.toggle("open");
+}
   </script>
 
 </body>

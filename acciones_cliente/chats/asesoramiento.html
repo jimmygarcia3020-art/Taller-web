@@ -138,6 +138,84 @@
     .input-area button:hover {
       background-color: #002a73;
     }
+/* SIDEBAR GENERAL */
+.sidebar {
+  width: 220px;
+  transition: width 0.3s;
+  overflow: hidden;
+}
+
+.sidebar.expanded {
+  width: 220px; /* ancho normal */
+}
+
+.sidebar:not(.expanded) {
+  width: 70px; /* ANCHO REDUCIDO */
+}
+
+/* Texto de los botones */
+.sidebar button span {
+  opacity: 1;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+
+/* OCULTAR TEXTO CUANDO ESTÁ CONTRAÍDO */
+.sidebar:not(.expanded) button span {
+  opacity: 0;
+  display: none;
+}
+
+/* ÍCONOS grandes cuando el menú está contraído */
+.sidebar:not(.expanded) button {
+  font-size: 26px;
+  justify-content: center;
+}
+
+/* ÍCONOS tamaño normal cuando está expandido */
+.sidebar.expanded button {
+  font-size: 18px;
+  justify-content: flex-start;
+}
+
+/* Reportes arrow */
+.sidebar:not(.expanded) .arrow {
+  display: none;
+}
+
+/* Submenú oculto cuando está contraído */
+.sidebar:not(.expanded) .submenu {
+  display: none !important;
+}
+/* ===== DROPDOWN ===== */
+
+/* Oculto por defecto */
+.dropdown-content {
+  display: none;
+  flex-direction: column;
+  background-color: #003366;
+}
+
+/* Botones del dropdown */
+.dropdown-content button {
+  font-size: 14px;
+  text-align: left;
+  padding: 12px 25px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.dropdown-content button:hover {
+  background-color: #004a99;
+}
+
+/* Cuando el dropdown tenga la clase "open" → mostrar el menú */
+.dropdown.open .dropdown-content {
+  display: flex;
+}
+
   </style>
 </head>
 <body>
@@ -216,6 +294,40 @@
     function toggleDropdown() {
       document.querySelector(".dropdown").classList.toggle("open");
     }
+
+    function openModal() {
+      document.getElementById("chatModal").style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("chatModal").style.display = "none";
+    }
+
+    function openChat() {
+      var selected = document.getElementById("chatType").value;
+      if (selected) {
+        window.location.href = selected;
+      } else {
+        alert("Por favor selecciona un tipo de chat.");
+      }
+    }
+
+    // Cierra el modal si se hace clic fuera del cuadro
+    window.onclick = function(event) {
+      var modal = document.getElementById("chatModal");
+      if (event.target === modal) {
+        closeModal();
+      }
+    }
+    function toggleDropdown() {
+  const sidebar = document.getElementById("sidebar");
+  const dropdown = document.querySelector(".dropdown");
+
+  if (!sidebar.classList.contains("expanded")) return;
+
+  dropdown.classList.toggle("open");
+}
+
   </script>
 </body>
 </html>

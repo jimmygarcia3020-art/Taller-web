@@ -230,6 +230,57 @@ body {
   padding: 10px;
   font-weight: bold;
 }
+
+/* SIDEBAR GENERAL */
+.sidebar {
+  width: 220px;
+  transition: width 0.3s;
+  overflow: hidden;
+}
+
+.sidebar.expanded {
+  width: 220px; /* ancho normal */
+}
+
+.sidebar:not(.expanded) {
+  width: 70px; /* ANCHO REDUCIDO */
+}
+
+/* Texto de los botones */
+.sidebar button span {
+  opacity: 1;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+
+/* OCULTAR TEXTO CUANDO ESTÁ CONTRAÍDO */
+.sidebar:not(.expanded) button span {
+  opacity: 0;
+  display: none;
+}
+
+/* ÍCONOS grandes cuando el menú está contraído */
+.sidebar:not(.expanded) button {
+  font-size: 26px;
+  justify-content: center;
+}
+
+/* ÍCONOS tamaño normal cuando está expandido */
+.sidebar.expanded button {
+  font-size: 18px;
+  justify-content: flex-start;
+}
+
+/* Reportes arrow */
+.sidebar:not(.expanded) .arrow {
+  display: none;
+}
+
+/* Submenú oculto cuando está contraído */
+.sidebar:not(.expanded) .submenu {
+  display: none !important;
+}
+
 </style>
 </head>
 <body>
