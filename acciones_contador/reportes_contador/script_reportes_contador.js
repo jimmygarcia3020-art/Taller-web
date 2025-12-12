@@ -11,8 +11,10 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  function renderRow(item) {
+    function renderRow(item) {
     const tr = document.createElement("tr");
+
+    // checkbox
     const tdChk = document.createElement("td");
     const chk = document.createElement("input");
     chk.type = "checkbox";
@@ -21,28 +23,53 @@ document.addEventListener("DOMContentLoaded", () => {
     tdChk.appendChild(chk);
     tr.appendChild(tdChk);
 
+    // columnas de datos
     const tdFecha = document.createElement("td"); tdFecha.textContent = item.fecha || ""; tr.appendChild(tdFecha);
     const tdDoc   = document.createElement("td"); tdDoc.textContent = item.doc || ""; tr.appendChild(tdDoc);
     const tdEnt   = document.createElement("td"); tdEnt.textContent = item.entidad || ""; tr.appendChild(tdEnt);
     const tdDesc  = document.createElement("td"); tdDesc.textContent = item.descripcion || ""; tr.appendChild(tdDesc);
     const tdMonto = document.createElement("td"); tdMonto.textContent = `S/ ${(parseFloat(item.monto)||0).toFixed(2)}`; tr.appendChild(tdMonto);
 
+    // acciones
     const tdAcc = document.createElement("td");
-    const tipoLabel = document.createElement("div"); tipoLabel.className = "tipo-label"; tipoLabel.textContent = item.tipo || "";
-    tdAcc.appendChild(tipoLabel);
     const btnEdit = document.createElement("button");
-    btnEdit.className = "btn-editar";
+    btnEdit.type = "button";
+    // mantenemos la clase nueva y la clase legacy para recuperar estilos previos
+    btnEdit.className = "btn-editar btn-edit";
     btnEdit.textContent = "Editar";
+    btnEdit.title = "Editar registro";
+    // enlazamos funcionalidad (usa la función global editar)
+    btnEdit.addEventListener("click", (ev) => {
+      ev.preventDefault();
+      // pasar tipo actual si existe
+      const tipo = (typeof tipoSelect !== "undefined" && tipoSelect) ? tipoSelect.value : "";
+      // item.id puede ser number o string
+      editar(item.id, tipo);
+    });
+
     const btnDel = document.createElement("button");
-    btnDel.className = "btn-eliminar";
+    btnDel.type = "button";
+    btnDel.className = "btn-eliminar btn-delete";
     btnDel.textContent = "Eliminar";
-    const wrap = document.createElement("div"); wrap.style.marginTop="6px"; wrap.appendChild(btnEdit); wrap.appendChild(btnDel);
+    btnDel.title = "Eliminar registro";
+    // enlazamos funcionalidad (usa la función global eliminar)
+    btnDel.addEventListener("click", (ev) => {
+      ev.preventDefault();
+      const tipo = (typeof tipoSelect !== "undefined" && tipoSelect) ? tipoSelect.value : "";
+      eliminar(item.id, tipo);
+    });
+
+    const wrap = document.createElement("div");
+    wrap.style.marginTop = "6px";
+    wrap.appendChild(btnEdit);
+    wrap.appendChild(btnDel);
 
     tdAcc.appendChild(wrap);
     tr.appendChild(tdAcc);
 
     return tr;
   }
+
 
   async function cargarDatos() {
     const tipo = tipoSelect ? tipoSelect.value : "";
