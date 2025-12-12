@@ -353,21 +353,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const nombre = itemEl.dataset.nombre || itemEl.textContent.trim();
   const id = itemEl.dataset.id || '';
 
-  // actualizar UI: nombre en header y en el input filtro
+  // Actualiza UI
   const nombreHeader = document.getElementById("cliente-nombre");
-  const clienteFiltro = document.getElementById("clienteFiltro");
+  const clienteFiltro = document.getElementById("clienteFiltro"); // input de filtro, si existe
   if (nombreHeader) nombreHeader.innerText = nombre;
-  if (clienteFiltro) clienteFiltro.value = nombre;
+  if (clienteFiltro) {
+    clienteFiltro.value = nombre;
+    clienteFiltro.dataset.id = id; // <-- guardamos el id en data-id
+  }
 
-  // guardamos el cliente seleccionado en ventana global (usado al filtrar)
+  // Guardar ID globalmente para usarlo al filtrar
   window.clienteSeleccionadoId = id ? String(id) : null;
   window.clienteSeleccionadoNombre = nombre || null;
 
-  console.log('[modal] cliente seleccionado (guardado como filtro):', window.clienteSeleccionadoId, window.clienteSeleccionadoNombre);
-
-  // cerrar modal (NO cargar datos aquí)
+  console.log('[modal] seleccionado id=', window.clienteSeleccionadoId, ' nombre=', window.clienteSeleccionadoNombre);
   closeModal();
 }
+
 
 
   let debounceTimer = null;
