@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir Documentos - Contabilidad</title>
+    <link rel="stylesheet" href="./style_subir_documentos.css" />
+</head>
+<style>
+/* ======= TU CSS AJUSTADO ======= */
+
+.sidebar button.menu-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.submenu {
+  display: none;
+  flex-direction: column;
+  padding-left: 20px;
+}
+
+.submenu.show {
+  display: flex;
+}
+
+.sidebar .arrow {
+  margin-left: auto;
+  transition: transform 0.3s;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #eaf1fb;
+  color: #003366;
+  display: flex;
+}
+
+/* BARRA LATERAL */
+.sidebar {
+  background-color: #001f4d;
+  width: 120px;
+  height: 100vh;
+  color: white;
+  transition: width 0.3s;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.sidebar.expanded {
+  width: 230px;
+}
+
+.sidebar button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: none;
+  border: none;
+  color: white;
+  padding: 22px 0;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.sidebar button:hover {
+  background-color: #002a73;
+}
+
+/* SUBMENÚ */
+.dropdown {
+  width: 100%;
+}
+
+.dropdown-content {
+  display: none;
+  flex-direction: column;
+  background-color: #003366;
+}
+
+.dropdown-content button {
+  font-size: 14px;
+  text-align: left;
+  padding: 12px 25px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.dropdown-content button:hover {
+  background-color: #004a99;
+}
+
+.dropdown.open .dropdown-content {
+  display: flex;
+}
+
+/* CONTENIDO PRINCIPAL */
+.main-content {
+  flex: 1;
+  padding: 20px;
+  position: relative;
+}
+
+/* ===== ENCABEZADO ===== */
+.header {
+  background-color: #cfe0ff;
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.profile-photo {
+  width: 90px;
+  height: 90px;
+  background-image: url("img/user.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 5px solid #004a99;
+  margin-right: 25px;
+  margin-left: 20px;
+  border-radius: 10px;
+}
+
+.user-info {
+  font-size: 18px;
+}
+
+.notification-bell {
+  font-size: 30px;
+  cursor: pointer;
+  margin-right: 25px;
+}
+
+/* NOTIFICACIONES */
+.notification-panel {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  width: 300px;
+  height: 100%;
+  background-color: white;
+  border-left: 2px solid #004a99;
+  padding: 10px;
+  transition: right 0.3s ease;
+  z-index: 10;
+}
+
+.notification-panel.active {
+  right: 0;
+}
+
+.close-notification {
+  float: right;
+  cursor: pointer;
+  font-weight: bold;
+  color: #004a99;
+  margin-top: 20px;
+  margin-right: 10px;
+}
+/* SIDEBAR GENERAL */
+.sidebar {
+  width: 220px;
+  transition: width 0.3s;
+  overflow: hidden;
+}
+
+.sidebar.expanded {
+  width: 220px; /* ancho normal */
+}
+
+.sidebar:not(.expanded) {
+  width: 70px; /* ANCHO REDUCIDO */
+}
+
+/* Texto de los botones */
+.sidebar button span {
+  opacity: 1;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+
+/* OCULTAR TEXTO CUANDO ESTÁ CONTRAÍDO */
+.sidebar:not(.expanded) button span {
+  opacity: 0;
+  display: none;
+}
+
+/* ÍCONOS grandes cuando el menú está contraído */
+.sidebar:not(.expanded) button {
+  font-size: 26px;
+  justify-content: center;
+}
+
+/* ÍCONOS tamaño normal cuando está expandido */
+.sidebar.expanded button {
+  font-size: 18px;
+  justify-content: flex-start;
+}
+
+/* Reportes arrow */
+.sidebar:not(.expanded) .arrow {
+  display: none;
+}
+
+/* Submenú oculto cuando está contraído */
+.sidebar:not(.expanded) .submenu {
+  display: none !important;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- ======================================================== -->
+<!-- ======================= SIDEBAR ========================= -->
+<!-- ======================================================== -->
+
+<div class="sidebar" id="sidebar">
+  
+  <button onclick="toggleSidebar()">☰</button>
+
+  <button onclick="window.location.href='../../../vistas/cliente/panel_principal.php'">🏠<span>Inicio</span></button>
+
+  <button onclick="window.location.href='../../chats/chats.php'">💬<span>Chat</span></button>
+
+  <button onclick="window.location.href='#'">
+    ⏫<span>Subir Documentos</span>
+  </button>
+
+  <button class="menu-toggle" onclick="toggleSubmenu()">
+    📁
+    <span>Reportes</span>
+    <span class="arrow" id="arrow">▼</span>
+  </button>
+
+  <div class="submenu" id="submenu">
+    <button onclick="window.location.href='../../reportes/reportes/reportes.php'">
+      📊 Reportes contables
+    </button>
+
+    <button onclick="window.location.href='../../reportes/resultados/resultados.php'">
+      📈 Estado de resultados
+    </button>
+  </div>
+
+  <form action="../../../controladores/autenticacion.php?accion=logout" method="post" style="margin:0;">
+    <button type="submit">📤<span>Cerrar Sesión</span></button>
+  </form>
+
+</div>
+
+
+
+
+<!-- ======================================================== -->
+<!-- ============== CONTENIDO PRINCIPAL ===================== -->
+<!-- ======================================================== -->
+
+<div class="main-content">
+
+    <header class="page-header">
+        <h1>Contabilidad / Subir Documentos</h1>
+    </header>
+
+    <div class="card-panel">
+        <div class="tab-navigation">
+            <button class="tab-button active">Subir Documentos</button>
+        </div>
+
+        <div class="tab-content active">
+            <h2>Sube tus documentos</h2>
+            <p>
+                Puedes subir/arrastrar tus archivos XML para validarlos o puedes 
+                <button class="sire-button" id="open-sire-modal">Extraer Datos desde el SIRE</button>
+            </p>
+
+            <div class="drop-area" id="drop-area">
+                <p>Arrastre y suelte aquí los archivos...</p>
+                <p>(o haga clic para seleccionar archivos)</p>
+                <input type="file" id="file-input" multiple accept=".xml" hidden>
+            </div>
+
+            <div class="file-selection-footer">
+                <input type="text" placeholder="Seleccionar archivos..." disabled class="file-path-display">
+                <button class="examinar-button" id="select-files-btn">Examinar...</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ======================================================== -->
+<!-- ======================== JS ============================ -->
+<!-- ======================================================== -->
+
+<script>
+function toggleSidebar() {
+    document.getElementById("sidebar").classList.toggle("expanded");
+}
+
+function toggleSubmenu() {
+    const submenu = document.getElementById("submenu");
+    const arrow = document.getElementById("arrow");
+
+    submenu.classList.toggle("show");
+
+    if (submenu.classList.contains("show")) {
+        arrow.style.transform = "rotate(180deg)";
+    } else {
+        arrow.style.transform = "rotate(0deg)";
+    }
+}
+function toggleDropdown() {
+  const sidebar = document.getElementById("sidebar");
+  const dropdown = document.querySelector(".dropdown");
+
+  if (!sidebar.classList.contains("expanded")) return;
+
+  dropdown.classList.toggle("open");
+}
+
+</script>
+
+<script src="../subir_documentos/script_subir_documentos.js"></script>
+
+</body>
+</html>

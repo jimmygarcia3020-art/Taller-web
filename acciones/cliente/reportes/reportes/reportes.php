@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reportes Contables</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #eaf1fb;
+        color: #003366;
+        display: flex;
+      }
+
+      /* ===== BARRA LATERAL ===== */
+      .sidebar {
+        background-color: #001f4d;
+        width: 120px;
+        height: 100vh;
+        color: white;
+        transition: width 0.3s;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+
+      .sidebar.expanded {
+        width: 230px;
+      }
+
+      .sidebar button {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        background: none;
+        border: none;
+        color: white;
+        padding: 22px 0;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .sidebar button:hover {
+        background-color: #002a73;
+      }
+
+      /* ===== SUBMENÚ ===== */
+      .dropdown {
+        width: 100%;
+      }
+
+      .dropdown-content {
+        display: none;
+        flex-direction: column;
+        background-color: #003366;
+      }
+
+      .dropdown-content button {
+        font-size: 14px;
+        text-align: left;
+        padding: 12px 25px;
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+      }
+
+      .dropdown-content button:hover {
+        background-color: #004a99;
+      }
+
+      .dropdown.open .dropdown-content {
+        display: flex;
+      }
+
+      /* ===== CONTENIDO ===== */
+      .main-content {
+        flex: 1;
+        padding: 20px;
+      }
+
+      .header {
+        background-color: #001f4d;
+        color: white;
+        padding: 15px;
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+        border-radius: 5px;
+      }
+
+      /* ===== FILTROS ===== */
+      .filters {
+        background-color: white;
+        border: 1px solid #004a99;
+        border-radius: 8px;
+        padding: 15px;
+        margin: 20px auto;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: space-between;
+        max-width: 900px;
+      }
+
+      .filters label {
+        font-weight: bold;
+        margin-right: 5px;
+      }
+
+      .filters input,
+      .filters select {
+        padding: 5px;
+        border: 1px solid #004a99;
+        border-radius: 4px;
+      }
+
+      .filters button {
+        background-color: #004a99;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .filters button:hover {
+        background-color: #002a73;
+      }
+
+      /* ===== TABLAS ===== */
+      .section {
+        width: 90%;
+        margin: 30px auto;
+        background-color: white;
+        border: 1px solid #004a99;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      }
+
+      .section-title {
+        background-color: #004a99;
+        color: white;
+        padding: 10px 15px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        font-weight: bold;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #cfe0ff;
+      }
+
+      th {
+        background-color: #cfe0ff;
+        color: #003366;
+      }
+
+      tr:hover {
+        background-color: #f3f7ff;
+      }
+
+      .totales {
+        font-weight: bold;
+        background-color: #e3edff;
+      }
+      /* SIDEBAR GENERAL */
+      .sidebar {
+        width: 220px;
+        transition: width 0.3s;
+        overflow: hidden;
+      }
+
+      .sidebar.expanded {
+        width: 220px; /* ancho normal */
+      }
+
+      .sidebar:not(.expanded) {
+        width: 70px; /* ANCHO REDUCIDO */
+      }
+
+      /* Texto de los botones */
+      .sidebar button span {
+        opacity: 1;
+        transition: opacity 0.2s;
+        white-space: nowrap;
+      }
+
+      /* OCULTAR TEXTO CUANDO ESTÁ CONTRAÍDO */
+      .sidebar:not(.expanded) button span {
+        opacity: 0;
+        display: none;
+      }
+
+      /* ÍCONOS grandes cuando el menú está contraído */
+      .sidebar:not(.expanded) button {
+        font-size: 26px;
+        justify-content: center;
+      }
+
+      /* ÍCONOS tamaño normal cuando está expandido */
+      .sidebar.expanded button {
+        font-size: 18px;
+        justify-content: flex-start;
+      }
+
+      /* Flecha de reportes oculta cuando está contraído */
+      .sidebar:not(.expanded) .arrow {
+        display: none;
+      }
+
+      /* Evitar que el menú de reportes se despliegue cuando está contraído */
+      .sidebar:not(.expanded) .dropdown-btn {
+        pointer-events: none;
+        opacity: 0.6;
+      }
+
+      /* Submenú oculto cuando está contraído */
+      .sidebar:not(.expanded) .dropdown-content {
+        display: none !important;
+      }
+
+      /* Submenú visible al abrir */
+      .dropdown.open .dropdown-content {
+        display: flex;
+        flex-direction: column;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ===== BARRA LATERAL ===== -->
+    <div class="sidebar" id="sidebar">
+      <button onclick="toggleSidebar()">☰</button>
+
+      <!-- Inicio -->
+      <button
+        onclick="
+          window.location.href = '../../../vistas/cliente/panel_principal.php'
+        "
+      >
+        🏠<span>Inicio</span>
+      </button>
+
+      <!-- Chat -->
+      <button onclick="window.location.href = '../../chats/chats.php'">
+        💬<span>Chat</span>
+      </button>
+
+      <!-- Subir Documentos -->
+      <button
+        onclick="
+          window.location.href = '../../contabilidad/subir_documentos.php'
+        "
+      >
+        ⏫<span>Subir Documentos</span>
+      </button>
+
+      <!-- Submenú de Reportes -->
+      <div class="dropdown">
+        <button class="dropdown-btn" onclick="toggleDropdown()">
+          📁<span>Reportes</span>
+        </button>
+
+        <div class="dropdown-content" id="reportesDropdown">
+          <button onclick="window.location.href = '#'">
+            📊 Reportes Contables
+          </button>
+
+          <button
+            onclick="window.location.href = '../resultados/resultados.php'"
+          >
+            📈 Estado de Resultado
+          </button>
+        </div>
+      </div>
+
+      <form
+        action="../../../controladores/autenticacion.php?accion=logout"
+        method="post"
+        style="margin: 0; padding: 0"
+      >
+        <button type="submit">📤<span>Cerrar Sesión</span></button>
+      </form>
+    </div>
+
+    <!-- ===== CONTENIDO PRINCIPAL ===== -->
+    <div class="main-content">
+      <div class="header">📊 Reportes Contables</div>
+
+      <!-- FILTROS -->
+      <div class="filters">
+        <div>
+          <label>Fecha Inicial:</label>
+          <input type="date" value="2025-01-01" />
+        </div>
+        <div>
+          <label>Fecha Final:</label>
+          <input type="date" value="2025-02-11" />
+        </div>
+        <div>
+          <label>Nivel:</label>
+          <select>
+            <option>7</option>
+            <option>6</option>
+            <option>5</option>
+          </select>
+        </div>
+        <div>
+          <label>Moneda:</label>
+          <select>
+            <option>Soles</option>
+            <option>Dólares</option>
+          </select>
+        </div>
+        <div>
+          <button>Ejecutar</button>
+        </div>
+      </div>
+
+      <!-- SECCIÓN VENTAS -->
+      <div class="section">
+        <div class="section-title">💸 Ventas</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Cuenta</th>
+              <th>Glosa</th>
+              <th>Subtotal S/</th>
+              <th>Total S/</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>70</td>
+              <td>VENTAS</td>
+              <td>9,127.34</td>
+              <td>9,127.34</td>
+            </tr>
+            <tr>
+              <td>701</td>
+              <td>MERCADERÍAS - Ventas</td>
+              <td>9,127.34</td>
+              <td>9,127.34</td>
+            </tr>
+            <tr>
+              <td>7011111</td>
+              <td>Terceros - Mercaderías - Exportación</td>
+              <td>9,127.34</td>
+              <td>9,127.34</td>
+            </tr>
+            <tr class="totales">
+              <td colspan="3">Total Ventas</td>
+              <td>27,381.00</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- SECCIÓN COMPRAS -->
+      <div class="section">
+        <div class="section-title">🛒 Compras</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Cuenta</th>
+              <th>Glosa</th>
+              <th>Subtotal S/</th>
+              <th>Total S/</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>63</td>
+              <td>GASTOS DE SERVICIOS PRESTADOS POR TERCEROS</td>
+              <td>11,387.59</td>
+              <td>11,387.59</td>
+            </tr>
+            <tr>
+              <td>6321</td>
+              <td>ASESORÍA Y CONSULTORÍA - ADMINISTRATIVA</td>
+              <td>11,388.19</td>
+              <td>11,388.19</td>
+            </tr>
+            <tr>
+              <td>6391</td>
+              <td>GASTOS BANCARIOS</td>
+              <td>-0.60</td>
+              <td>-0.60</td>
+            </tr>
+            <tr class="totales">
+              <td colspan="3">Total Compras</td>
+              <td>22,775.18</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== SCRIPT ===== -->
+    <script>
+      function toggleSidebar() {
+        var sidebar = document.getElementById("sidebar");
+        sidebar.classList.toggle("expanded");
+      }
+
+      function toggleDropdown() {
+        const sidebar = document.getElementById("sidebar");
+        const dropdown = document.querySelector(".dropdown");
+
+        // Evitar abrir si el sidebar está contraído
+        if (!sidebar.classList.contains("expanded")) return;
+
+        dropdown.classList.toggle("open");
+      }
+    </script>
+  </body>
+</html>

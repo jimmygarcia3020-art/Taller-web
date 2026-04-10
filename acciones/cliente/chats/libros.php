@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Llevado de Libros Contables</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #eaf1fb;
+        color: #003366;
+        display: flex;
+      }
+
+      /* ===== BARRA LATERAL ===== */
+      .sidebar {
+        background-color: #001f4d;
+        width: 120px;
+        height: 100vh;
+        color: white;
+        transition: width 0.3s;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+
+      .sidebar.expanded {
+        width: 230px;
+      }
+
+      .sidebar button {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        background: none;
+        border: none;
+        color: white;
+        padding: 22px 0;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .sidebar button:hover {
+        background-color: #002a73;
+      }
+
+      /* ===== SUBMENÚ DE REPORTES ===== */
+      .dropdown {
+        width: 100%;
+      }
+
+      .dropdown-content {
+        display: none;
+        flex-direction: column;
+        background-color: #002a73;
+      }
+
+      .dropdown-content button {
+        font-size: 14px;
+        text-align: left;
+        padding: 12px 25px;
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+      }
+
+      .dropdown-content button:hover {
+        background-color: #003b99;
+      }
+
+      .dropdown.open .dropdown-content {
+        display: flex;
+      }
+
+      /* ===== CONTENIDO PRINCIPAL ===== */
+      .main-content {
+        flex: 1;
+        padding: 20px;
+      }
+
+      .header {
+        background-color: #001f4d;
+        color: white;
+        padding: 15px;
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+        border-radius: 5px;
+      }
+
+      /* ===== CHAT ===== */
+      .chat-container {
+        width: 80%;
+        max-width: 700px;
+        background-color: white;
+        border: 1px solid #004a99;
+        border-radius: 8px;
+        margin: 40px auto;
+        display: flex;
+        flex-direction: column;
+        height: 70vh;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .chat-box {
+        flex: 1;
+        padding: 15px;
+        overflow-y: auto;
+      }
+
+      .message {
+        margin-bottom: 15px;
+        padding: 10px;
+        border-radius: 10px;
+        max-width: 70%;
+      }
+
+      .user {
+        background-color: #cfe0ff;
+        align-self: flex-end;
+      }
+
+      .contador {
+        background-color: #fff2cc;
+        align-self: flex-start;
+      }
+
+      .input-area {
+        display: flex;
+        border-top: 1px solid #004a99;
+      }
+
+      .input-area input {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        font-size: 14px;
+      }
+
+      .input-area button {
+        background-color: #004a99;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+      }
+
+      .input-area button:hover {
+        background-color: #002a73;
+      }
+      /* SIDEBAR GENERAL */
+      .sidebar {
+        width: 220px;
+        transition: width 0.3s;
+        overflow: hidden;
+      }
+
+      .sidebar.expanded {
+        width: 220px; /* ancho normal */
+      }
+
+      .sidebar:not(.expanded) {
+        width: 70px; /* ANCHO REDUCIDO */
+      }
+
+      /* Texto de los botones */
+      .sidebar button span {
+        opacity: 1;
+        transition: opacity 0.2s;
+        white-space: nowrap;
+      }
+
+      /* OCULTAR TEXTO CUANDO ESTÁ CONTRAÍDO */
+      .sidebar:not(.expanded) button span {
+        opacity: 0;
+        display: none;
+      }
+
+      /* ÍCONOS grandes cuando el menú está contraído */
+      .sidebar:not(.expanded) button {
+        font-size: 26px;
+        justify-content: center;
+      }
+
+      /* ÍCONOS tamaño normal cuando está expandido */
+      .sidebar.expanded button {
+        font-size: 18px;
+        justify-content: flex-start;
+      }
+
+      /* Reportes arrow */
+      .sidebar:not(.expanded) .arrow {
+        display: none;
+      }
+
+      /* Submenú oculto cuando está contraído */
+      .sidebar:not(.expanded) .submenu {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ===== BARRA LATERAL ===== -->
+    <div class="sidebar" id="sidebar">
+      <button onclick="toggleSidebar()">☰</button>
+
+      <!-- Inicio -->
+      <button
+        onclick="
+          window.location.href = '../../vistas/cliente/panel_principal.php'
+        "
+      >
+        🏠<span>Inicio</span>
+      </button>
+
+      <!-- Chat (estás aquí) -->
+      <button onclick="window.location.href = 'chats.php'">
+        💬<span>Chat</span>
+      </button>
+
+      <!-- Subir documentos -->
+      <button
+        onclick="window.location.href = '../contabilidad/subir_documentos.php'"
+      >
+        ⏫<span>Subir Documentos</span>
+      </button>
+
+      <!-- Reportes -->
+      <div class="dropdown">
+        <button class="dropdown-btn" onclick="toggleDropdown()">
+          📁<span>Reportes</span>
+        </button>
+
+        <div class="dropdown-content" id="reportesDropdown">
+          <button
+            onclick="
+              window.location.href = '../reportes/reportes/reportes.php'
+            "
+          >
+            📊 Reportes Contables
+          </button>
+
+          <button
+            onclick="
+              window.location.href = '../reportes/resultados/resultados.php'
+            "
+          >
+            📈 Estado de Resultado
+          </button>
+        </div>
+      </div>
+
+      <form
+        action="../../../controladores/autenticacion.php?accion=logout"
+        method="post"
+        style="margin: 0; padding: 0"
+      >
+        <button type="submit">📤<span>Cerrar Sesión</span></button>
+      </form>
+    </div>
+
+    <!-- ===== CONTENIDO PRINCIPAL ===== -->
+    <div class="main-content">
+      <div class="header">📘 Contacto con Contador — Libros Contables</div>
+
+      <div class="chat-container">
+        <div class="chat-box" id="chatBox">
+          <div class="message contador">
+            ¡Hola! 👋 Bienvenido al área de libros contables.<br />
+            Soy tu contador asignado. ¿Qué tipo de registro deseas revisar?
+          </div>
+          <div class="message user">
+            Buen día, quería saber si mi registro de compras está actualizado.
+          </div>
+          <div class="message contador">
+            Claro, puedo ayudarte con eso. ¿Podrías confirmar el período o mes
+            que deseas revisar?
+          </div>
+        </div>
+
+        <div class="input-area">
+          <input
+            type="text"
+            placeholder="Escribe tu mensaje aquí..."
+            disabled
+          />
+          <button disabled>Enviar</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("expanded");
+      }
+
+      function toggleDropdown() {
+        document.querySelector(".dropdown").classList.toggle("open");
+      }
+      function toggleDropdown() {
+        const sidebar = document.getElementById("sidebar");
+        const dropdown = document.querySelector(".dropdown");
+
+        if (!sidebar.classList.contains("expanded")) return;
+
+        dropdown.classList.toggle("open");
+      }
+    </script>
+  </body>
+</html>
