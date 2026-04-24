@@ -175,9 +175,13 @@ CREATE DATABASE proyecto_taller;
 - Añade CSRF tokens en formularios
 - Valida entrada en servidor (nunca en cliente)
 
-## 📞 Soporte
+## PARA TENER EL CODIGO ACTUALIZADO
 
-Para reportar problemas o sugerencias, contacta al equipo de desarrollo.
+```bash
+git pull origin main
+```
+
+
 
 ---
 
