@@ -11,7 +11,7 @@ $envFile = __DIR__ . '/../.env';
 $dbConfig = [
     'DB_HOST' => 'localhost',
     'DB_USER' => 'root',
-    'DB_PASS' => '',
+    'DB_PASS' => 'Johanmysql123@', // esta es mi contraseña de mi maquina
     'DB_NAME' => 'proyecto_taller'
 ];
 
