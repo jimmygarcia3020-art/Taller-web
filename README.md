@@ -1,189 +1,112 @@
-# 📊 Sistema de Gestión Contable - Taller Web
+# 📊 Sistema de Gestión Contable - Contaplus
 
-Sistema web completo para gestión contable y fiscal con roles de clientes y contadores.
+Sistema web orientado a la gestión contable de pequeñas y medianas empresas, diseñado para registrar, analizar y organizar información financiera de manera eficiente.
 
-## 📁 Estructura del Proyecto
-
-```
-Taller-web/
-├── 📂 publico/                    # Archivos públicos (CSS, JS, imágenes)
-│   ├── estilos/                   # CSS consolidado
-│   │   └── principal.css          # Estilos principales
-│   ├── scripts/                   # JavaScript consolidado
-│   │   ├── principal.js
-│   │   ├── validar_inicio.js
-│   │   └── validar_registro.js
-│   └── imagenes/                  # Imágenes del proyecto
-│
-├── 📂 vistas/                     # Archivos de interfaz HTML/PHP
-│   ├── autenticacion/             # Formularios de login y registro
-│   ├── cliente/                   # Panel del cliente
-│   ├── contador/                  # Panel del contador
-│   └── estatica/                  # Página estática/landing
-│
-├── 📂 controladores/              # Lógica de negocio
-│   └── autenticacion.php          # Manejo de login, registro, logout
-│
-├── 📂 api/                        # Endpoints API REST
-│   ├── clientes.php
-│   ├── listar_usuarios.php
-│   └── guardar_cliente.php
-│
-├── 📂 modelos/                    # Clases y lógica de datos
-│   └── base_datos.php             # Singleton para conexión BD
-│
-├── 📂 utilidades/                 # Funciones auxiliares
-│   ├── sesiones.php               # Manejo de sesiones
-│   └── validador.php              # Validaciones de datos
-│
-├── 📂 configuracion/              # Configuración centralizada
-│   └── config.php                 # Constantes del proyecto
-│
-├── 📂 acciones/                   # Funcionalidades específicas (módulos)
-│   ├── cliente/
-│   │   ├── chats/
-│   │   ├── contabilidad/
-│   │   └── reportes/
-│   └── contador/
-│       ├── ingresos/
-│       ├── egresos/
-│       ├── impuestos/
-│       └── reportes/
-│
-├── .env.example                   # Plantilla de variables de entorno
-└── README.md                      # Este archivo
-```
-
-## 🚀 Configuración Inicial
-
-### 1. Requisitos
-
-- PHP 7.4+
-- MySQL 5.7+
-- Servidor web (Apache, Nginx, etc.)
-
-### 2. Instalación de Base de Datos
-
-```sql
--- Script SQL básico
-CREATE DATABASE proyecto_taller;
-
--- 
-```
-
-### 3. Configuración del Proyecto
-
-1. **Crear archivo .env:**
-
-   ```bash
-   cp .env.example .env
-   ```
-
-2. **Editar .env con tus credenciales:**
-
-   ```
-   DB_HOST=localhost
-   DB_USER=root
-   DB_PASS=tu_contraseña
-   DB_NAME=proyecto_taller
-   ```
-
-3. **Permisos de carpetas:**
-   ```bash
-   chmod 755 publico/
-   chmod 755 configuracion/
-   ```
-
-
-
-     |
-
-## 🔑 Características Principales
-
-### Autenticación
-
-- Login de usuarios (Cliente/Contador)
-- Registro de nuevos usuarios
-- Manejo de sesiones seguras
-- Bloqueo temporal después de 3 intentos fallidos
-
-### Panel del Cliente
-
-- Dashboard personalizado
-- Carga de documentos
-- Consulta de reportes
-- Chat con asesor
-
-### Panel del Contador
-
-- Dashboard de estadísticas
-- Registro de ingresos y egresos
-- Gestión de impuestos
-- Generación de reportes
-- Selección de cliente para contabilización
-
-## 🏗️ Mejoras Implementadas
-
-✅ **Seguridad:**
-
-- Credenciales centralizadas (no hardcodeadas)
-- Prepared statements en todas las queries
-- Validación en servidor
-- Hasheo de contraseñas (PASSWORD_DEFAULT)
-
-✅ **Organización:**
-
-- Estructura MVC clara
-- Separación de responsabilidades
-- Código modular y reutilizable
-
-✅ **Performance:**
-
-- CSS consolidado (menos requests)
-- JavaScript modular
-- BD con singleton pattern
-
-✅ **Mantenibilidad:**
-
-- Nombres de carpetas en español
-- Código comentado
-- Estructura escalable
-
-## 📝 Uso de la Aplicación
-
-### Como Cliente
-
-1. Registrarse en `vistas/autenticacion/registro.php`
-2. Iniciar sesión en `vistas/autenticacion/inicio_sesion.php`
-3. Acceder al panel en `vistas/cliente/panel_principal.php`
-
-### Como Contador
-
-1. Registrarse como "Contador"
-2. Iniciar sesión
-3. Acceder al panel en `vistas/contador/panel_principal.php`
-4. Seleccionar cliente y gestionar su contabilidad
-
-## 🔐 Notas de Seguridad
-
-**IMPORTANTE:**
-
-- No versiones el archivo `.env` en Git
-- Cambia las contraseñas por defecto
-- En producción, usa HTTPS
-- Implementa rate limiting
-- Añade CSRF tokens en formularios
-- Valida entrada en servidor (nunca en cliente)
-
-## PARA TENER EL CODIGO ACTUALIZADO
-
-```bash
-git pull origin main
-```
-
-
+El sistema permite administrar ingresos, egresos, impuestos y reportes financieros, facilitando la toma de decisiones mediante una interfaz clara y estructurada.
 
 ---
 
-**Última actualización:** Abril 2026
-**Versión:** 1.0
+## 🚀 Tecnologías
+
+* Backend: PHP
+* Base de datos: MySQL
+* Arquitectura: MVC
+* Frontend: HTML, CSS, JavaScript
+
+---
+
+## 🧩 Funcionalidades principales
+
+* Gestión de usuarios (registro, login, sesiones)
+* Registro de ingresos y egresos
+* Cálculo de impuestos
+* Generación de reportes financieros
+* Paneles diferenciados (cliente / contador)
+
+---
+
+## 📁 Estructura del proyecto
+
+```
+Taller-web/
+├── publico/
+├── vistas/
+├── controladores/
+├── modelos/
+├── api/
+├── utilidades/
+├── configuracion/
+├── acciones/
+```
+
+---
+
+## ⚙️ Configuración rápida
+
+### 1. Base de datos
+
+```sql
+CREATE DATABASE proyecto_taller;
+```
+
+### 2. Variables de entorno
+
+Crear archivo `.env`:
+
+```
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=tu_contraseña
+DB_NAME=proyecto_taller
+```
+
+---
+
+## 🧠 Contexto del sistema (para IA y desarrollo)
+
+El sistema maneja un dominio contable básico compuesto por:
+
+* Transacciones financieras (ingresos y egresos)
+* Cálculo de impuestos basado en registros
+* Generación de reportes por periodo
+* Gestión de múltiples usuarios con roles
+
+### Reglas clave del dominio
+
+* Toda transacción debe estar asociada a un usuario
+* Los impuestos se calculan a partir de ingresos y egresos
+* Los reportes se generan en base a rangos de fechas
+* Los datos deben persistirse en base de datos
+
+---
+
+## 🏗️ Convenciones del proyecto
+
+* Separación estricta de responsabilidades (MVC)
+* Controladores manejan solicitudes
+* Modelos gestionan datos
+* Vistas representan la interfaz
+* Validación siempre en servidor
+
+---
+
+## 🔐 Seguridad
+
+* Uso de prepared statements
+* Hash de contraseñas
+* Manejo seguro de sesiones
+* Variables sensibles en `.env`
+
+---
+
+## 📌 Estado del proyecto
+
+En desarrollo activo.
+
+Funcionalidades base implementadas, con mejoras planificadas en el roadmap del proyecto.
+
+---
+
+## 📅 Versión
+
+1.0 (Abril 2026)

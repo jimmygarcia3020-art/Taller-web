@@ -1,0 +1,38 @@
+/* Fondo con patrón de puntos sutil */
+body {
+    background-color: #f8fafc;
+    background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+/* Input focus ring con color de marca */
+.input-field:focus {
+    outline: none;
+    border-color: #2e5eaa;
+    box-shadow: 0 0 0 4px rgba(46, 94, 170, 0.1);
+}
+
+/* Mensaje de error con animación */
+.field-error {
+    display: none;
+    color: #ef4444;
+    font-size: 0.75rem;
+    margin-top: 0.35rem;
+    font-weight: 500;
+}
+.field-error.visible {
+    display: block;
+    animation: fadeUp 0.25s ease both;
+}
+
+/* Estado de bloqueo en el botón */
+#btnSubmit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* Barra de progreso del bloqueo */
+#lockBar {
+    transition: width 1s linear;
+}

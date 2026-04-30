@@ -1,272 +1,981 @@
-<!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ContaPlus - Estudio Contable Profesional</title>
-    <meta name="description" content="Estudio contable con más de 15 años de experiencia en servicios contables, tributarios y financieros">
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-50">
-    <!-- Navigation -->
-    <nav class="nav">
-        <div class="nav__container">
-            <div class="nav__wrapper">
-                <div class="nav__brand">
-                    <h1 class="brand">ContaPlus</h1>
-                </div>
-                
-                <!-- Desktop Menu -->
-                <div class="nav__menu">
-                    <div class="nav__links">
-                        <a href="#inicio" class="link">Inicio</a>
-                        <a href="#servicios" class="link">Servicios</a>
-                        <a href="#contacto" class="link">Contacto</a>
-                        <button class="btn btn--primary" onclick="location.href='../autenticacion/inicio_sesion.php'">
-                            Software
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ContaPlus - Estudio Contable Profesional</title>
+        <meta
+            name="description"
+            content="Estudio contable con más de 15 años de experiencia en servicios contables, tributarios y financieros"
+        />
+        <link rel="stylesheet" href="css/style.css" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            brand: {
+                                primary: "#2E5EAA",
+                                hover: "#234d8f",
+                                light: "#EBF2FF",
+                            },
+                            surface: {
+                                base: "#F8FAFC",
+                                card: "#FFFFFF",
+                            },
+                            texto: {
+                                primario: "#1F2937",
+                                secundario: "#727785",
+                            },
+                            border: {
+                                sutil: "#E5E7EB",
+                            },
+                            footer: {
+                                bg: "#0f2044",
+                            },
+                        },
+                        fontFamily: {
+                            sora: ["Sora", "sans-serif"],
+                            dm: ["DM Sans", "sans-serif"],
+                        },
+                        animation: {
+                            "fade-up": "fadeUp 0.6s ease both",
+                            "fade-up-delay-1": "fadeUp 0.6s 0.1s ease both",
+                            "fade-up-delay-2": "fadeUp 0.6s 0.2s ease both",
+                            "fade-up-delay-3": "fadeUp 0.6s 0.3s ease both",
+                            "fade-up-delay-4": "fadeUp 0.6s 0.4s ease both",
+                            "fade-up-delay-5": "fadeUp 0.6s 0.5s ease both",
+                            "fade-up-visual": "fadeUp 0.7s 0.35s ease both",
+                        },
+                    },
+                },
+            };
+        </script>
+    </head>
+    <body class="font-dm text-texto-primario bg-surface-base leading-relaxed">
+        <!-- ===================== NAVBAR ===================== -->
+        <nav
+            class="fixed top-0 w-full z-50 bg-white/92 backdrop-blur-xl border-b border-border-sutil"
+        >
+            <div class="max-w-screen-xl mx-auto px-6">
+                <div class="flex justify-between items-center h-16">
+                    <div>
+                        <a
+                            href="#"
+                            class="font-sora text-xl font-extrabold text-brand-primary tracking-tight"
+                        >
+                            Conta<span class="text-texto-primario">Plus</span>
+                        </a>
+                    </div>
+
+                    <!-- Desktop Menu -->
+                    <div class="hidden md:flex items-center gap-1">
+                        <a
+                            href="#inicio"
+                            class="text-texto-secundario hover:text-brand-primary hover:bg-brand-light text-sm font-medium py-2 px-3 rounded-md transition-colors duration-200"
+                            >Inicio</a
+                        >
+                        <a
+                            href="#nosotros"
+                            class="text-texto-secundario hover:text-brand-primary hover:bg-brand-light text-sm font-medium py-2 px-3 rounded-md transition-colors duration-200"
+                            >Nosotros</a
+                        >
+                        <a
+                            href="#servicios"
+                            class="text-texto-secundario hover:text-brand-primary hover:bg-brand-light text-sm font-medium py-2 px-3 rounded-md transition-colors duration-200"
+                            >Servicios</a
+                        >
+                        <a
+                            href="#contacto"
+                            class="text-texto-secundario hover:text-brand-primary hover:bg-brand-light text-sm font-medium py-2 px-3 rounded-md transition-colors duration-200"
+                            >Contacto</a
+                        >
+                        <button
+                            id="btnSoftwareDesktop"
+                            class="bg-brand-primary hover:bg-brand-hover text-white text-sm font-semibold py-2 px-5 rounded-lg ml-2 transition-all duration-200 hover:-translate-y-0.5"
+                        >
+                            Acceder al Software
+                        </button>
+                    </div>
+
+                    <div class="md:hidden">
+                        <button
+                            id="menuToggleBtn"
+                            aria-label="Abrir menú"
+                            class="p-2 text-texto-primario"
+                        >
+                            <svg
+                                class="w-6 h-6"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M4 6h16M4 12h16M4 18h16"
+                                />
+                            </svg>
                         </button>
                     </div>
                 </div>
-                
-                <!-- Mobile Toggle -->
-                <div class="nav__toggle">
-                    <button onclick="toggleMenu()" class="toggle__btn" aria-label="Abrir menú">
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div
+                id="mobileMenu"
+                class="hidden md:hidden bg-white border-t border-border-sutil"
+            >
+                <div class="px-6 py-3 flex flex-col gap-1">
+                    <a
+                        href="#inicio"
+                        class="mobile__link text-texto-primario hover:bg-brand-light hover:text-brand-primary block py-2.5 px-3 rounded-md text-base font-medium transition-colors"
+                        >Inicio</a
+                    >
+                    <a
+                        href="#nosotros"
+                        class="mobile__link text-texto-primario hover:bg-brand-light hover:text-brand-primary block py-2.5 px-3 rounded-md text-base font-medium transition-colors"
+                        >Nosotros</a
+                    >
+                    <a
+                        href="#servicios"
+                        class="mobile__link text-texto-primario hover:bg-brand-light hover:text-brand-primary block py-2.5 px-3 rounded-md text-base font-medium transition-colors"
+                        >Servicios</a
+                    >
+                    <a
+                        href="#contacto"
+                        class="mobile__link text-texto-primario hover:bg-brand-light hover:text-brand-primary block py-2.5 px-3 rounded-md text-base font-medium transition-colors"
+                        >Contacto</a
+                    >
+                    <button
+                        id="btnSoftwareMobile"
+                        class="bg-brand-primary hover:bg-brand-hover text-white text-sm font-semibold py-2.5 px-5 rounded-lg mt-2 transition-all"
+                    >
+                        Acceder al Software
                     </button>
                 </div>
             </div>
-        </div>
-        
-        <!-- Mobile Menu -->
-        <div id="mobileMenu" class="nav__mobile hidden">
-            <div class="mobile__content">
-                <a href="#inicio" class="mobile__link" onclick="toggleMenu()">Inicio</a>
-                <a href="#servicios" class="mobile__link" onclick="toggleMenu()">Servicios</a>
-                <a href="#contacto" class="mobile__link" onclick="toggleMenu()">Contacto</a>
-                <button class="btn btn--primary btn--full" onclick="location.href='../autenticacion/inicio_sesion.php'">
-                    Software
-                </button>
-            </div>
-        </div>
-    </nav>
+        </nav>
 
-    <!-- Hero Section -->
-    <section id="inicio" class="hero">
-        <div class="hero__container">
-            <div class="hero__content">
-                <h1 class="hero__title">Estudio Contable Profesional</h1>
-                <p class="hero__text">
-                    Más de 15 años brindando servicios contables, tributarios y de asesoría 
-                    financiera con excelencia y confianza.
-                </p>
-                <div class="hero__actions">
-                    <a href="#servicios" class="btn btn--secondary">Nuestros Servicios</a>
-                    <a href="#contacto" class="btn btn--outline">Contactar</a>
-                </div>
-            </div>
-        </div>
-    </section>
+        <!-- ===================== HERO ===================== -->
+        <section
+            id="inicio"
+            class="mt-16 min-h-[92vh] flex items-center relative overflow-hidden bg-gradient-to-br from-[#1a3d78] via-brand-primary to-[#4a82d4]"
+        >
+            <!-- Decoraciones -->
+            <div
+                class="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(255,255,255,0.06)_0%,transparent_60%),radial-gradient(circle_at_20%_80%,rgba(255,255,255,0.04)_0%,transparent_40%)]"
+            ></div>
+            <div class="absolute inset-0 hero-grid-bg opacity-50"></div>
+            <div
+                class="absolute -right-[10%] top-[10%] w-[55%] h-[80%] bg-white/5 hero-blob pointer-events-none"
+            ></div>
 
-    <!-- About Section -->
-    <section class="about">
-        <div class="section__container">
-            <div class="section__header">
-                <h2 class="section__title">Acerca de Nosotros</h2>
-                <p class="section__subtitle">
-                    Somos un estudio contable comprometido con la excelencia y el crecimiento de nuestros clientes.
-                </p>
-            </div>
-            
-            <!-- Values Grid -->
-            <div class="values">
-                <div class="value__card">
-                    <div class="value__icon">
-                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="value__title">Misión</h3>
-                    <p class="value__text">
-                        Brindar servicios contables y tributarios de alta calidad, ayudando a nuestros 
-                        clientes a tomar decisiones financieras informadas.
-                    </p>
-                </div>
-                
-                <div class="value__card">
-                    <div class="value__icon">
-                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="value__title">Visión</h3>
-                    <p class="value__text">
-                        Ser el estudio contable de referencia, reconocido por nuestra innovación, 
-                        integridad y compromiso con el éxito de nuestros clientes.
-                    </p>
-                </div>
-                
-                <div class="value__card">
-                    <div class="value__icon">
-                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="value__title">Valores</h3>
-                    <p class="value__text">
-                        Integridad, transparencia, excelencia profesional y compromiso con el 
-                        crecimiento sostenible de nuestros clientes.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Team Section -->
-            <div class="team">
-                <h3 class="team__title">Nuestro Equipo</h3>
-                <div class="team__grid">
-                    <div class="team__member">
-                        <div class="member__avatar">
-                            <span class="avatar__text">MC</span>
+            <div
+                class="max-w-screen-xl mx-auto px-6 py-16 relative z-10 w-full"
+            >
+                <div
+                    class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
+                >
+                    <!-- Left Copy -->
+                    <div>
+                        <div
+                            class="animate-fade-up-delay-1 inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white/90 px-3 py-1.5 rounded-full text-xs font-semibold mb-5 backdrop-blur-sm"
+                        >
+                            <span
+                                class="w-1.5 h-1.5 bg-green-400 rounded-full"
+                            ></span>
+                            Más de 15 años de experiencia
                         </div>
-                        <h4 class="member__name">María Contreras</h4>
-                        <p class="member__role">Contadora Pública - Socia Fundadora</p>
-                        <p class="member__bio">15 años de experiencia en contabilidad empresarial y tributación.</p>
-                    </div>
-                    
-                    <div class="team__member">
-                        <div class="member__avatar">
-                            <span class="avatar__text">JR</span>
+
+                        <h1
+                            class="animate-fade-up-delay-2 font-sora text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight mb-5"
+                        >
+                            Contabilidad<br /><em
+                                class="not-italic text-blue-300"
+                                >sin complicaciones.</em
+                            >
+                        </h1>
+
+                        <p
+                            class="animate-fade-up-delay-3 text-white/75 text-lg max-w-lg leading-relaxed mb-8"
+                        >
+                            Servicios contables, tributarios y de asesoría
+                            financiera con excelencia y confianza. Tu negocio,
+                            en las mejores manos.
+                        </p>
+
+                        <div
+                            class="animate-fade-up-delay-4 flex flex-wrap gap-3.5 mb-10"
+                        >
+                            <a
+                                href="#servicios"
+                                class="bg-white text-brand-primary px-6 py-3 rounded-lg font-bold text-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-200"
+                            >
+                                Nuestros Servicios
+                            </a>
+                            <a
+                                href="#contacto"
+                                class="bg-transparent text-white border-2 border-white/40 px-6 py-3 rounded-lg font-semibold text-sm hover:border-white hover:bg-white/10 transition-all duration-200"
+                            >
+                                Contactar
+                            </a>
                         </div>
-                        <h4 class="member__name">Juan Rodríguez</h4>
-                        <p class="member__role">Especialista en Auditoría</p>
-                        <p class="member__bio">Certificado en auditoría financiera con experiencia en empresas medianas.</p>
-                    </div>
-                    
-                    <div class="team__member">
-                        <div class="member__avatar">
-                            <span class="avatar__text">AL</span>
-                        </div>
-                        <h4 class="member__name">Ana López</h4>
-                        <p class="member__role">Asesora Tributaria</p>
-                        <p class="member__bio">Especialista en planificación tributaria y cumplimiento normativo.</p>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Terms -->
-            <div class="terms">
-                <h3 class="terms__title">Términos y Condiciones</h3>
-                <div class="terms__content">
-                    <p class="terms__item">
-                        <strong>Confidencialidad:</strong> Toda la información proporcionada por nuestros 
-                        clientes es tratada con absoluta confidencialidad y bajo estrictos protocolos de seguridad.
-                    </p>
-                    <p class="terms__item">
-                        <strong>Responsabilidad Profesional:</strong> Nuestros servicios se rigen por las 
-                        normas profesionales contables y estamos respaldados por seguros de responsabilidad profesional.
-                    </p>
-                    <p class="terms__item">
-                        <strong>Plazos de Entrega:</strong> Nos comprometemos a cumplir con los plazos acordados. 
-                        Los retrasos por causas ajenas a nuestro control serán comunicados oportunamente.
-                    </p>
-                    <p class="terms__item">
-                        <strong>Facturación:</strong> Los honorarios se facturan según lo acordado en el 
-                        contrato de servicios. Los pagos vencidos generarán intereses según la tasa legal vigente.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section id="servicios" class="services">
-        <div class="section__container">
-            <div class="section__header">
-                <h2 class="section__title">Nuestros Servicios</h2>
-                <p class="section__subtitle">
-                    Ofrecemos una gama completa de servicios contables y financieros para empresas de todos los tamaños.
-                </p>
-            </div>
-            
-            <div class="services__grid" id="servicesGrid">
-                <!-- Services will be loaded by JavaScript -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contacto" class="contact">
-        <div class="section__container">
-            <div class="section__header">
-                <h2 class="section__title">Contacto</h2>
-                <p class="section__subtitle">
-                    Estamos aquí para ayudarte. Contáctanos y te responderemos a la brevedad.
-                </p>
-            </div>
-            
-            <div class="contact__wrapper">
-                <!-- Contact Form -->
-                <div class="contact__form">
-                    <h3 class="form__title">Envíanos un mensaje</h3>
-                    <form id="contactForm" class="form">
-                        <div class="form__row">
-                            <div class="form__group">
-                                <label class="form__label">Nombre</label>
-                                <input type="text" name="nombre" required class="form__input">
+                        <div
+                            class="animate-fade-up-delay-5 flex flex-wrap gap-6"
+                        >
+                            <div>
+                                <div
+                                    class="text-white text-2xl font-extrabold font-sora"
+                                >
+                                    15+
+                                </div>
+                                <div class="text-white/60 text-xs mt-0.5">
+                                    Años de experiencia
+                                </div>
                             </div>
-                            <div class="form__group">
-                                <label class="form__label">Apellido</label>
-                                <input type="text" name="apellido" required class="form__input">
+                            <div class="w-px bg-white/15 self-stretch"></div>
+                            <div>
+                                <div
+                                    class="text-white text-2xl font-extrabold font-sora"
+                                >
+                                    300+
+                                </div>
+                                <div class="text-white/60 text-xs mt-0.5">
+                                    Clientes activos
+                                </div>
+                            </div>
+                            <div class="w-px bg-white/15 self-stretch"></div>
+                            <div>
+                                <div
+                                    class="text-white text-2xl font-extrabold font-sora"
+                                >
+                                    98%
+                                </div>
+                                <div class="text-white/60 text-xs mt-0.5">
+                                    Satisfacción
+                                </div>
                             </div>
                         </div>
-                        <div class="form__group">
-                            <label class="form__label">Correo electrónico</label>
-                            <input type="email" name="email" required class="form__input">
+                    </div>
+
+                    <!-- Right Mockup -->
+                    <div class="animate-fade-up-visual">
+                        <div
+                            class="bg-white/10 border border-white/15 rounded-2xl p-6 backdrop-blur-xl"
+                        >
+                            <div class="flex items-center gap-2 mb-4">
+                                <div
+                                    class="w-2.5 h-2.5 rounded-full bg-[#ff5f56]"
+                                ></div>
+                                <div
+                                    class="w-2.5 h-2.5 rounded-full bg-[#febc2e]"
+                                ></div>
+                                <div
+                                    class="w-2.5 h-2.5 rounded-full bg-[#27c93f]"
+                                ></div>
+                                <span class="text-white/70 text-xs ml-auto"
+                                    >Panel Financiero — Resumen mensual</span
+                                >
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-3 mb-4">
+                                <div
+                                    class="bg-white/10 rounded-lg p-3 text-center"
+                                >
+                                    <div
+                                        class="text-white font-bold text-lg font-sora"
+                                    >
+                                        S/120k
+                                    </div>
+                                    <div class="text-white/55 text-[0.65rem]">
+                                        Ingresos
+                                    </div>
+                                </div>
+                                <div
+                                    class="bg-white/10 rounded-lg p-3 text-center"
+                                >
+                                    <div
+                                        class="text-white font-bold text-lg font-sora"
+                                    >
+                                        S/38k
+                                    </div>
+                                    <div class="text-white/55 text-[0.65rem]">
+                                        Gastos
+                                    </div>
+                                </div>
+                                <div
+                                    class="bg-white/10 rounded-lg p-3 text-center"
+                                >
+                                    <div
+                                        class="text-white font-bold text-lg font-sora"
+                                    >
+                                        S/82k
+                                    </div>
+                                    <div class="text-white/55 text-[0.65rem]">
+                                        Utilidad
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <div class="text-white/50 text-[0.65rem] mb-2">
+                                    CUMPLIMIENTO TRIBUTARIO
+                                </div>
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span
+                                        class="text-white/60 text-[0.7rem] w-14"
+                                        >IGV</span
+                                    >
+                                    <div
+                                        class="flex-1 h-1.5 bg-white/10 rounded overflow-hidden"
+                                    >
+                                        <div
+                                            class="h-full rounded bg-gradient-to-r from-blue-400 to-blue-300"
+                                            style="width: 92%"
+                                        ></div>
+                                    </div>
+                                    <span
+                                        class="text-white/70 text-[0.7rem] w-8 text-right"
+                                        >92%</span
+                                    >
+                                </div>
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span
+                                        class="text-white/60 text-[0.7rem] w-14"
+                                        >Renta</span
+                                    >
+                                    <div
+                                        class="flex-1 h-1.5 bg-white/10 rounded overflow-hidden"
+                                    >
+                                        <div
+                                            class="h-full rounded bg-gradient-to-r from-blue-400 to-blue-300"
+                                            style="width: 78%"
+                                        ></div>
+                                    </div>
+                                    <span
+                                        class="text-white/70 text-[0.7rem] w-8 text-right"
+                                        >78%</span
+                                    >
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span
+                                        class="text-white/60 text-[0.7rem] w-14"
+                                        >Planilla</span
+                                    >
+                                    <div
+                                        class="flex-1 h-1.5 bg-white/10 rounded overflow-hidden"
+                                    >
+                                        <div
+                                            class="h-full rounded bg-gradient-to-r from-blue-400 to-blue-300"
+                                            style="width: 100%"
+                                        ></div>
+                                    </div>
+                                    <span
+                                        class="text-white/70 text-[0.7rem] w-8 text-right"
+                                        >100%</span
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="flex flex-wrap gap-2">
+                                <span
+                                    class="bg-green-400/15 text-green-400 border border-green-400/25 px-2.5 py-1 rounded-full text-[0.65rem] font-semibold"
+                                    >Al día con SUNAT</span
+                                >
+                                <span
+                                    class="bg-blue-300/15 text-blue-300 border border-blue-300/20 px-2.5 py-1 rounded-full text-[0.65rem] font-semibold"
+                                    >PDT presentado</span
+                                >
+                            </div>
                         </div>
-                        <div class="form__group">
-                            <label class="form__label">Mensaje</label>
-                            <textarea name="mensaje" required rows="5" class="form__input"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn--primary btn--full">Enviar Mensaje</button>
-                    </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== ABOUT ===================== -->
+        <section id="nosotros" class="py-20 bg-white">
+            <div class="max-w-screen-xl mx-auto px-6">
+                <div class="text-center mb-14">
+                    <span
+                        class="inline-block bg-brand-light text-brand-primary text-[0.7rem] font-bold tracking-wider uppercase px-3.5 py-1.5 rounded-full mb-3"
+                        >Quiénes somos</span
+                    >
+                    <h2
+                        class="font-sora text-3xl md:text-4xl font-extrabold text-texto-primario tracking-tight mb-3"
+                    >
+                        Acerca de Nosotros
+                    </h2>
+                    <p class="text-texto-secundario text-lg max-w-2xl mx-auto">
+                        Somos un estudio contable comprometido con la excelencia
+                        y el crecimiento de nuestros clientes.
+                    </p>
                 </div>
 
-                <!-- Contact Info -->
-                <div class="contact__info">
-                    <div class="info__block">
-                        <h3 class="info__title">Información de Contacto</h3>
-                        <p class="info__item">📍 Av. Principal 123, Lima, Perú</p>
-                        <p class="info__item">📞 (01) 456-7890</p>
-                        <p class="info__item">📧 contacto@contaplus.com</p>
+                <!-- Values -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                    <div
+                        class="group bg-white border border-border-sutil rounded-2xl p-8 text-center relative overflow-hidden hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-primary/10 transition-all duration-300"
+                    >
+                        <div
+                            class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand-primary to-blue-400"
+                        ></div>
+                        <div
+                            class="w-14 h-14 bg-brand-light rounded-xl flex items-center justify-center mx-auto mb-5"
+                        >
+                            <svg
+                                class="w-7 h-7 text-brand-primary"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                />
+                            </svg>
+                        </div>
+                        <h3 class="font-sora text-lg font-bold mb-2">Misión</h3>
+                        <p
+                            class="text-texto-secundario text-sm leading-relaxed"
+                        >
+                            Brindar servicios contables y tributarios de alta
+                            calidad, ayudando a nuestros clientes a tomar
+                            decisiones financieras informadas.
+                        </p>
                     </div>
-                    <div class="info__schedule">
-                        <h4 class="schedule__title">Horario de Atención</h4>
-                        <p class="schedule__text">
-                            Lunes a Viernes: 9:00 a.m. - 6:00 p.m.<br>
-                            Sábados: 9:00 a.m. - 1:00 p.m.
+
+                    <div
+                        class="group bg-white border border-border-sutil rounded-2xl p-8 text-center relative overflow-hidden hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-primary/10 transition-all duration-300"
+                    >
+                        <div
+                            class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand-primary to-blue-400"
+                        ></div>
+                        <div
+                            class="w-14 h-14 bg-brand-light rounded-xl flex items-center justify-center mx-auto mb-5"
+                        >
+                            <svg
+                                class="w-7 h-7 text-brand-primary"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                />
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                />
+                            </svg>
+                        </div>
+                        <h3 class="font-sora text-lg font-bold mb-2">Visión</h3>
+                        <p
+                            class="text-texto-secundario text-sm leading-relaxed"
+                        >
+                            Ser el estudio contable de referencia, reconocido
+                            por nuestra innovación, integridad y compromiso con
+                            el éxito de nuestros clientes.
+                        </p>
+                    </div>
+
+                    <div
+                        class="group bg-white border border-border-sutil rounded-2xl p-8 text-center relative overflow-hidden hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-primary/10 transition-all duration-300"
+                    >
+                        <div
+                            class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand-primary to-blue-400"
+                        ></div>
+                        <div
+                            class="w-14 h-14 bg-brand-light rounded-xl flex items-center justify-center mx-auto mb-5"
+                        >
+                            <svg
+                                class="w-7 h-7 text-brand-primary"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                                />
+                            </svg>
+                        </div>
+                        <h3 class="font-sora text-lg font-bold mb-2">
+                            Valores
+                        </h3>
+                        <p
+                            class="text-texto-secundario text-sm leading-relaxed"
+                        >
+                            Integridad, transparencia, excelencia profesional y
+                            compromiso con el crecimiento sostenible de nuestros
+                            clientes.
                         </p>
                     </div>
                 </div>
+
+                <!-- Team -->
+                <div class="mb-16">
+                    <h3
+                        class="font-sora text-2xl font-extrabold text-texto-primario text-center mb-8 tracking-tight"
+                    >
+                        Nuestro Equipo
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div
+                            class="bg-white border border-border-sutil rounded-2xl p-8 text-center hover:-translate-y-1 hover:shadow-lg hover:shadow-brand-primary/5 transition-all duration-300"
+                        >
+                            <div
+                                class="w-20 h-20 bg-gradient-to-br from-brand-primary to-blue-400 rounded-full flex items-center justify-center mx-auto mb-4"
+                            >
+                                <span
+                                    class="text-xl font-extrabold text-white font-sora"
+                                    >MC</span
+                                >
+                            </div>
+                            <h4 class="font-bold text-lg mb-1">
+                                María Contreras
+                            </h4>
+                            <p
+                                class="text-brand-primary text-sm font-semibold mb-2"
+                            >
+                                Contadora Pública — Socia Fundadora
+                            </p>
+                            <p
+                                class="text-texto-secundario text-sm leading-relaxed"
+                            >
+                                15 años de experiencia en contabilidad
+                                empresarial y tributación.
+                            </p>
+                        </div>
+
+                        <div
+                            class="bg-white border border-border-sutil rounded-2xl p-8 text-center hover:-translate-y-1 hover:shadow-lg hover:shadow-brand-primary/5 transition-all duration-300"
+                        >
+                            <div
+                                class="w-20 h-20 bg-gradient-to-br from-brand-primary to-blue-400 rounded-full flex items-center justify-center mx-auto mb-4"
+                            >
+                                <span
+                                    class="text-xl font-extrabold text-white font-sora"
+                                    >JR</span
+                                >
+                            </div>
+                            <h4 class="font-bold text-lg mb-1">
+                                Juan Rodríguez
+                            </h4>
+                            <p
+                                class="text-brand-primary text-sm font-semibold mb-2"
+                            >
+                                Especialista en Auditoría
+                            </p>
+                            <p
+                                class="text-texto-secundario text-sm leading-relaxed"
+                            >
+                                Certificado en auditoría financiera con
+                                experiencia en empresas medianas.
+                            </p>
+                        </div>
+
+                        <div
+                            class="bg-white border border-border-sutil rounded-2xl p-8 text-center hover:-translate-y-1 hover:shadow-lg hover:shadow-brand-primary/5 transition-all duration-300"
+                        >
+                            <div
+                                class="w-20 h-20 bg-gradient-to-br from-brand-primary to-blue-400 rounded-full flex items-center justify-center mx-auto mb-4"
+                            >
+                                <span
+                                    class="text-xl font-extrabold text-white font-sora"
+                                    >AL</span
+                                >
+                            </div>
+                            <h4 class="font-bold text-lg mb-1">Ana López</h4>
+                            <p
+                                class="text-brand-primary text-sm font-semibold mb-2"
+                            >
+                                Asesora Tributaria
+                            </p>
+                            <p
+                                class="text-texto-secundario text-sm leading-relaxed"
+                            >
+                                Especialista en planificación tributaria y
+                                cumplimiento normativo.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Terms -->
+                <div
+                    class="bg-surface-base border border-border-sutil rounded-2xl p-9"
+                >
+                    <h3
+                        class="font-sora text-xl font-extrabold mb-5 text-texto-primario"
+                    >
+                        Términos y Condiciones
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div
+                            class="bg-white border border-border-sutil rounded-xl p-5"
+                        >
+                            <strong
+                                class="text-brand-primary block mb-1 text-sm"
+                                >Confidencialidad</strong
+                            >
+                            <p
+                                class="text-texto-secundario text-sm leading-relaxed"
+                            >
+                                Toda la información proporcionada por nuestros
+                                clientes es tratada con absoluta
+                                confidencialidad y bajo estrictos protocolos de
+                                seguridad.
+                            </p>
+                        </div>
+                        <div
+                            class="bg-white border border-border-sutil rounded-xl p-5"
+                        >
+                            <strong
+                                class="text-brand-primary block mb-1 text-sm"
+                                >Responsabilidad Profesional</strong
+                            >
+                            <p
+                                class="text-texto-secundario text-sm leading-relaxed"
+                            >
+                                Nuestros servicios se rigen por las normas
+                                profesionales contables y estamos respaldados
+                                por seguros de responsabilidad profesional.
+                            </p>
+                        </div>
+                        <div
+                            class="bg-white border border-border-sutil rounded-xl p-5"
+                        >
+                            <strong
+                                class="text-brand-primary block mb-1 text-sm"
+                                >Plazos de Entrega</strong
+                            >
+                            <p
+                                class="text-texto-secundario text-sm leading-relaxed"
+                            >
+                                Nos comprometemos a cumplir con los plazos
+                                acordados. Los retrasos por causas ajenas a
+                                nuestro control serán comunicados oportunamente.
+                            </p>
+                        </div>
+                        <div
+                            class="bg-white border border-border-sutil rounded-xl p-5"
+                        >
+                            <strong
+                                class="text-brand-primary block mb-1 text-sm"
+                                >Facturación</strong
+                            >
+                            <p
+                                class="text-texto-secundario text-sm leading-relaxed"
+                            >
+                                Los honorarios se facturan según lo acordado en
+                                el contrato de servicios. Los pagos vencidos
+                                generarán intereses según la tasa legal vigente.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer__container">
-            <p class="footer__text">&copy; 2025 ContaPlus. Todos los derechos reservados.</p>
-        </div>
-    </footer>
+        <!-- ===================== SERVICES ===================== -->
+        <section id="servicios" class="py-20">
+            <div class="max-w-screen-xl mx-auto px-6">
+                <div class="text-center mb-14">
+                    <span
+                        class="inline-block bg-brand-light text-brand-primary text-[0.7rem] font-bold tracking-wider uppercase px-3.5 py-1.5 rounded-full mb-3"
+                        >Lo que hacemos</span
+                    >
+                    <h2
+                        class="font-sora text-3xl md:text-4xl font-extrabold text-texto-primario tracking-tight mb-3"
+                    >
+                        Nuestros Servicios
+                    </h2>
+                    <p class="text-texto-secundario text-lg max-w-2xl mx-auto">
+                        Ofrecemos una gama completa de servicios contables y
+                        financieros para empresas de todos los tamaños.
+                    </p>
+                </div>
 
-    <!-- Scripts -->
-    <script src="js/services.js"></script>
-    <script src="js/main.js"></script>
-</body>
+                <div
+                    id="servicesGrid"
+                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                >
+                    <!-- Se carga por JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== CONTACT ===================== -->
+        <section id="contacto" class="py-20 bg-white">
+            <div class="max-w-screen-xl mx-auto px-6">
+                <div class="text-center mb-14">
+                    <span
+                        class="inline-block bg-brand-light text-brand-primary text-[0.7rem] font-bold tracking-wider uppercase px-3.5 py-1.5 rounded-full mb-3"
+                        >Hablemos</span
+                    >
+                    <h2
+                        class="font-sora text-3xl md:text-4xl font-extrabold text-texto-primario tracking-tight mb-3"
+                    >
+                        Contacto
+                    </h2>
+                    <p class="text-texto-secundario text-lg max-w-2xl mx-auto">
+                        Estamos aquí para ayudarte. Contáctanos y te
+                        responderemos a la brevedad.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-10">
+                    <!-- Form -->
+                    <div
+                        class="bg-white border border-border-sutil rounded-2xl p-9"
+                    >
+                        <h3 class="font-sora text-xl font-extrabold mb-6">
+                            Envíanos un mensaje
+                        </h3>
+                        <form id="contactForm" class="flex flex-col gap-5">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="flex flex-col">
+                                    <label
+                                        class="text-sm font-semibold text-texto-primario mb-1.5"
+                                        >Nombre</label
+                                    >
+                                    <input
+                                        type="text"
+                                        name="nombre"
+                                        required
+                                        placeholder="Ej. María"
+                                        class="py-2.5 px-4 border-2 border-border-sutil rounded-lg text-sm focus:outline-none focus:border-brand-primary focus:ring-4 focus:ring-brand-primary/10 bg-surface-base focus:bg-white transition-all"
+                                    />
+                                </div>
+                                <div class="flex flex-col">
+                                    <label
+                                        class="text-sm font-semibold text-texto-primario mb-1.5"
+                                        >Apellido</label
+                                    >
+                                    <input
+                                        type="text"
+                                        name="apellido"
+                                        required
+                                        placeholder="Ej. García"
+                                        class="py-2.5 px-4 border-2 border-border-sutil rounded-lg text-sm focus:outline-none focus:border-brand-primary focus:ring-4 focus:ring-brand-primary/10 bg-surface-base focus:bg-white transition-all"
+                                    />
+                                </div>
+                            </div>
+                            <div class="flex flex-col">
+                                <label
+                                    class="text-sm font-semibold text-texto-primario mb-1.5"
+                                    >Correo electrónico</label
+                                >
+                                <input
+                                    type="email"
+                                    name="email"
+                                    required
+                                    placeholder="correo@empresa.com"
+                                    class="py-2.5 px-4 border-2 border-border-sutil rounded-lg text-sm focus:outline-none focus:border-brand-primary focus:ring-4 focus:ring-brand-primary/10 bg-surface-base focus:bg-white transition-all"
+                                />
+                            </div>
+                            <div class="flex flex-col">
+                                <label
+                                    class="text-sm font-semibold text-texto-primario mb-1.5"
+                                    >Mensaje</label
+                                >
+                                <textarea
+                                    name="mensaje"
+                                    required
+                                    rows="5"
+                                    placeholder="¿En qué podemos ayudarte?"
+                                    class="py-2.5 px-4 border-2 border-border-sutil rounded-lg text-sm focus:outline-none focus:border-brand-primary focus:ring-4 focus:ring-brand-primary/10 bg-surface-base focus:bg-white transition-all resize-none"
+                                ></textarea>
+                            </div>
+                            <button
+                                type="submit"
+                                class="bg-brand-primary hover:bg-brand-hover text-white py-3 px-6 rounded-lg font-bold text-sm transition-all duration-200 hover:-translate-y-0.5 mt-1"
+                            >
+                                Enviar Mensaje
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Info -->
+                    <div class="flex flex-col gap-6">
+                        <div
+                            class="bg-white border border-border-sutil rounded-2xl p-8"
+                        >
+                            <h3 class="font-sora text-xl font-extrabold mb-5">
+                                Información de Contacto
+                            </h3>
+                            <div
+                                class="flex items-center gap-3 py-2.5 border-b border-border-sutil text-texto-secundario text-sm"
+                            >
+                                <div
+                                    class="w-8 h-8 bg-brand-light rounded-lg flex items-center justify-center text-sm flex-shrink-0"
+                                >
+                                    <svg
+                                        class="w-4 h-4 text-brand-primary"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                                        />
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                                        />
+                                    </svg>
+                                </div>
+                                <span>Av. Principal 123, Chimbote, Perú</span>
+                            </div>
+                            <div
+                                class="flex items-center gap-3 py-2.5 border-b border-border-sutil text-texto-secundario text-sm"
+                            >
+                                <div
+                                    class="w-8 h-8 bg-brand-light rounded-lg flex items-center justify-center text-sm flex-shrink-0"
+                                >
+                                    <svg
+                                        class="w-4 h-4 text-brand-primary"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                                        />
+                                    </svg>
+                                </div>
+                                <span>(01) 456-7890</span>
+                            </div>
+                            <div
+                                class="flex items-center gap-3 py-2.5 text-texto-secundario text-sm"
+                            >
+                                <div
+                                    class="w-8 h-8 bg-brand-light rounded-lg flex items-center justify-center text-sm flex-shrink-0"
+                                >
+                                    <svg
+                                        class="w-4 h-4 text-brand-primary"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                                        />
+                                    </svg>
+                                </div>
+                                <span>contacto@contaplus.com</span>
+                            </div>
+                        </div>
+
+                        <div
+                            class="bg-gradient-to-br from-brand-primary to-[#4a82d4] rounded-2xl p-8 text-white"
+                        >
+                            <h4 class="font-bold text-lg mb-3">
+                                Horario de Atención
+                            </h4>
+                            <div
+                                class="flex justify-between py-2 border-b border-white/15 text-sm"
+                            >
+                                <span class="text-white/70"
+                                    >Lunes a Viernes</span
+                                >
+                                <span class="font-semibold"
+                                    >9:00 a.m. – 6:00 p.m.</span
+                                >
+                            </div>
+                            <div
+                                class="flex justify-between py-2 border-b border-white/15 text-sm"
+                            >
+                                <span class="text-white/70">Sábados</span>
+                                <span class="font-semibold"
+                                    >9:00 a.m. – 1:00 p.m.</span
+                                >
+                            </div>
+                            <div class="flex justify-between py-2 text-sm">
+                                <span class="text-white/70">Domingos</span>
+                                <span class="font-semibold">Cerrado</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== FOOTER ===================== -->
+        <footer class="bg-footer-bg text-white py-10">
+            <div class="max-w-screen-xl mx-auto px-6">
+                <div
+                    class="flex flex-wrap justify-between items-start gap-8 mb-8"
+                >
+                    <div>
+                        <div class="font-sora text-xl font-extrabold mb-2">
+                            ContaPlus
+                        </div>
+                        <div class="text-white/45 text-sm">
+                            Estudio Contable Profesional · Chimbote, Perú
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-6">
+                        <a
+                            href="#inicio"
+                            class="text-white/50 hover:text-white text-sm transition-colors"
+                            >Inicio</a
+                        >
+                        <a
+                            href="#nosotros"
+                            class="text-white/50 hover:text-white text-sm transition-colors"
+                            >Nosotros</a
+                        >
+                        <a
+                            href="#servicios"
+                            class="text-white/50 hover:text-white text-sm transition-colors"
+                            >Servicios</a
+                        >
+                        <a
+                            href="#contacto"
+                            class="text-white/50 hover:text-white text-sm transition-colors"
+                            >Contacto</a
+                        >
+                    </div>
+                </div>
+                <div
+                    class="border-t border-white/10 pt-5 flex flex-wrap justify-between items-center gap-2"
+                >
+                    <span class="text-white/35 text-sm"
+                        >© 2026 ContaPlus. Todos los derechos reservados.</span
+                    >
+                    <span class="text-white/35 text-sm"
+                        >Hecho con ❤️ en Chimbote
+                    </span>
+                </div>
+            </div>
+        </footer>
+        <script src="js/services.js"></script>
+        <script src="js/main.js"></script>
+    </body>
 </html>

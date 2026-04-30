@@ -1,72 +1,184 @@
+"use strict";
+
 /**
- * Validación de Registro de Usuario
- * Reemplaza: validar.js
- *
- * Valida los campos del formulario de registro
+ * validar_registro.js
+ * Validación centralizada del formulario de registro.
+ * No utiliza handlers inline en HTML.
  */
 
-function validar() {
-  const nombre = document.getElementById("nombre_contacto").value;
-  const negocio = document.getElementById("nombre_negocio").value;
-  const numero = document.getElementById("numero_contacto").value;
-  const correo = document.getElementById("correo").value;
-  const clave = document.getElementById("clave").value;
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("registroForm");
+    const formAlert = document.getElementById("formAlert");
 
-  // Expresión regular mejorada para email
-  const expresion = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const nombre = document.getElementById("nombre_contacto");
+    const negocio = document.getElementById("nombre_negocio");
+    const telefono = document.getElementById("numero_contacto");
+    const tipoUsuario = document.getElementById("tipo_usuario");
+    const correo = document.getElementById("correo");
+    const clave = document.getElementById("clave");
+    const regimen = document.getElementById("regimen");
 
-  // Validar campos vacíos
-  if (
-    nombre === "" ||
-    negocio === "" ||
-    numero === "" ||
-    correo === "" ||
-    clave === ""
-  ) {
-    alert("Todos los Campos son Obligatorios");
-    return false;
-  }
+    if (!form) return;
 
-  // Validar nombre
-  if (nombre.length > 30) {
-    alert("El Nombre es muy Largo (máximo 30 caracteres)");
-    return false;
-  }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  // Validar negocio
-  if (negocio.length > 80) {
-    alert("El Nombre del Negocio es muy Largo (máximo 80 caracteres)");
-    return false;
-  }
+    const clearAlert = () => {
+        if (!formAlert) return;
+        formAlert.classList.add("hidden");
+        formAlert.textContent = "";
+    };
 
-  // Validar teléfono
-  if (numero.length < 7 || numero.length > 15) {
-    alert("El número de Teléfono debe tener entre 7 y 15 caracteres");
-    return false;
-  }
+    const showAlert = (message) => {
+        if (!formAlert) return;
+        formAlert.textContent = message;
+        formAlert.classList.remove("hidden");
+    };
 
-  if (isNaN(numero)) {
-    alert("El número de Teléfono debe contener solo números");
-    return false;
-  }
+    const setInvalid = (element, message) => {
+        if (!element) return;
+        element.setAttribute("aria-invalid", "true");
+        element.classList.add("border-red-500", "ring-4", "ring-red-100");
+        if (message) {
+            element.setCustomValidity(message);
+        }
+    };
 
-  // Validar correo
-  if (correo.length > 100) {
-    alert("El correo es muy Largo (máximo 100 caracteres)");
-    return false;
-  }
+    const setValid = (element) => {
+        if (!element) return;
+        element.removeAttribute("aria-invalid");
+        element.classList.remove("border-red-500", "ring-4", "ring-red-100");
+        element.setCustomValidity("");
+    };
 
-  if (!expresion.test(correo)) {
-    alert("El correo no es válido");
-    return false;
-  }
+    const resetFieldState = () => {
+        [
+            nombre,
+            negocio,
+            telefono,
+            tipoUsuario,
+            correo,
+            clave,
+            regimen,
+        ].forEach(setValid);
+    };
 
-  // Validar clave
-  if (clave.length < 6 || clave.length > 20) {
-    alert("La clave debe tener entre 6 y 20 caracteres");
-    return false;
-  }
+    const getSelectedTipoCliente = () => {
+        const checked = form.querySelector('input[name="tipo_cliente"]:checked');
+        return checked ? checked.value : "";
+    };
 
-  // Si pasa todas las validaciones
-  return true;
-}
+    const validate = () => {
+        clearAlert();
+        resetFieldState();
+
+        const nombreValue = nombre.value.trim();
+        const negocioValue = negocio.value.trim();
+        const telefonoValue = telefono.value.trim();
+        const telefonoDigits = telefonoValue.replace(/\D/g, "");
+        const tipoUsuarioValue = tipoUsuario.value.trim();
+        const correoValue = correo.value.trim();
+        const claveValue = clave.value;
+        const regimenValue = regimen.value.trim();
+        const tipoClienteValue = getSelectedTipoCliente();
+
+        let firstInvalidField = null;
+
+        const fail = (element, message) => {
+            if (!firstInvalidField) firstInvalidField = element;
+            setInvalid(element, message);
+            showAlert(message);
+            return false;
+        };
+
+        if (!nombreValue) {
+            return fail(nombre, "El nombre completo es obligatorio.");
+        }
+        if (nombreValue.length > 30) {
+            return fail(nombre, "El nombre completo no debe superar 30 caracteres.");
+        }
+
+        if (!negocioValue) {
+            return fail(negocio, "El nombre del negocio es obligatorio.");
+        }
+        if (negocioValue.length > 80) {
+            return fail(negocio, "El nombre del negocio no debe superar 80 caracteres.");
+        }
+
+        if (!telefonoValue) {
+            return fail(telefono, "El número de teléfono es obligatorio.");
+        }
+        if (telefonoDigits.length < 7 || telefonoDigits.length > 15) {
+            return fail(telefono, "El teléfono debe tener entre 7 y 15 dígitos.");
+        }
+
+        if (!tipoUsuarioValue) {
+            return fail(tipoUsuario, "Debe seleccionar un tipo de usuario.");
+        }
+
+        if (!correoValue) {
+            return fail(correo, "El correo electrónico es obligatorio.");
+        }
+        if (correoValue.length > 100) {
+            return fail(correo, "El correo electrónico no debe superar 100 caracteres.");
+        }
+        if (!emailRegex.test(correoValue)) {
+            return fail(correo, "El correo electrónico no tiene un formato válido.");
+        }
+
+        if (!claveValue) {
+            return fail(clave, "La contraseña es obligatoria.");
+        }
+        if (claveValue.length < 6 || claveValue.length > 20) {
+            return fail(clave, "La contraseña debe tener entre 6 y 20 caracteres.");
+        }
+
+        if (!tipoClienteValue) {
+            const radio = form.querySelector('input[name="tipo_cliente"]');
+            return fail(radio, "Debe seleccionar un tipo de cliente.");
+        }
+
+        if (!regimenValue) {
+            return fail(regimen, "Debe seleccionar un régimen fiscal.");
+        }
+
+        clearAlert();
+        return true;
+    };
+
+    form.addEventListener("submit", (event) => {
+        const isValid = validate();
+        if (!isValid) {
+            event.preventDefault();
+            const invalidField = form.querySelector('[aria-invalid="true"]');
+            if (invalidField && typeof invalidField.focus === "function") {
+                invalidField.focus();
+            }
+        }
+    });
+
+    [
+        nombre,
+        negocio,
+        telefono,
+        tipoUsuario,
+        correo,
+        clave,
+        regimen,
+    ].forEach((field) => {
+        field.addEventListener("input", () => {
+            setValid(field);
+            clearAlert();
+        });
+
+        field.addEventListener("change", () => {
+            setValid(field);
+            clearAlert();
+        });
+    });
+
+    form.querySelectorAll('input[name="tipo_cliente"]').forEach((radio) => {
+        radio.addEventListener("change", () => {
+            clearAlert();
+        });
+    });
+});
