@@ -1,18 +1,24 @@
 <?php
 /**
  * Utilidades de sesiones
- * Reemplaza a: cerrar_sesion.php 
- * 
- * Centraliza manejo de sesiones y autenticación
+ * * Centraliza manejo de sesiones y autenticación reforzada
  */
 
-// Inicia sesión si no está iniciada
+// Forzar parámetros seguros de cookie ANTES de iniciar la sesión
 if (session_status() === PHP_SESSION_NONE) {
+    session_set_cookie_params([
+        'lifetime' => 0, // Expira al cerrar el navegador
+        'path' => '/',
+        'domain' => '',
+        'secure' => isset($_SERVER['HTTPS']), // Solo por HTTPS si está disponible
+        'httponly' => true, // Previene robo de sesión mediante JavaScript (XSS)
+        'samesite' => 'Lax' // Previene ataques CSRF inter-sitio
+    ]);
     session_start();
 }
 
 /**
- * Prevenir caché del navegador
+ * Prevenir caché del navegador (Para páginas autenticadas)
  */
 function prevenirCache() {
     header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
@@ -40,7 +46,7 @@ function requerirAutenticacion() {
 }
 
 /**
- * Cerrar sesión
+ * Cerrar sesión de manera segura
  */
 function cerrarSesion() {
     $_SESSION = array();
@@ -62,27 +68,24 @@ function cerrarSesion() {
     exit;
 }
 
+// ==========================================
+// NUEVAS FUNCIONES DE SEGURIDAD PARA EL ROADMAP
+// ==========================================
+
 /**
- * Obtener correo del usuario autenticado
+ * Genera un token CSRF para formularios
  */
-function obtenerCorreoUsuario() {
-    return $_SESSION['correo'] ?? null;
+function generarTokenCSRF() {
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return $_SESSION['csrf_token'];
 }
 
 /**
- * Obtener tipo de usuario autenticado
+ * Valida un token CSRF recibido
  */
-function obtenerTipoUsuario() {
-    return $_SESSION['tipo_usuario'] ?? null;
-}
-
-/**
- * Obtener datos de sesión
- */
-function obtenerDatosUsuario() {
-    return [
-        'correo' => obtenerCorreoUsuario(),
-        'tipo' => obtenerTipoUsuario()
-    ];
+function validarTokenCSRF($token) {
+    return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
 }
 ?>

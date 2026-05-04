@@ -1,9 +1,7 @@
 <?php
 /**
  * Configuración centralizada del proyecto
- * Reemplaza a: conexion.php
- * 
- * Contiene todas las constantes y configuraciones del proyecto
+ * * Contiene todas las constantes y configuraciones del proyecto
  */
 
 // ===== CARGAR VARIABLES DE ENTORNO =====
@@ -11,7 +9,7 @@ $envFile = __DIR__ . '/../.env';
 $dbConfig = [
     'DB_HOST' => 'localhost',
     'DB_USER' => 'root',
-    'DB_PASS' => 'Johanmysql123@', // esta es mi contraseña de mi maquina
+    'DB_PASS' => '', // ¡CORRECCIÓN!: Contraseña hardcodeada eliminada por seguridad.
     'DB_NAME' => 'proyecto_taller'
 ];
 
@@ -48,7 +46,7 @@ define('UTILIDADES_PATH', BASE_PATH . 'utilidades/');
 
 // ===== CONFIGURACIÓN DE ERRORES =====
 error_reporting(E_ALL);
-ini_set('display_errors', 0); // No mostrar errores en producción
+ini_set('display_errors', 0); // En producción mantener en 0
 ini_set('log_errors', 1);
 
 // ===== ARCHIVOS DE UTILIDADES =====

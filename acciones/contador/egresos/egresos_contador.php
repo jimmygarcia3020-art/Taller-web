@@ -2,12 +2,11 @@
 header("Content-Type: application/json; charset=utf-8");
 
 require_once '../../../configuracion/config.php';
+require_once '../../../modelos/base_datos.php';
 
-$conexion = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-if ($conexion->connect_error) {
-    echo json_encode(["status" => "error", "message" => "Error de conexión: " . $conexion->connect_error]);
-    exit;
-}
+// Uso del Singleton para la conexión
+$db = BaseDatos::obtenerInstancia();
+$conexion = $db->getConexion();
 
 $raw = file_get_contents("php://input");
 $data = json_decode($raw, true);
@@ -17,13 +16,13 @@ if (!is_array($data)) {
 }
 
 // Campos recibidos
-$fecha       = isset($data["fecha"]) ? $data["fecha"] : null;
-$doc         = isset($data["doc"]) ? $data["doc"] : null;
-$entidad     = isset($data["entidad"]) ? $data["entidad"] : null;
-$descripcion = isset($data["descripcion"]) ? $data["descripcion"] : "";
+$fecha       = isset($data["fecha"]) ? trim($data["fecha"]) : null;
+$doc         = isset($data["doc"]) ? trim($data["doc"]) : null;
+$entidad     = isset($data["entidad"]) ? trim($data["entidad"]) : null;
+$descripcion = isset($data["descripcion"]) ? trim($data["descripcion"]) : "";
 $monto       = isset($data["monto"]) ? $data["monto"] : null;
 $id_cliente_prov = isset($data["id_cliente"]) ? $data["id_cliente"] : null;
-$razon       = isset($data["razon"]) ? $data["razon"] : null; // nombre visible
+$razon       = isset($data["razon"]) ? trim($data["razon"]) : null; // nombre visible
 
 // Validación mínima
 if (!$fecha || !$doc || !$entidad || $monto === null) {
@@ -31,37 +30,25 @@ if (!$fecha || !$doc || !$entidad || $monto === null) {
     exit;
 }
 
+// Asegurar formato numérico del monto
 $monto = floatval($monto);
+
 $id_cliente = null;
 
-// 1) Si id_cliente numeric fue provisto, validamos y usamos
-if ($id_cliente_prov !== null && $id_cliente_prov !== "" && is_numeric($id_cliente_prov)) {
-    $check = $conexion->prepare("SELECT id FROM clientes WHERE id = ? LIMIT 1");
-    if (!$check) {
-        echo json_encode(["status" => "error", "message" => "Error prepare check cliente: " . $conexion->error]);
-        exit;
-    }
-    $idc = intval($id_cliente_prov);
-    $check->bind_param("i", $idc);
-    $check->execute();
-    $res = $check->get_result();
-    if ($res && $res->num_rows > 0) {
-        $row = $res->fetch_assoc();
-        $id_cliente = intval($row['id']);
-    } else {
-        $check->close();
-        echo json_encode(["status" => "error", "message" => "El id_cliente proporcionado no existe"]);
-        exit;
-    }
-    $check->close();
+// 1. Resolver el id_cliente real
+if ($id_cliente_prov && is_numeric($id_cliente_prov)) {
+    $id_cliente = intval($id_cliente_prov);
 } else {
-    // 2) Fallback: buscar por razon (nombre o nombre_negocio)
-    $nombre_buscar = $razon ?: $id_cliente_prov;
+    // Si no enviaron un ID numérico, buscar por nombre o RUC
+    $nombre_buscar = $razon ? $razon : $id_cliente_prov;
+    
     if (!$nombre_buscar || trim($nombre_buscar) === "") {
-        echo json_encode(["status" => "error", "message" => "No se proporcionó id_cliente ni nombre para buscar"]);
+        echo json_encode(["status" => "error", "message" => "No se proporcionó ID ni nombre de cliente para buscar"]);
         exit;
     }
-    $sel = $conexion->prepare("SELECT id FROM clientes WHERE nombre = ? OR nombre_negocio = ? LIMIT 1");
+    
+    // CORRECCIÓN: Se cambió 'id' por 'id_cliente'. Se quitó 'nombre_negocio' porque no existe en la tabla clientes. Se agregó búsqueda por RUC.
+    $sel = $conexion->prepare("SELECT id_cliente FROM clientes WHERE nombre = ? OR ruc_dni = ? LIMIT 1");
     if (!$sel) {
         echo json_encode(["status" => "error", "message" => "Error prepare SELECT cliente: " . $conexion->error]);
         exit;
@@ -69,31 +56,35 @@ if ($id_cliente_prov !== null && $id_cliente_prov !== "" && is_numeric($id_clien
     $sel->bind_param("ss", $nombre_buscar, $nombre_buscar);
     $sel->execute();
     $res = $sel->get_result();
+    
     if ($res && $res->num_rows > 0) {
         $row = $res->fetch_assoc();
-        $id_cliente = intval($row['id']);
+        $id_cliente = intval($row['id_cliente']); // CORRECCIÓN: 'id_cliente'
         $sel->close();
     } else {
         $sel->close();
-        echo json_encode(["status" => "error", "message" => "Cliente no encontrado por nombre/negocio"]);
+        echo json_encode(["status" => "error", "message" => "Cliente no encontrado en la base de datos."]);
         exit;
     }
 }
 
-// Insertar en compras
-$ins = $conexion->prepare("INSERT INTO compras (fecha, doc, entidad, descripcion, monto, cliente_id) VALUES (?, ?, ?, ?, ?, ?)");
+// 2. Insertar en compras
+// CORRECCIÓN: Se cambió 'cliente_id' por 'id_cliente' para alinear con contable.sql
+$ins = $conexion->prepare("INSERT INTO compras (id_cliente, fecha, doc, entidad, descripcion, monto) VALUES (?, ?, ?, ?, ?, ?)");
 if (!$ins) {
-    echo json_encode(["status" => "error", "message" => "Error prepare INSERT: " . $conexion->error]);
+    echo json_encode(["status" => "error", "message" => "Error prepare INSERT en compras: " . $conexion->error]);
     exit;
 }
-$ins->bind_param("ssssdi", $fecha, $doc, $entidad, $descripcion, $monto, $id_cliente);
+
+// id_cliente(i), fecha(s), doc(s), entidad(s), descripcion(s), monto(d)
+$ins->bind_param("issssd", $id_cliente, $fecha, $doc, $entidad, $descripcion, $monto);
 
 if ($ins->execute()) {
-    echo json_encode(["status" => "success", "insert_id" => $ins->insert_id]);
+    $nuevo_id = $conexion->insert_id;
+    echo json_encode(["status" => "success", "message" => "Egreso registrado correctamente", "insert_id" => $nuevo_id]);
 } else {
-    echo json_encode(["status" => "error", "message" => $ins->error]);
+    echo json_encode(["status" => "error", "message" => "Error al ejecutar INSERT: " . $ins->error]);
 }
 
 $ins->close();
-$conexion->close();
 ?>

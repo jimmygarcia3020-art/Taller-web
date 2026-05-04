@@ -1,14 +1,12 @@
 <?php
 /**
  * API de Clientes
- * Reemplaza: clientes_json.php + obtener_usuario.php
- * 
  * Endpoints:
  * - GET: buscar clientes
  * - POST: obtener datos del usuario autenticado
  */
 
-require_once '../../configuracion/config.php';
+require_once '../configuracion/config.php';
 require_once MODELOS_PATH . 'base_datos.php';
 
 header('Content-Type: application/json; charset=utf-8');
@@ -22,7 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Buscar clientes por nombre o RUC
     $q = isset($_GET['q']) ? $conexion->real_escape_string($_GET['q']) : "";
 
-    $sql = "SELECT id, nombre FROM clientes";
+    // CORRECCIÓN: Se cambió 'id' por 'id_cliente' para coincidir con la BD
+    $sql = "SELECT id_cliente, nombre FROM clientes";
 
     if (!empty($q)) {
         $sql .= " WHERE nombre LIKE '%$q%' OR ruc_dni LIKE '%$q%'";
@@ -35,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $clientes = [];
     while ($row = $res->fetch_assoc()) {
         $clientes[] = [
-            "id" => $row["id"],
+            "id" => $row["id_cliente"], // Mantenemos "id" en el JSON para no romper el JS del frontend
             "nombre" => $row["nombre"]
         ];
     }
@@ -44,7 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Obtener datos del usuario autenticado
-    $correoSesion = obtenerCorreoUsuario();
+    // Nota: Asumiendo que obtenerCorreoUsuario() existe en sesiones.php, si no, usa $_SESSION['correo']
+    $correoSesion = $_SESSION['correo'] ?? '';
 
     $stmt = $conexion->prepare("SELECT nombre_contacto, nombre_negocio, tipo_usuario, correo 
                               FROM datos_registro 
@@ -54,16 +54,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $res = $stmt->get_result();
 
     if ($row = $res->fetch_assoc()) {
-        echo json_encode(['ok' => true, 'data' => $row]);
+        echo json_encode(['ok' => true, 'usuario' => $row]);
     } else {
-        echo json_encode(['ok' => false, 'error' => 'Usuario no encontrado']);
+        echo json_encode(['ok' => false, 'error' => 'Usuario no encontrado en registro']);
     }
-
     $stmt->close();
-} else {
-    http_response_code(405);
-    echo json_encode(['error' => 'Método no permitido']);
 }
-
-$conexion->close();
 ?>

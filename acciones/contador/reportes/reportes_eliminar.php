@@ -1,15 +1,39 @@
 <?php
+/**
+ * Eliminar registro de reporte
+ * Refactorizado: Uso de Singleton y Protección de Sesión
+ */
+
 require_once '../../../configuracion/config.php';
-$conexion = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+require_once '../../../modelos/base_datos.php';
 
-$id = $_GET["id"];
-$tipo = $_GET["tipo"];
-$tabla = ($tipo == "compras") ? "compras" : "ventas";
+// ¡SEGURIDAD!: Evitar que un usuario no logueado borre datos
+requerirAutenticacion();
 
-$sql = $conexion->prepare("DELETE FROM $tabla WHERE id = ?");
-$sql->bind_param("i", $id);
-$sql->execute();
+// Validación estricta de parámetros
+$id = isset($_GET["id"]) ? intval($_GET["id"]) : 0;
+$tipo = isset($_GET["tipo"]) ? trim($_GET["tipo"]) : "";
 
-header("Location: reportes_contador.php");
+// Evitar inyección o datos basura
+if ($id <= 0 || !in_array($tipo, ['compras', 'ventas'])) {
+    header("Location: reportes_contador.html?error=datos_invalidos");
+    exit;
+}
+
+$db = BaseDatos::obtenerInstancia();
+$conexion = $db->getConexion();
+
+$tabla = ($tipo === "compras") ? "compras" : "ventas";
+
+// Consulta preparada segura
+$stmt = $conexion->prepare("DELETE FROM $tabla WHERE id = ?");
+if ($stmt) {
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $stmt->close();
+}
+
+// Redireccionar de vuelta
+header("Location: reportes_contador.html");
 exit;
 ?>

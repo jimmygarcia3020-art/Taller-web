@@ -1,21 +1,23 @@
 <?php
-// guardar_impuesto.php
+/**
+ * API: Guardar Impuesto
+ * Refactorizado: Singleton BD, Respuesta Segura y Control de Acceso
+ */
+
 header("Content-Type: application/json; charset=utf-8");
 
 require_once '../../../configuracion/config.php';
+require_once '../../../modelos/base_datos.php';
 
-// Habilitar reporte de errores mysqli en desarrollo (comenta en producción)
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-
-try {
-    // Conectar
-    $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-    $mysqli->set_charset("utf8mb4");
-} catch (Exception $e) {
-    http_response_code(500);
-    echo json_encode(['ok' => false, 'error' => 'Error de conexión: ' . $e->getMessage()]);
+// ¡SEGURIDAD!: Verificar si hay sesión activa para APIs
+if (!estaAutenticado()) {
+    http_response_code(401); // No autorizado
+    echo json_encode(['ok' => false, 'error' => 'Acceso denegado. Inicie sesión.']);
     exit;
 }
+
+$db = BaseDatos::obtenerInstancia();
+$conexion = $db->getConexion();
 
 // Obtener datos (soporta form-urlencoded POST o JSON)
 $input = null;
@@ -36,19 +38,18 @@ $monto   = $input['monto'] ?? '';
 
 if ($periodo === '' || $tipo === '' || $monto === '' || !is_numeric($monto) || floatval($monto) <= 0) {
     http_response_code(400);
-    echo json_encode(['ok' => false, 'error' => 'Datos inválidos.']);
+    echo json_encode(['ok' => false, 'error' => 'Datos inválidos. El monto debe ser numérico y mayor a 0.']);
     exit;
 }
 
 // Forzar estado "Pagado"
 $estado = 'Pagado';
-
-// Convertir monto a float (no string)
+// Convertir monto a float
 $monto_float = floatval($monto);
 
 try {
     // Insertar con prepared statement
-    $stmt = $mysqli->prepare("INSERT INTO impuestos (periodo, tipo, monto, estado) VALUES (?, ?, ?, ?)");
+    $stmt = $conexion->prepare("INSERT INTO impuestos (periodo, tipo, monto, estado) VALUES (?, ?, ?, ?)");
     $stmt->bind_param('ssds', $periodo, $tipo, $monto_float, $estado);
 
     if ($stmt->execute()) {
@@ -62,14 +63,13 @@ try {
             'estado' => $estado
         ]);
     } else {
-        // Esto normalmente no ocurre si mysqli_report está activo; se captura en catch
-        http_response_code(500);
-        echo json_encode(['ok' => false, 'error' => 'Error execute: ' . $stmt->error]);
+        throw new Exception("Error en la inserción.");
     }
+    
     $stmt->close();
 } catch (Exception $e) {
     http_response_code(500);
-    echo json_encode(['ok' => false, 'error' => 'Excepción: ' . $e->getMessage()]);
-} finally {
-    $mysqli->close();
+    echo json_encode(['ok' => false, 'error' => 'Error de servidor interno. Intente más tarde.']);
+    // En producción usaríamos: error_log($e->getMessage());
 }
+?>
