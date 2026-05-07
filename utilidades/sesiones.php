@@ -7,12 +7,12 @@
 // Forzar parámetros seguros de cookie ANTES de iniciar la sesión
 if (session_status() === PHP_SESSION_NONE) {
     session_set_cookie_params([
-        'lifetime' => 0, // Expira al cerrar el navegador
+        'lifetime' => 0,
         'path' => '/',
         'domain' => '',
-        'secure' => isset($_SERVER['HTTPS']), // Solo por HTTPS si está disponible
-        'httponly' => true, // Previene robo de sesión mediante JavaScript (XSS)
-        'samesite' => 'Lax' // Previene ataques CSRF inter-sitio
+        'secure' => isset($_SERVER['HTTPS']),
+        'httponly' => true,
+        'samesite' => 'Lax'
     ]);
     session_start();
 }
@@ -52,15 +52,7 @@ function cerrarSesion() {
     $_SESSION = array();
     if (ini_get("session.use_cookies")) {
         $params = session_get_cookie_params();
-        setcookie(
-            session_name(),
-            '',
-            time() - 42000,
-            $params["path"],
-            $params["domain"],
-            $params["secure"],
-            $params["httponly"]
-        );
+        setcookie(session_name(), '', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
     }
     session_destroy();
     prevenirCache();
@@ -69,12 +61,27 @@ function cerrarSesion() {
 }
 
 // ==========================================
-// NUEVAS FUNCIONES DE SEGURIDAD PARA EL ROADMAP
+// FUNCIONES DE OBTENCIÓN DE DATOS
 // ==========================================
 
 /**
- * Genera un token CSRF para formularios
+ * Obtener correo del usuario autenticado (Soluciona el Fatal Error)
  */
+function obtenerCorreoUsuario() {
+    return $_SESSION['correo'] ?? null;
+}
+
+/**
+ * Obtener ID del usuario autenticado
+ */
+function obtenerIdUsuario() {
+    return $_SESSION['id_usuario'] ?? null;
+}
+
+// ==========================================
+// NUEVAS FUNCIONES DE SEGURIDAD PARA EL ROADMAP
+// ==========================================
+
 function generarTokenCSRF() {
     if (empty($_SESSION['csrf_token'])) {
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
@@ -82,9 +89,6 @@ function generarTokenCSRF() {
     return $_SESSION['csrf_token'];
 }
 
-/**
- * Valida un token CSRF recibido
- */
 function validarTokenCSRF($token) {
     return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
 }

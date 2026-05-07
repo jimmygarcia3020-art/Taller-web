@@ -250,7 +250,7 @@
       <!-- Inicio -->
       <button
         onclick="
-          window.location.href = '../../vistas/cliente/panel_principal.php'
+          window.location.href = '../../../vistas/cliente/panel_principal.php'
         "
       >
         🏠<span>Inicio</span>
@@ -259,11 +259,11 @@
       <!-- Chat (estás aquí) -->
 <button onclick="window.location.href = 'chats.php'">
       </button>
-      <button
-        onclick="window.location.href = '../contabilidad/subir_documentos.php'"
-      >
-        ⏫<span>Subir Documentos</span>
-      </button>
+       <button
+         onclick="window.location.href = '../../contabilidad/subir_documentos.php'"
+       >
+         ⏫<span>Subir Documentos</span>
+       </button>
 
       <!-- Reportes -->
       <div class="dropdown">
@@ -348,17 +348,13 @@
     </div>
 
     <script>
-      function toggleSidebar() {
-        document.getElementById("sidebar").classList.toggle("expanded");
-      }
+       function toggleSidebar() {
+         document.getElementById("sidebar").classList.toggle("expanded");
+       }
 
-      function toggleDropdown() {
-        document.querySelector(".dropdown").classList.toggle("open");
-      }
-
-      function openModal() {
-        document.getElementById("chatModal").style.display = "flex";
-      }
+       function openModal() {
+         document.getElementById("chatModal").style.display = "flex";
+       }
 
       function closeModal() {
         document.getElementById("chatModal").style.display = "none";
@@ -373,21 +369,13 @@
         }
       }
 
-      // Cierra el modal si se hace clic fuera del cuadro
-      window.onclick = function (event) {
-        var modal = document.getElementById("chatModal");
-        if (event.target === modal) {
-          closeModal();
-        }
-      };
-      function toggleDropdown() {
-        const sidebar = document.getElementById("sidebar");
-        const dropdown = document.querySelector(".dropdown");
-
-        if (!sidebar.classList.contains("expanded")) return;
-
-        dropdown.classList.toggle("open");
-      }
+       // Cierra el modal si se hace clic fuera del cuadro
+       window.onclick = function (event) {
+         var modal = document.getElementById("chatModal");
+         if (event.target === modal) {
+           closeModal();
+         }
+       };
     </script>
   </body>
 </html>

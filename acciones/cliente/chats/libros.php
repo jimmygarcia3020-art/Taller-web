@@ -210,7 +210,7 @@
       <!-- Inicio -->
       <button
         onclick="
-          window.location.href = '../../vistas/cliente/panel_principal.php'
+          window.location.href = '../../../vistas/cliente/panel_principal.php'
         "
       >
         🏠<span>Inicio</span>
@@ -221,12 +221,12 @@
         💬<span>Chat</span>
       </button>
 
-      <!-- Subir documentos -->
-      <button
-        onclick="window.location.href = '../contabilidad/subir_documentos.php'"
-      >
-        ⏫<span>Subir Documentos</span>
-      </button>
+       <!-- Subir documentos -->
+       <button
+         onclick="window.location.href = '../../contabilidad/subir_documentos.php'"
+       >
+         ⏫<span>Subir Documentos</span>
+       </button>
 
       <!-- Reportes -->
       <div class="dropdown">
@@ -235,21 +235,21 @@
         </button>
 
         <div class="dropdown-content" id="reportesDropdown">
-          <button
-            onclick="
-              window.location.href = '../reportes/reportes/reportes.php'
-            "
-          >
-            📊 Reportes Contables
-          </button>
+           <button
+             onclick="
+               window.location.href = '../../reportes/reportes/reportes.php'
+             "
+           >
+             📊 Reportes Contables
+           </button>
 
-          <button
-            onclick="
-              window.location.href = '../reportes/resultados/resultados.php'
-            "
-          >
-            📈 Estado de Resultado
-          </button>
+           <button
+             onclick="
+               window.location.href = '../../reportes/resultados/resultados.php'
+             "
+           >
+             📈 Estado de Resultado
+           </button>
         </div>
       </div>
 
@@ -297,17 +297,14 @@
         document.getElementById("sidebar").classList.toggle("expanded");
       }
 
-      function toggleDropdown() {
-        document.querySelector(".dropdown").classList.toggle("open");
-      }
-      function toggleDropdown() {
-        const sidebar = document.getElementById("sidebar");
-        const dropdown = document.querySelector(".dropdown");
+       function toggleDropdown() {
+         const sidebar = document.getElementById("sidebar");
+         const dropdown = document.querySelector(".dropdown");
 
-        if (!sidebar.classList.contains("expanded")) return;
+         if (!sidebar.classList.contains("expanded")) return;
 
-        dropdown.classList.toggle("open");
-      }
+         dropdown.classList.toggle("open");
+       }
     </script>
   </body>
 </html>

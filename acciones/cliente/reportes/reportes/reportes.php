@@ -242,28 +242,28 @@
     <div class="sidebar" id="sidebar">
       <button onclick="toggleSidebar()">☰</button>
 
-      <!-- Inicio -->
-      <button
-        onclick="
-          window.location.href = '../../../vistas/cliente/panel_principal.php'
-        "
-      >
-        🏠<span>Inicio</span>
-      </button>
+       <!-- Inicio -->
+       <button
+         onclick="
+           window.location.href = '../../../../../vistas/cliente/panel_principal.php'
+         "
+       >
+         🏠<span>Inicio</span>
+       </button>
 
-      <!-- Chat -->
-      <button onclick="window.location.href = '../../chats/chats.php'">
-        💬<span>Chat</span>
-      </button>
+       <!-- Chat -->
+       <button onclick="window.location.href = '../../../../../acciones/cliente/chats/chats.php'">
+         💬<span>Chat</span>
+       </button>
 
-      <!-- Subir Documentos -->
-      <button
-        onclick="
-          window.location.href = '../../contabilidad/subir_documentos.php'
-        "
-      >
-        ⏫<span>Subir Documentos</span>
-      </button>
+       <!-- Subir Documentos -->
+       <button
+         onclick="
+           window.location.href = '../../../../../acciones/cliente/contabilidad/subir_documentos.php'
+         "
+       >
+         ⏫<span>Subir Documentos</span>
+       </button>
 
       <!-- Submenú de Reportes -->
       <div class="dropdown">
@@ -271,21 +271,21 @@
           📁<span>Reportes</span>
         </button>
 
-        <div class="dropdown-content" id="reportesDropdown">
-          <button onclick="window.location.href = '#'">
-            📊 Reportes Contables
-          </button>
+         <div class="dropdown-content" id="reportesDropdown">
+           <button onclick="window.location.href = '../../resultados/resultados.php'">
+             📊 Reportes Contables
+           </button>
 
-          <button
-            onclick="window.location.href = '../resultados/resultados.php'"
-          >
-            📈 Estado de Resultado
-          </button>
-        </div>
+           <button
+             onclick="window.location.href = '#'"
+           >
+             📈 Estado de Resultado
+           </button>
+         </div>
       </div>
 
       <form
-        action="../../../controladores/autenticacion.php?accion=logout"
+        action="../../../../../controladores/autenticacion.php?accion=logout"
         method="post"
         style="margin: 0; padding: 0"
       >
